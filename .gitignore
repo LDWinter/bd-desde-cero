@@ -1,3 +1,6 @@
 *.db-journal
 __pycache__/
 .venv/
+
+# Temporales de draw.io
+.$*
