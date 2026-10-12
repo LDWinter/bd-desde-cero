@@ -4,3 +4,4 @@ __pycache__/
 
 # Temporales de draw.io
 .$*
+.pytest_cache/
