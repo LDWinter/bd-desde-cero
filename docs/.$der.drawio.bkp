@@ -1,0 +1,166 @@
+<mxfile host="Electron">
+  <diagram name="DER" id="der">
+    <mxGraphModel dx="1178" dy="730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tipos_nodo" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="tipos_nodo" vertex="1">
+          <mxGeometry height="78" width="300" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tipos_nodo_0" parent="tipos_nodo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="tipos_nodo_1" parent="tipos_nodo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="nombre TEXT NOT NULL UNIQUE" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="fuentes" vertex="1">
+          <mxGeometry height="156" width="300" x="40" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_0" parent="fuentes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_1" parent="fuentes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="nombre TEXT NOT NULL UNIQUE" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_2" parent="fuentes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="tipo TEXT NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_3" parent="fuentes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="estado TEXT NOT NULL (ok/error)" vertex="1">
+          <mxGeometry height="26" width="300" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_4" parent="fuentes" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="ultima_sync TEXT (ISO)" vertex="1">
+          <mxGeometry height="26" width="300" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="usuarios" vertex="1">
+          <mxGeometry height="182" width="300" x="40" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_0" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_1" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="email TEXT NOT NULL UNIQUE" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_2" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="nombre TEXT" vertex="1">
+          <mxGeometry height="26" width="300" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_3" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="hash_clave TEXT NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_4" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="rol TEXT NOT NULL (admin/editor/lector)" vertex="1">
+          <mxGeometry height="26" width="300" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_5" parent="usuarios" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="creado TEXT (ISO)" vertex="1">
+          <mxGeometry height="26" width="300" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="nodos" vertex="1">
+          <mxGeometry height="260" width="300" x="400" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_0" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_1" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK tipo_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_2" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK fuente_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_3" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK creado_por INTEGER (null)" vertex="1">
+          <mxGeometry height="26" width="300" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_4" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="titulo TEXT NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_5" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="contenido TEXT NOT NULL (JSON)" vertex="1">
+          <mxGeometry height="26" width="300" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_6" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="creado_en TEXT NOT NULL (ISO)" vertex="1">
+          <mxGeometry height="26" width="300" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_7" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="actualizado_en TEXT (ISO)" vertex="1">
+          <mxGeometry height="26" width="300" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="nodos_8" parent="nodos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="borrado INTEGER NOT NULL DEFAULT 0" vertex="1">
+          <mxGeometry height="26" width="300" y="234" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="relaciones" vertex="1">
+          <mxGeometry height="182" width="300" x="780" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_0" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_1" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK origen_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_2" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK destino_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_3" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="tipo TEXT NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_4" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=2;fontColor=#666666;" value="UNIQUE(origen_id, destino_id, tipo)" vertex="1">
+          <mxGeometry height="26" width="300" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="relaciones_5" parent="relaciones" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=2;fontColor=#666666;" value="CHECK(origen_id &lt;&gt; destino_id)" vertex="1">
+          <mxGeometry height="26" width="300" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="historial" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="historial" vertex="1">
+          <mxGeometry height="260" width="300" x="780" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_0" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=1;" value="PK id INTEGER" vertex="1">
+          <mxGeometry height="26" width="300" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_1" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK usuario_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_2" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK nodo_id INTEGER NOT NULL" vertex="1">
+          <mxGeometry height="26" width="300" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_3" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="FK relacion_id INTEGER (null)" vertex="1">
+          <mxGeometry height="26" width="300" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_4" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="accion TEXT NOT NULL (crear/editar/borrar/relacionar/desrelacionar)" vertex="1">
+          <mxGeometry height="26" width="300" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_5" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="antes TEXT (JSON, null)" vertex="1">
+          <mxGeometry height="26" width="300" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_6" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="despues TEXT (JSON, null)" vertex="1">
+          <mxGeometry height="26" width="300" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_7" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;" value="fecha TEXT NOT NULL (ISO)" vertex="1">
+          <mxGeometry height="26" width="300" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="historial_8" parent="historial" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontStyle=2;fontColor=#666666;" value="INDEX(nodo_id, fecha)" vertex="1">
+          <mxGeometry height="26" width="300" y="234" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_tipo" edge="1" parent="1" source="tipos_nodo_0" target="nodos_1" value="1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_fuente" edge="1" parent="1" source="fuentes_0" target="nodos_2" value="1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_creador" edge="1" parent="1" source="usuarios_0" target="nodos_3" value="0..1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERzeroToOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_origen" edge="1" parent="1" source="nodos_0" target="relaciones_1" value="1:N (origen)" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_destino" edge="1" parent="1" source="nodos_0" target="relaciones_2" value="1:N (destino)" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_hist_usuario" edge="1" parent="1" source="usuarios_0" target="historial_1" value="1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_hist_nodo" edge="1" parent="1" source="nodos_0" target="historial_2" value="1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fk_hist_relacion" edge="1" parent="1" source="relaciones_0" target="historial_3" value="0..1:N" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERzeroToOne;endArrow=ERmany;startFill=0;endFill=0;fontSize=10;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notas" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;spacing=6;fontSize=11;" value="Notas: relaciones = tabla puente N:M de nodos consigo misma (2 FK). Source.recordCount no se guarda: COUNT(*) de nodos por fuente_id. Una relación se anota 2 veces en historial (nodo origen y destino, mismo relacion_id). PRAGMA foreign_keys = ON en cada conexión." vertex="1">
+          <mxGeometry height="90" width="340" x="400" y="500" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
