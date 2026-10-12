@@ -1,6 +1,6 @@
 # T05 — Crear el entorno de Python
 
-**Estado:** [ ] pendiente · **Día 1** · **Archivo:** `back/requirements.txt`, `back/.venv/` · **Depende de:** —
+**Estado:** [x] completado · **Día 1** · **Archivo:** `back/requirements.txt`, `back/.venv/` · **Depende de:** —
 
 ## Qué
 Dejar listo un Python aislado con las librerías del proyecto.
@@ -14,7 +14,7 @@ Dejar listo un Python aislado con las librerías del proyecto.
 Terminal, venv, pip, pytest
 
 ## Cumplido cuando
-- [ ] `pytest` corre aunque haya 0 tests (sale "no tests ran" sin errores de import).
-- [ ] `.venv/` no se sube a git (ya está en `.gitignore`).
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] `pytest` corre aunque haya 0 tests (sale "no tests ran" sin errores de import).
+- [x] `.venv/` no se sube a git (ya está en `.gitignore`).
+- [x] Corriste `./respaldar.sh` e hiciste commit.
 
