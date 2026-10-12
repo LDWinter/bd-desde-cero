@@ -1,6 +1,6 @@
 # T05 — Crear el entorno de Python
 
-**Estado:** [x] completado · **Día 1** · **Archivo:** `back/requirements.txt`, `back/.venv/` · **Depende de:** —
+**Estado:** [x] completado · **Día 1** · **Archivo:** `back/requirements.txt`, `.venv/` (en la raíz del proyecto) · **Depende de:** —
 
 ## Qué
 Dejar listo un Python aislado con las librerías del proyecto.

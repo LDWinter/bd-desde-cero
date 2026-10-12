@@ -36,3 +36,11 @@
 - 2026-10-10 (tarde): orden del proyecto. Borrados (con OK del usuario) PLAN.md, verificar.py, etapa-00/ y el PDF de
   tareas (copia de TAREAS.md). Las tareas de A, con detalle y herramientas, están en `MIS-TAREAS.md`.
   Próximo: T05 (entorno) y T02 (DER), en modo aprendizaje.
+
+- 2026-10-12 (noche): verificado el estado de A. Hechas y comprobadas: T05 (entorno, `.venv/` en la raíz), T02 (DER +
+  `docs/modelo_relacional.md`), T06, T07 y T08 (`back/esquema.sql`: corre 2 veces, rechaza estado inválido, JSON inválido,
+  tipo inexistente, relación duplicada y lazo). **T01 sigue pendiente** (falta `docs/dudas-front.md`).
+  T09 (de B): la tabla `usuarios` ya está en el esquema y rechaza email repetido y rol inválido; falta que B la marque.
+  `docs/boceto-T06.sql` quedó sin versionar: su esquema ya está en `back/esquema.sql`; lo único extra es la semilla de
+  tipos_nodo, que corresponde a T11 (B). **Espera OK del usuario para borrarlo.** Agregado `README.md` con la estructura.
+  Por hoy no se avanza desde T11. Próximo para A: T01 (dudas) y luego T13 (`back/db.py`); T12 necesita la semilla de B.

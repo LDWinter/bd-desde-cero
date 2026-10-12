@@ -8,7 +8,7 @@ Cada tarea tiene su archivo en `tareas/` con **qué**, **cómo**, **herramientas
 ## Herramientas y lenguajes
 | Para qué | Qué se usa |
 |---|---|
-| Diagrama de la base (DER) | **draw.io** (ya instalado) → exportar `docs/der.png` |
+| Diagrama de la base (DER) | **draw.io** (ya instalado) → exportar `docs/der.drawio.png` |
 | Base de datos | **SQLite** + lenguaje **SQL** (CREATE TABLE, FK, CHECK, JOIN). Para mirarla: **DB Browser for SQLite** o `sqlite3` |
 | Lógica del backend | **Python 3** con el módulo `sqlite3` (viene con Python) y `json` |
 | API web | **Flask** (rutas, JSON, sesión con cookie) |
