@@ -28,3 +28,11 @@
 - Etapa 0 (la hace el usuario): instalar DB Browser (`flatpak install --user -y flathub org.sqlitebrowser.sqlitebrowser`),
   crear `etapa-00/practica.db` y correr `python3 verificar.py 0`.
 - Después: dar la lección de la etapa 1 (modelo en papel / DER) y agregar `etapa_1`/`etapa_2` a verificar.py.
+
+- 2026-10-10: decidido **modo aprendizaje** (el usuario escribe el código, Claude explica y revisa). T01 se salta.
+  draw.io instalado (flatpak). Creados los archivos vacíos (con encabezado de tarea) de todas las tareas de A
+  en `docs/` y `back/`. Próximo: T02 (DER en `docs/der.drawio` → `der.png`, y `docs/modelo.md`) y T05.
+
+- 2026-10-10 (tarde): orden del proyecto. Borrados (con OK del usuario) PLAN.md, verificar.py, etapa-00/ y el PDF de
+  tareas (copia de TAREAS.md). Las tareas de A, con detalle y herramientas, están en `MIS-TAREAS.md`.
+  Próximo: T05 (entorno) y T02 (DER), en modo aprendizaje.
