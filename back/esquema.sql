@@ -4,17 +4,22 @@
 PRAGMA foreign_keys = ON;
 
 -- T06 (A) tipos_nodo y fuentes — Listo cuando: el script se ejecuta 2 veces sin error
+-- Catálogo de tipos de nodo (EntityType del front)
 CREATE TABLE IF NOT EXISTS tipos_nodo (
-    id     INTEGER PRIMARY KEY,
+    id     INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL UNIQUE
 );
 
+-- Orígenes de datos (Source del front)
+-- tipo: tipo de la fuente (CRM, ERP, CSV) → Source.type; NO es FK a tipos_nodo
+-- estado: en minúscula porque el contrato es Source.status: "ok" | "error"
+-- ultima_sync: texto ISO o NULL (el CHECK rechaza fechas que SQLite no puede leer)
 CREATE TABLE IF NOT EXISTS fuentes (
-    id          INTEGER PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre      TEXT NOT NULL UNIQUE,
     tipo        TEXT NOT NULL,
     estado      TEXT NOT NULL CHECK (estado IN ('ok', 'error')),
-    ultima_sync TEXT
+    ultima_sync TEXT CHECK (ultima_sync IS NULL OR datetime(ultima_sync) IS NOT NULL)
 );
 
 -- T09 (B) usuarios — Listo cuando: rechaza un email repetido

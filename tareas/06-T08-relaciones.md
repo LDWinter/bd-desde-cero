@@ -1,6 +1,6 @@
 # T08 — CREATE TABLE relaciones
 
-**Estado:** [ ] pendiente · **Día 2** · **Archivo:** `back/esquema.sql` · **Depende de:** T07
+**Estado:** [x] completado · **Día 2** · **Archivo:** `back/esquema.sql` · **Depende de:** T07
 
 ## Qué
 Las aristas del grafo: une un nodo origen con un nodo destino.
@@ -14,6 +14,6 @@ Las aristas del grafo: une un nodo origen con un nodo destino.
 SQL, sqlite3
 
 ## Cumplido cuando
-- [ ] Insertar la misma relación 2 veces falla.
-- [ ] Relacionar un nodo consigo mismo falla.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Insertar la misma relación 2 veces falla.
+- [x] Relacionar un nodo consigo mismo falla.
+- [x] Corriste `./respaldar.sh` e hiciste commit.

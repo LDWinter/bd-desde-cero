@@ -29,11 +29,11 @@ acciones `crear`, `editar`, `borrar`, `relacionar`, `desrelacionar` (una relaci�
 
 ## Tareas (en orden)
 - [ ] [T01 — Leer el contrato del front](tareas/01-T01-leer-contrato-front.md) · Día 1 · Jue 8 – Vie 9
-- [ ] [T05 — Crear el entorno de Python](tareas/02-T05-entorno.md) · Día 1
-- [ ] [T02 — DER de las 6 tablas](tareas/03-T02-der.md) · Día 1
-- [ ] [T06 — CREATE TABLE tipos_nodo y fuentes](tareas/04-T06-tipos-y-fuentes.md) · Día 2 · Sáb 10
-- [ ] [T07 — CREATE TABLE nodos](tareas/05-T07-nodos.md) · Día 2
-- [ ] [T08 — CREATE TABLE relaciones](tareas/06-T08-relaciones.md) · Día 2
+- [x] [T05 — Crear el entorno de Python](tareas/02-T05-entorno.md) · Día 1
+- [x] [T02 — DER de las 6 tablas](tareas/03-T02-der.md) · Día 1
+- [x] [T06 — CREATE TABLE tipos_nodo y fuentes](tareas/04-T06-tipos-y-fuentes.md) · Día 2 · Sáb 10
+- [x] [T07 — CREATE TABLE nodos](tareas/05-T07-nodos.md) · Día 2
+- [x] [T08 — CREATE TABLE relaciones](tareas/06-T08-relaciones.md) · Día 2
 - [ ] [T12 — Consultas de práctica](tareas/07-T12-consultas.md) · Día 2
 - [ ] [T13 — conectar() y crear_esquema()](tareas/08-T13-db.md) · Día 3 · Dom 11
 - [ ] [T15 — crear_nodo y obtener_nodo](tareas/09-T15-crear-obtener-nodo.md) · Día 3

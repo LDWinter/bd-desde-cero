@@ -1,6 +1,6 @@
 # T06 — CREATE TABLE tipos_nodo y fuentes
 
-**Estado:** [ ] pendiente · **Día 2 · Sáb 10** · **Archivo:** `back/esquema.sql` · **Depende de:** T02
+**Estado:** [x] completado · **Día 2 · Sáb 10** · **Archivo:** `back/esquema.sql` · **Depende de:** T02
 
 ## Qué
 Escribir en SQL las dos tablas más simples (no dependen de ninguna otra).
@@ -15,6 +15,6 @@ Escribir en SQL las dos tablas más simples (no dependen de ninguna otra).
 SQL, sqlite3 / DB Browser
 
 ## Cumplido cuando
-- [ ] El script se ejecuta 2 veces seguidas sin error.
-- [ ] Un estado distinto de ok/error es rechazado.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] El script se ejecuta 2 veces seguidas sin error.
+- [x] Un estado distinto de ok/error es rechazado.
+- [x] Corriste `./respaldar.sh` e hiciste commit.

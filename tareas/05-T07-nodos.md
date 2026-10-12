@@ -1,6 +1,6 @@
 # T07 — CREATE TABLE nodos
 
-**Estado:** [ ] pendiente · **Día 2** · **Archivo:** `back/esquema.sql` · **Depende de:** T06
+**Estado:** [x] completado · **Día 2** · **Archivo:** `back/esquema.sql` · **Depende de:** T06
 
 ## Qué
 La tabla central: cada Entity del front es una fila de `nodos`.
@@ -15,6 +15,6 @@ La tabla central: cada Entity del front es una fila de `nodos`.
 SQL, sqlite3
 
 ## Cumplido cuando
-- [ ] Un INSERT con JSON inválido falla.
-- [ ] Un INSERT con un tipo que no existe falla.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Un INSERT con JSON inválido falla.
+- [x] Un INSERT con un tipo que no existe falla.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
