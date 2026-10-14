@@ -1,6 +1,6 @@
 # T24 — Tests de historial y usuarios (código de B)
 
-**Estado:** [ ] pendiente · **Día 4** · **Archivo:** `back/tests/test_historial.py`, `back/tests/test_usuarios.py` · **Depende de:** T21, T22, T22b, T23
+**Estado:** [x] completado · **Día 4** · **Archivo:** `back/tests/test_historial.py`, `back/tests/test_usuarios.py` · **Depende de:** T21, T22, T22b, T23
 
 ## Qué
 Testing cruzado: probás las funciones de B.
@@ -15,5 +15,5 @@ Testing cruzado: probás las funciones de B.
 pytest
 
 ## Cumplido cuando
-- [ ] `pytest` en verde.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] `pytest` en verde.
+- [x] Corriste `./respaldar.sh` e hiciste commit.

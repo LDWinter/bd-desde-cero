@@ -1,6 +1,6 @@
 # T26 — GET /api/entities y /api/entities/<id>
 
-**Estado:** [ ] pendiente · **Día 5 · Mar 13** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T19, T25 (B)
+**Estado:** [x] completado · **Día 5 · Mar 13** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T19, T25 (B)
 
 ## Qué
 Primeras rutas de la API: el front lee los nodos.
@@ -14,5 +14,5 @@ Primeras rutas de la API: el front lee los nodos.
 Flask, curl
 
 ## Cumplido cuando
-- [ ] `curl localhost:5000/api/entities` devuelve lo mismo que `getEntities()` del mock.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] `curl localhost:5000/api/entities` devuelve lo mismo que `getEntities()` del mock.
+- [x] Corriste `./respaldar.sh` e hiciste commit.

@@ -4,6 +4,7 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-14
+- LDev — T13, T15, T16, T17, T22, T22b, T24, T26, T27, T31 y T32 completadas (hechas por Claude por falta de tiempo): `db.py`, `nodos.py`, `relaciones.py`, `rutas_nodos.py`, tests de historial y usuarios y `probar_a.py` (prueba manual de todo lo de A). Para poder probarlas se agregaron versiones **provisionales** de piezas de B (T14, T19, T20, T21, T23, T25, T29, T30): `tests/conftest.py`, `formato.py`, `historial.py`, `usuarios.py`, `app.py`, `rutas_auth.py`; B las revisa o reemplaza (sus tareas siguen pendientes)
 - LDev — T12 completada: las 3 consultas de práctica (nodos con su tipo, vecinos con UNION, cantidad por tipo) verificadas sobre la semilla (`back/consultas.sql`, `tareas/07-T12-consultas.md`)
 - LDev — T11 completada: `back/semilla.py` reemplazada por la versión con los datos reales del mock (3 fuentes, 14 nodos, 15 relaciones, usuario `prueba@local`). Origen: `tareas/semilla.py`, trabajo de B (`back/semilla.py`, `tareas/B/05-T11-semilla.md`, `tareas/B/README.md`)
 - LDev — Se borra `MIS-TAREAS.md`: todas las tareas están en `TAREAS.md`, en `tareas/` (A) y en `tareas/B/` (B), en orden. Se borra la copia duplicada `tareas/semilla.py`; queda solo `back/semilla.py`
