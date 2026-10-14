@@ -46,3 +46,42 @@ def obtener_nodo(conn, nodo_id):
     """La fila del nodo, o None si no existe o está borrado."""
     return conn.execute(SELECT_NODO + " WHERE n.id = ? AND n.borrado = 0", (nodo_id,)).fetchone()
 
+
+def listar_nodos(conn, tipo=None):
+    """Todos los nodos no borrados; si viene tipo ('Cliente', ...), solo los de ese tipo."""
+    if tipo is None:
+        return conn.execute(SELECT_NODO + " WHERE n.borrado = 0 ORDER BY n.id").fetchall()
+    return conn.execute(
+        SELECT_NODO + " WHERE n.borrado = 0 AND t.nombre = ? ORDER BY n.id", (tipo,)
+    ).fetchall()
+
+
+def editar_nodo(conn, nodo_id, nombre=None, data=None, tipo=None):
+    """Cambia lo que venga (nombre, data y/o tipo). Devuelve False si el nodo no existe."""
+    with conn:
+        antes = obtener_nodo(conn, nodo_id)
+        if antes is None:
+            return False
+        conn.execute(
+            "UPDATE nodos SET titulo = ?, contenido = ?, tipo_id = ?, actualizado_en = datetime('now')"
+            " WHERE id = ?",
+            (
+                antes["titulo"] if nombre is None else nombre,
+                antes["contenido"] if data is None else json.dumps(data, ensure_ascii=False),
+                _tipo_id(conn, antes["tipo"] if tipo is None else tipo),
+                nodo_id,
+            ),
+        )
+    return True
+
+
+def borrar_nodo(conn, nodo_id):
+    """Borrado lógico: se marca borrado = 1 (la fila queda en la base). False si no existe."""
+    with conn:
+        antes = obtener_nodo(conn, nodo_id)
+        if antes is None:
+            return False
+        conn.execute(
+            "UPDATE nodos SET borrado = 1, actualizado_en = datetime('now') WHERE id = ?", (nodo_id,)
+        )
+    return True

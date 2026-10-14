@@ -1,6 +1,6 @@
 # T16 — listar_nodos, editar_nodo y borrar_nodo
 
-**Estado:** [ ] pendiente · **Día 3** · **Archivo:** `back/nodos.py` · **Depende de:** T15
+**Estado:** [x] completado · **Día 3** · **Archivo:** `back/nodos.py` · **Depende de:** T15
 
 ## Qué
 Completar el CRUD de nodos.
@@ -14,6 +14,6 @@ Completar el CRUD de nodos.
 Python (`sqlite3`)
 
 ## Cumplido cuando
-- [ ] Prueba manual OK de las 3.
-- [ ] Un nodo borrado no aparece en `listar_nodos` ni en `obtener_nodo`.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Prueba manual OK de las 3.
+- [x] Un nodo borrado no aparece en `listar_nodos` ni en `obtener_nodo`.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
