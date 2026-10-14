@@ -10,6 +10,5 @@ __pycache__/
 # Archivos para IAs/Claude (no van al repo)
 graphify-out/
 PUNTO-DE-GUARDADO.md
-MIS-TAREAS.md
 CLAUDE.md
 .claude/
