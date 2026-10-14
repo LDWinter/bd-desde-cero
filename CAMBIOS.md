@@ -5,6 +5,7 @@ Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea po
 
 ## 2026-10-14
 - LDev — T11 completada: `back/semilla.py` reemplazada por la versión con los datos reales del mock (3 fuentes, 14 nodos, 15 relaciones, usuario `prueba@local`). Origen: `tareas/semilla.py`, trabajo de B (`back/semilla.py`, `tareas/B/05-T11-semilla.md`, `tareas/B/README.md`)
+- LDev — `MIS-TAREAS.md` queda solo en local (tiene notas para la IA); las tareas de A siguen en `TAREAS.md` y `tareas/`
 - LDev — Se crea este registro de cambios (`CAMBIOS.md`). Se saca del repo `PUNTO-DE-GUARDADO.md` (es de uso personal, sigue en local) y se borra `Guía_Git_Proyecto_BD.pdf`
 - LDev — T11 (parcial): semilla.py de B, enviada por WhatsApp (5ecf38c: `back/semilla.py`)
 

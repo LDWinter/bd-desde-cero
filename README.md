@@ -6,7 +6,6 @@ Backend (SQLite + Python/Flask) para el front `NickSPC/Knowledge-System`. Trabaj
 | Ruta | Qué hay |
 |---|---|
 | `TAREAS.md` | Reparto completo T01–T40 (fuente de verdad, se sube a Drive con el respaldo) |
-| `MIS-TAREAS.md` | Tareas de A, en orden, con enlaces a `tareas/` |
 | `tareas/` | Un archivo por tarea de A (qué, cómo, herramientas, cumplido cuando) |
 | `tareas/B/` | Tareas de B (índice en `tareas/B/README.md`) |
 | `back/` | Código del backend: `esquema.sql` (SQLite), módulos Python, `tests/`, `requirements.txt` |
