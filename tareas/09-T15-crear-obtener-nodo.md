@@ -1,6 +1,6 @@
 # T15 — crear_nodo y obtener_nodo
 
-**Estado:** [ ] pendiente · **Día 3** · **Archivo:** `back/nodos.py` · **Depende de:** T13
+**Estado:** [x] completado · **Día 3** · **Archivo:** `back/nodos.py` · **Depende de:** T13
 
 ## Qué
 Las primeras funciones del repositorio de nodos.
@@ -14,6 +14,6 @@ Las primeras funciones del repositorio de nodos.
 Python (`sqlite3`, `json`)
 
 ## Cumplido cuando
-- [ ] Prueba manual: creás un nodo y `obtener_nodo` lo devuelve igual.
-- [ ] Un id inexistente devuelve `None`.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Prueba manual: creás un nodo y `obtener_nodo` lo devuelve igual.
+- [x] Un id inexistente devuelve `None`.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
