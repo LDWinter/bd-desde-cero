@@ -12,7 +12,6 @@ Backend (SQLite + Python/Flask) para el front `NickSPC/Knowledge-System`. Trabaj
 | `back/` | Código del backend: `esquema.sql` (SQLite), módulos Python, `tests/`, `requirements.txt` |
 | `docs/` | Diseño: DER (`der.drawio`, `der.drawio.png`) y modelo (`modelo_relacional.md`) |
 | `respaldar.sh` | Sube un zip del proyecto a Drive (correr desde la raíz) |
-| `PUNTO-DE-GUARDADO.md` | Estado y próximos pasos para retomar |
 
 ## Arrancar
 ```bash

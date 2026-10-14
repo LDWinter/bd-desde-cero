@@ -1,6 +1,6 @@
 # T11 — Semilla con los datos de los mocks
 
-**Estado:** [ ] pendiente · **Prioridad 5** · **Día 2** · **Archivo:** `back/semilla.py` · **Depende de:** T08, T10
+**Estado:** [x] completado · **Prioridad 5** · **Día 2** · **Archivo:** `back/semilla.py` · **Depende de:** T08, T10
 
 ## Qué
 Cargar en la base los mismos datos que usa el front en sus mocks, para comparar respuestas después.
@@ -15,5 +15,5 @@ Cargar en la base los mismos datos que usa el front en sus mocks, para comparar 
 Python 3, `sqlite3`, `json`
 
 ## Cumplido cuando
-- [ ] `SELECT COUNT(*)` da 3 fuentes, 14 nodos y 15 relaciones.
+- [x] `SELECT COUNT(*)` da 3 fuentes, 14 nodos y 15 relaciones (verificado 2026-10-14, también corriéndola 2 veces).
 - [ ] Corriste `./respaldar.sh` e hiciste commit.

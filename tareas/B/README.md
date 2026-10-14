@@ -13,7 +13,7 @@ Fuente completa: `../../TAREAS.md`. Al terminar cada tarea: se cumple "Cumplido 
 - [ ] [T04 — Acuerdos con el front](02-T04-acuerdos-front.md) · Día 1 · depende de T03
 - [ ] [T09 — CREATE TABLE usuarios](03-T09-tabla-usuarios.md) · Día 2 · Sáb 10 · depende de T06
 - [ ] [T10 — CREATE TABLE historial](04-T10-tabla-historial.md) · Día 2 · depende de T07, T09
-- [ ] [T11 — Semilla con los datos de los mocks](05-T11-semilla.md) · Día 2 · depende de T08, T10
+- [x] [T11 — Semilla con los datos de los mocks](05-T11-semilla.md) · Día 2 · depende de T08, T10
 - [ ] [T14 — Fixture conn para los tests](06-T14-fixture-conn.md) · Día 3 · Dom 11 · depende de T13 (de A)
 - [ ] [T19 — a_entity y a_relationship](07-T19-formato.md) · Día 3 · depende de T15 (de A)
 - [ ] [T18 — Tests de nodos y relaciones (código de A)](08-T18-tests-nodos-relaciones.md) · Día 3 · depende de T14, T17 (de A)

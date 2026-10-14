@@ -6,3 +6,9 @@ __pycache__/
 # Temporales de draw.io
 .$*
 .pytest_cache/
+
+# Archivos para IAs/Claude (no van al repo)
+graphify-out/
+PUNTO-DE-GUARDADO.md
+CLAUDE.md
+.claude/

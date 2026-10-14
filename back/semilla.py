@@ -15,26 +15,57 @@ from pathlib import Path
 from werkzeug.security import generate_password_hash
 
 # ---------------------------------------------------------------------
-# DATOS: reemplazar lo de abajo con lo que hay en src/mocks/data.ts
-# Objetivo: 3 fuentes, 14 nodos (4 clientes + 4 productos + 6 pedidos)
-# y 15 relaciones. Lo que hay ahora es solo de EJEMPLO.
+# DATOS: copiados de src/mocks/data.ts del front
+# 3 fuentes, 14 nodos (4 clientes + 4 productos + 6 pedidos), 15 relaciones
 # ---------------------------------------------------------------------
 TIPOS = ["Cliente", "Producto", "Pedido"]
 
-# (nombre, tipo, estado, ultima_sync)
+# (nombre, tipo, estado, ultima_sync)  -- fechas pasadas a ISO
 FUENTES = [
-    ("EJEMPLO fuente", "CRM", "ok", "2026-10-05T10:32:00"),
+    ("clientes_2025.xlsx", "Excel", "ok", "2026-10-05T10:32:00"),
+    ("Base ventas", "SQL", "ok", "2026-10-06T18:10:00"),
+    ("Tablero Proyectos", "Trello", "error", "2026-10-01T09:00:00"),
 ]
 
 # (id_mock, tipo, name, nombre_de_la_fuente, data)
 NODOS = [
-    ("cli-1", "Cliente", "EJEMPLO cliente", "EJEMPLO fuente", {"ciudad": "Mendoza"}),
-    ("ped-1", "Pedido", "EJEMPLO pedido", "EJEMPLO fuente", {"total": 1500}),
+    ("cli-1", "Cliente", "Acme S.A.", "clientes_2025.xlsx",
+     {"email": "contacto@acme.com", "ciudad": "Córdoba"}),
+    ("cli-2", "Cliente", "Bodega Los Andes", "clientes_2025.xlsx",
+     {"email": "ventas@losandes.com", "ciudad": "Rosario"}),
+    ("cli-3", "Cliente", "Distribuidora Cuyo", "clientes_2025.xlsx",
+     {"email": "info@dcuyo.com", "ciudad": "Buenos Aires"}),
+    ("cli-4", "Cliente", "ACME SA", "Base ventas",
+     {"email": "contacto@acme.com", "ciudad": "Córdoba"}),
+    ("pro-1", "Producto", "Malbec 750 ml", "Base ventas", {"precio": 4500}),
+    ("pro-2", "Producto", "Aceite de oliva 1 L", "Base ventas", {"precio": 6200}),
+    ("pro-3", "Producto", "Caja de cartón x12", "Base ventas", {"precio": 1800}),
+    ("pro-4", "Producto", "Etiquetas adhesivas", "Base ventas", {"precio": 950}),
+    ("ped-1", "Pedido", "Pedido #1001", "Base ventas", {"fecha": "28/09/2026", "total": 54000}),
+    ("ped-2", "Pedido", "Pedido #1002", "Base ventas", {"fecha": "30/09/2026", "total": 31500}),
+    ("ped-3", "Pedido", "Pedido #1003", "Base ventas", {"fecha": "01/10/2026", "total": 18600}),
+    ("ped-4", "Pedido", "Pedido #1004", "Base ventas", {"fecha": "03/10/2026", "total": 24800}),
+    ("ped-5", "Pedido", "Pedido #1005", "Base ventas", {"fecha": "04/10/2026", "total": 9500}),
+    ("ped-6", "Pedido", "Pedido #1006", "Base ventas", {"fecha": "05/10/2026", "total": 12000}),
 ]
 
 # (id_mock_origen, id_mock_destino, type)
 RELACIONES = [
-    ("cli-1", "ped-1", "realizo"),
+    ("ped-1", "cli-1", "pertenece a"),
+    ("ped-1", "pro-1", "contiene"),
+    ("ped-1", "pro-3", "contiene"),
+    ("ped-2", "cli-2", "pertenece a"),
+    ("ped-2", "pro-1", "contiene"),
+    ("ped-2", "pro-4", "contiene"),
+    ("ped-3", "cli-2", "pertenece a"),
+    ("ped-3", "pro-2", "contiene"),
+    ("ped-4", "cli-3", "pertenece a"),
+    ("ped-4", "pro-2", "contiene"),
+    ("ped-4", "pro-3", "contiene"),
+    ("ped-5", "cli-1", "pertenece a"),
+    ("ped-5", "pro-4", "contiene"),
+    ("ped-6", "cli-4", "pertenece a"),
+    ("ped-6", "pro-1", "contiene"),
 ]
 
 USUARIO_PRUEBA = {
