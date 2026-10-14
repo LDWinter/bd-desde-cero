@@ -4,6 +4,7 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-14
+- LDev — T12 completada: las 3 consultas de práctica (nodos con su tipo, vecinos con UNION, cantidad por tipo) verificadas sobre la semilla (`back/consultas.sql`, `tareas/07-T12-consultas.md`)
 - LDev — T11 completada: `back/semilla.py` reemplazada por la versión con los datos reales del mock (3 fuentes, 14 nodos, 15 relaciones, usuario `prueba@local`). Origen: `tareas/semilla.py`, trabajo de B (`back/semilla.py`, `tareas/B/05-T11-semilla.md`, `tareas/B/README.md`)
 - LDev — Se borra `MIS-TAREAS.md`: todas las tareas están en `TAREAS.md`, en `tareas/` (A) y en `tareas/B/` (B), en orden. Se borra la copia duplicada `tareas/semilla.py`; queda solo `back/semilla.py`
 - LDev — Se crea este registro de cambios (`CAMBIOS.md`). Se saca del repo `PUNTO-DE-GUARDADO.md` (es de uso personal, sigue en local) y se borra `Guía_Git_Proyecto_BD.pdf`

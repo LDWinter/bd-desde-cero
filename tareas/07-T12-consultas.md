@@ -1,6 +1,6 @@
 # T12 — Consultas de práctica
 
-**Estado:** [ ] pendiente · **Día 2** · **Archivo:** `back/consultas.sql` · **Depende de:** T11 (semilla de B)
+**Estado:** [x] completado · **Día 2** · **Archivo:** `back/consultas.sql` · **Depende de:** T11 (semilla de B)
 
 ## Qué
 Practicar SELECT con JOIN y GROUP BY sobre los datos reales.
@@ -14,5 +14,5 @@ Practicar SELECT con JOIN y GROUP BY sobre los datos reales.
 SQL, DB Browser o sqlite3
 
 ## Cumplido cuando
-- [ ] Las 3 consultas dan el resultado esperado sobre la semilla (4 clientes, 4 productos, 6 pedidos).
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Las 3 consultas dan el resultado esperado sobre la semilla (4 clientes, 4 productos, 6 pedidos).
+- [x] Corriste `./respaldar.sh` e hiciste commit.
