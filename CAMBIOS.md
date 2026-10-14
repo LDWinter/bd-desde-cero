@@ -4,6 +4,22 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-14
+- LDev — Nota: T13 a T32 las hizo Claude por falta de tiempo. Las piezas de B que hacían falta para probarlas son **copias provisionales** con otro nombre (`*_provisional.py`); el código de A usa el archivo de B en cuanto exista. Las tareas de B siguen pendientes
+- LDev — Prueba manual de las tareas de A (T13 a T32): back/probar_a.py (61ab0dd: `back/probar_a.py`)
+- LDev — T32: PUT y DELETE /api/entities/<id> (d962238: `back/rutas_nodos.py`, `tareas/18-T32-put-delete-entity.md`)
+- LDev — T31: POST /api/entities (467357e: `back/rutas_nodos.py`, `tareas/17-T31-post-entity.md`)
+- LDev — T27: GET /api/relationships (20acdfa: `back/rutas_nodos.py`, `tareas/16-T27-get-relationships.md`)
+- LDev — T26: GET /api/entities y GET /api/entities/<id> (c2f2b3c: `back/rutas_nodos.py`, `tareas/15-T26-get-entities.md`)
+- LDev — Copias provisionales de B (T19, T25, T29 y T30): formato, app y rutas_auth (b4fefd1: `back/app_provisional.py`, `back/formato_provisional.py`, `back/rutas_auth_provisional.py`)
+- LDev — T24: tests de historial y usuarios (código de B) (2475b33: `back/tests/test_historial.py`, `back/tests/test_usuarios.py`, `tareas/14-T24-tests-historial-usuarios.md`)
+- LDev — Copias provisionales de B (T14 y T23): conftest_provisional.py y usuarios_provisional.py (cf2b469: `back/tests/conftest_provisional.py`, `back/usuarios_provisional.py`)
+- LDev — T22b: relacionar y desrelacionar registran en el historial de los dos nodos (cac84f9: `back/relaciones.py`, `tareas/13-T22b-historial-relaciones.md`)
+- LDev — T22: crear, editar y borrar nodo registran en el historial (misma transacción) (a2d0521: `back/nodos.py`, `tareas/12-T22-historial-nodos.md`)
+- LDev — Copia provisional de historial.py de B (T20 y T21): historial_provisional.py (c671b5a: `back/historial_provisional.py`)
+- LDev — T17: relacionar(), desrelacionar() y vecinos() en relaciones.py (b1d2f17: `back/relaciones.py`, `tareas/11-T17-relaciones.md`)
+- LDev — T16: listar_nodos(), editar_nodo() y borrar_nodo() en nodos.py (52d5f5a: `back/nodos.py`, `tareas/10-T16-listar-editar-borrar.md`)
+- LDev — T15: crear_nodo() y obtener_nodo() en nodos.py (277e664: `back/nodos.py`, `tareas/09-T15-crear-obtener-nodo.md`)
+- LDev — T13: conectar() y crear_esquema() en db.py (4c7e295: `back/db.py`, `tareas/08-T13-db.md`)
 - LDev — T12 completada: las 3 consultas de práctica (nodos con su tipo, vecinos con UNION, cantidad por tipo) verificadas sobre la semilla (`back/consultas.sql`, `tareas/07-T12-consultas.md`)
 - LDev — T11 completada: `back/semilla.py` reemplazada por la versión con los datos reales del mock (3 fuentes, 14 nodos, 15 relaciones, usuario `prueba@local`). Origen: `tareas/semilla.py`, trabajo de B (`back/semilla.py`, `tareas/B/05-T11-semilla.md`, `tareas/B/README.md`)
 - LDev — Se borra `MIS-TAREAS.md`: todas las tareas están en `TAREAS.md`, en `tareas/` (A) y en `tareas/B/` (B), en orden. Se borra la copia duplicada `tareas/semilla.py`; queda solo `back/semilla.py`
