@@ -10,14 +10,43 @@ try:
     from formato import a_entity, a_relationship  # T19 (B)
 except ImportError:  # mientras B no suba formato.py, se usa la copia provisional
     from formato_provisional import a_entity, a_relationship
-from nodos import listar_nodos, obtener_nodo
+from nodos import crear_nodo, listar_nodos, obtener_nodo
 from relaciones import listar_relaciones
+try:
+    from rutas_auth import requiere_login  # T30 (B)
+except ImportError:  # mientras B no suba rutas_auth.py, se usa la copia provisional
+    from rutas_auth_provisional import requiere_login
 
 bp = Blueprint("nodos", __name__)
+
+TIPOS = ("Cliente", "Producto", "Pedido")
+FUENTE_POR_DEFECTO = "Manual"  # si el front no manda "source"
+
 
 
 def _error(mensaje, codigo):
     return jsonify({"error": mensaje}), codigo
+
+
+def _validar_entity(datos):
+    """Devuelve un mensaje de error, o None si el JSON es una Entity válida."""
+    if not isinstance(datos, dict):
+        return "se esperaba un objeto JSON"
+    if datos.get("type") not in TIPOS:
+        return f"type tiene que ser uno de {', '.join(TIPOS)}"
+    if not isinstance(datos.get("name"), str) or not datos["name"].strip():
+        return "name no puede estar vacío"
+    data = datos.get("data", {})
+    if not isinstance(data, dict):
+        return "data tiene que ser un objeto"
+    for clave, valor in data.items():
+        # {clave: texto | número}; bool es un int en Python, por eso se excluye aparte
+        if isinstance(valor, bool) or not isinstance(valor, (str, int, float)):
+            return f"data.{clave} tiene que ser texto o número"
+    source = datos.get("source", FUENTE_POR_DEFECTO)
+    if not isinstance(source, str) or not source.strip():
+        return "source tiene que ser un texto"
+    return None
 
 
 def _id_valido(entity_id):
@@ -45,3 +74,18 @@ def get_entity(entity_id):
 @bp.get("/api/relationships")
 def get_relationships():
     return jsonify([a_relationship(fila) for fila in listar_relaciones(g.conn)])
+
+
+# ---- T31 ----
+@bp.post("/api/entities")
+@requiere_login
+def post_entity():
+    datos = request.get_json(silent=True)
+    problema = _validar_entity(datos)
+    if problema:
+        return _error(problema, 400)
+    nodo_id = crear_nodo(
+        g.conn, datos["type"], datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
+        datos.get("data", {}), g.usuario_id,
+    )
+    return jsonify(a_entity(obtener_nodo(g.conn, nodo_id))), 201

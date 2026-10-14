@@ -1,6 +1,6 @@
 # T31 — POST /api/entities
 
-**Estado:** [ ] pendiente · **Día 6 · Mié 14** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T22, T30 (B)
+**Estado:** [x] completado · **Día 6 · Mié 14** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T22, T30 (B)
 
 ## Qué
 Crear nodos desde el front.
@@ -14,6 +14,6 @@ Crear nodos desde el front.
 Flask, curl
 
 ## Cumplido cuando
-- [ ] Crea un nodo y aparece en el historial.
-- [ ] Datos inválidos → 400; sin login → 401.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Crea un nodo y aparece en el historial.
+- [x] Datos inválidos → 400; sin login → 401.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
