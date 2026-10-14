@@ -1,6 +1,6 @@
 # T17 — relacionar, desrelacionar y vecinos
 
-**Estado:** [ ] pendiente · **Día 3** · **Archivo:** `back/relaciones.py` · **Depende de:** T15
+**Estado:** [x] completado · **Día 3** · **Archivo:** `back/relaciones.py` · **Depende de:** T15
 
 ## Qué
 Manejar las aristas del grafo desde Python.
@@ -14,6 +14,6 @@ Manejar las aristas del grafo desde Python.
 Python (`sqlite3`)
 
 ## Cumplido cuando
-- [ ] Prueba manual OK.
-- [ ] Una relación duplicada o un lazo lanza `IntegrityError`.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Prueba manual OK.
+- [x] Una relación duplicada o un lazo lanza `IntegrityError`.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
