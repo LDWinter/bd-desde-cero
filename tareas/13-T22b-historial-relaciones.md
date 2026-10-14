@@ -1,6 +1,6 @@
 # T22b — Historial en relacionar/desrelacionar
 
-**Estado:** [ ] pendiente · **Día 4** · **Archivo:** `back/relaciones.py` · **Depende de:** T17, T20 (B)
+**Estado:** [x] completado · **Día 4** · **Archivo:** `back/relaciones.py` · **Depende de:** T17, T20 (B)
 
 ## Qué
 Una relación cambia dos nodos: se anota en el historial de los dos.
@@ -13,5 +13,5 @@ Una relación cambia dos nodos: se anota en el historial de los dos.
 Python (`sqlite3`, transacciones)
 
 ## Cumplido cuando
-- [ ] Al unir el nodo 1 con el 2, el cambio aparece en el historial de ambos.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Al unir el nodo 1 con el 2, el cambio aparece en el historial de ambos.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
