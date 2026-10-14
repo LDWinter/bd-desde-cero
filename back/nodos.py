@@ -4,6 +4,10 @@
 # Listo cuando: prueba manual OK; editar deja su 'antes' y 'después'
 import json
 
+try:
+    from historial import registrar  # T20 (B)
+except ImportError:  # mientras B no suba historial.py, se usa la copia provisional
+    from historial_provisional import registrar
 
 # Nodo con el nombre de su tipo y de su fuente (lo que necesita a_entity)
 SELECT_NODO = """
@@ -32,14 +36,27 @@ def _fuente_id(conn, fuente):
     return cur.lastrowid
 
 
-def crear_nodo(conn, tipo, nombre, fuente, data):
-    """Crea el nodo y devuelve su id nuevo."""
-    with conn:  # una transacción: commit si todo sale bien, rollback si algo falla
+def _foto(fila):
+    """Cómo se guarda un nodo en el historial (antes / después)."""
+    return {
+        "name": fila["titulo"],
+        "type": fila["tipo"],
+        "source": fila["fuente"],
+        "data": json.loads(fila["contenido"]),
+    }
+
+
+def crear_nodo(conn, tipo, nombre, fuente, data, usuario_id):
+    """Crea el nodo y lo anota en el historial. Devuelve el id nuevo."""
+    with conn:  # una transacción: el nodo y su historial se guardan juntos o no se guarda nada
         cur = conn.execute(
-            "INSERT INTO nodos (tipo_id, fuente_id, titulo, contenido) VALUES (?, ?, ?, ?)",
-            (_tipo_id(conn, tipo), _fuente_id(conn, fuente), nombre, json.dumps(data, ensure_ascii=False)),
+            "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido) VALUES (?, ?, ?, ?, ?)",
+            (_tipo_id(conn, tipo), _fuente_id(conn, fuente), usuario_id, nombre,
+             json.dumps(data, ensure_ascii=False)),
         )
-    return cur.lastrowid
+        nodo_id = cur.lastrowid
+        registrar(conn, nodo_id, usuario_id, "crear", None, _foto(obtener_nodo(conn, nodo_id)))
+    return nodo_id
 
 
 def obtener_nodo(conn, nodo_id):
@@ -56,7 +73,7 @@ def listar_nodos(conn, tipo=None):
     ).fetchall()
 
 
-def editar_nodo(conn, nodo_id, nombre=None, data=None, tipo=None):
+def editar_nodo(conn, nodo_id, usuario_id, nombre=None, data=None, tipo=None):
     """Cambia lo que venga (nombre, data y/o tipo). Devuelve False si el nodo no existe."""
     with conn:
         antes = obtener_nodo(conn, nodo_id)
@@ -72,11 +89,12 @@ def editar_nodo(conn, nodo_id, nombre=None, data=None, tipo=None):
                 nodo_id,
             ),
         )
+        registrar(conn, nodo_id, usuario_id, "editar", _foto(antes), _foto(obtener_nodo(conn, nodo_id)))
     return True
 
 
-def borrar_nodo(conn, nodo_id):
-    """Borrado lógico: se marca borrado = 1 (la fila queda en la base). False si no existe."""
+def borrar_nodo(conn, nodo_id, usuario_id):
+    """Borrado lógico: se marca borrado = 1 (la fila y su historial quedan). False si no existe."""
     with conn:
         antes = obtener_nodo(conn, nodo_id)
         if antes is None:
@@ -84,4 +102,5 @@ def borrar_nodo(conn, nodo_id):
         conn.execute(
             "UPDATE nodos SET borrado = 1, actualizado_en = datetime('now') WHERE id = ?", (nodo_id,)
         )
+        registrar(conn, nodo_id, usuario_id, "borrar", _foto(antes), None)
     return True

@@ -1,6 +1,6 @@
 # T22 — Historial en crear/editar/borrar nodo
 
-**Estado:** [ ] pendiente · **Día 4 · Lun 12** · **Archivo:** `back/nodos.py` · **Depende de:** T16, T20 (B)
+**Estado:** [x] completado · **Día 4 · Lun 12** · **Archivo:** `back/nodos.py` · **Depende de:** T16, T20 (B)
 
 ## Qué
 Cada cambio de un nodo queda registrado, todo o nada.
@@ -14,6 +14,6 @@ Cada cambio de un nodo queda registrado, todo o nada.
 Python (`sqlite3`, transacciones)
 
 ## Cumplido cuando
-- [ ] Editar un nodo deja una fila de historial con su antes y después.
-- [ ] Si `registrar` falla, el cambio del nodo tampoco queda.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] Editar un nodo deja una fila de historial con su antes y después.
+- [x] Si `registrar` falla, el cambio del nodo tampoco queda.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
