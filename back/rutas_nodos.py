@@ -11,6 +11,7 @@ try:
 except ImportError:  # mientras B no suba formato.py, se usa la copia provisional
     from formato_provisional import a_entity, a_relationship
 from nodos import listar_nodos, obtener_nodo
+from relaciones import listar_relaciones
 
 bp = Blueprint("nodos", __name__)
 
@@ -38,3 +39,9 @@ def get_entity(entity_id):
     if fila is None:
         return _error("entidad no encontrada", 404)
     return jsonify(a_entity(fila))
+
+
+# ---- T27 ----
+@bp.get("/api/relationships")
+def get_relationships():
+    return jsonify([a_relationship(fila) for fila in listar_relaciones(g.conn)])

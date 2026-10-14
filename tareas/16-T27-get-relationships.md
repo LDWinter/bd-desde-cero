@@ -1,6 +1,6 @@
 # T27 — GET /api/relationships
 
-**Estado:** [ ] pendiente · **Día 5** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T26
+**Estado:** [x] completado · **Día 5** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T26
 
 ## Qué
 El front recibe las aristas del grafo.
@@ -12,5 +12,5 @@ El front recibe las aristas del grafo.
 Flask, curl
 
 ## Cumplido cuando
-- [ ] La respuesta es igual a `getRelationships()` del mock.
-- [ ] Corriste `./respaldar.sh` e hiciste commit.
+- [x] La respuesta es igual a `getRelationships()` del mock.
+- [x] Corriste `./respaldar.sh` e hiciste commit.
