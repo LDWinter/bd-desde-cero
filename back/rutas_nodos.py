@@ -10,7 +10,7 @@ try:
     from formato import a_entity, a_relationship  # T19 (B)
 except ImportError:  # mientras B no suba formato.py, se usa la copia provisional
     from formato_provisional import a_entity, a_relationship
-from nodos import crear_nodo, listar_nodos, obtener_nodo
+from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo
 from relaciones import listar_relaciones
 try:
     from rutas_auth import requiere_login  # T30 (B)
@@ -21,7 +21,6 @@ bp = Blueprint("nodos", __name__)
 
 TIPOS = ("Cliente", "Producto", "Pedido")
 FUENTE_POR_DEFECTO = "Manual"  # si el front no manda "source"
-
 
 
 def _error(mensaje, codigo):
@@ -89,3 +88,28 @@ def post_entity():
         datos.get("data", {}), g.usuario_id,
     )
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id))), 201
+
+
+# ---- T32 ----
+@bp.put("/api/entities/<entity_id>")
+@requiere_login
+def put_entity(entity_id):
+    nodo_id = _id_valido(entity_id)
+    if nodo_id is None or obtener_nodo(g.conn, nodo_id) is None:
+        return _error("entidad no encontrada", 404)
+    datos = request.get_json(silent=True)
+    problema = _validar_entity(datos)
+    if problema:
+        return _error(problema, 400)
+    editar_nodo(g.conn, nodo_id, g.usuario_id,
+                nombre=datos["name"].strip(), data=datos.get("data", {}), tipo=datos["type"])
+    return jsonify(a_entity(obtener_nodo(g.conn, nodo_id)))
+
+
+@bp.delete("/api/entities/<entity_id>")
+@requiere_login
+def delete_entity(entity_id):
+    nodo_id = _id_valido(entity_id)
+    if nodo_id is None or not borrar_nodo(g.conn, nodo_id, g.usuario_id):
+        return _error("entidad no encontrada", 404)
+    return "", 204
