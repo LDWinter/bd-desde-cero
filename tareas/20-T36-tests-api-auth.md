@@ -1,6 +1,6 @@
 # T36 — Tests de API de las rutas de B
 
-**Estado:** [ ] pendiente · **Día 6** · **Archivo:** `back/tests/test_api_auth.py` · **Depende de:** T34
+**Estado:** [x] completado (con rutas provisionales de B; 15/10) · **Día 6** · **Archivo:** `back/tests/test_api_auth.py` · **Depende de:** T34
 
 ## Qué
 Testing cruzado: probás login, fuentes e historial por HTTP.
@@ -13,5 +13,5 @@ Testing cruzado: probás login, fuentes e historial por HTTP.
 pytest, Flask test_client
 
 ## Cumplido cuando
-- [ ] `pytest` en verde.
+- [x] `pytest` en verde.
 - [ ] Corriste `./respaldar.sh` e hiciste commit.
