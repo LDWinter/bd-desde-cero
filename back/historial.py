@@ -1,7 +1,8 @@
 """T20 - Historial de cambios de cada nodo.
 
-registrar(...)   anota un cambio (NO hace commit: lo hace quien la llama,
-                 para que el cambio y su historial vayan en la misma transaccion).
+registrar(...)   anota un cambio y deja solo los ultimos HISTORIAL_MAX de ese nodo
+                 (NO hace commit: lo hace quien la llama, para que el cambio, su
+                 historial y la purga vayan en la misma transaccion).
 historial_de(..) devuelve los cambios de un nodo, del mas nuevo al mas viejo.
 """
 import json
@@ -19,8 +20,18 @@ def _a_json(valor):
     return None if valor is None else json.dumps(valor, ensure_ascii=False)
 
 
+def _purgar(conn, nodo_id):
+    """Borra los cambios de ESTE nodo que no esten entre los HISTORIAL_MAX mas nuevos."""
+    conn.execute(
+        "DELETE FROM historial WHERE nodo_id = ? AND id NOT IN ("
+        " SELECT id FROM historial WHERE nodo_id = ?"
+        " ORDER BY fecha DESC, id DESC LIMIT ?)",
+        (nodo_id, nodo_id, HISTORIAL_MAX),
+    )
+
+
 def registrar(conn, nodo_id, usuario_id, accion, antes, despues):
-    """Anota un cambio en el historial del nodo. Devuelve el id de la fila nueva.
+    """Anota un cambio en el historial del nodo y aplica el tope. Devuelve el id de la fila nueva.
 
     antes / despues: diccionarios (o None). Un crear no tiene 'antes' y un
     borrar no tiene 'despues'.
@@ -39,6 +50,7 @@ def registrar(conn, nodo_id, usuario_id, accion, antes, despues):
             datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
         ),
     )
+    _purgar(conn, nodo_id)  # el tope de 5 se aplica de a un nodo
     return cur.lastrowid  # sin commit a proposito
 
 
