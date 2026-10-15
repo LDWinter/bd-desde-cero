@@ -4,6 +4,10 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-15
+- LDev — T39 parte back: prueba de humo con el servidor real, sin errores (`docs/prueba-humo.md`); `docs/INTEGRACION.md` al día con las rutas provisionales
+- LDev — T36: tests de API de login, fuentes e historial (`back/tests/test_api_auth.py`, 46 OK)
+- LDev — T34 provisional `GET /api/entities/<id>/history` (`back/rutas_nodos.py`); `/api/sources` sin login
+- LDev — T28 provisional `GET /api/sources` (`back/rutas_fuentes_provisional.py`); `app.py` usa `*_provisional.py` mientras falten los de B
 - LDev — Docstrings detallados en `back/nodos.py` y `back/relaciones.py` (solo documentación, sin cambios de lógica)
 - LDev — Guía de integración para el front y el login (`docs/INTEGRACION.md`, enlazada desde `README.md`); T01: dudas para el front en su sección 7; `respaldar.sh` ya no sube los archivos locales de Claude
 - LDev — Docstrings detallados de cada ruta (para integrar el front) y PUT sin `data` ya no borra los datos del nodo (`back/rutas_nodos.py`, `back/probar_a.py`)

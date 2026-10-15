@@ -54,7 +54,7 @@ flask --app app run                  # → http://localhost:5000
 4. **Borrado lógico.** Borrar una entidad la marca como borrada: deja de aparecer en todas las rutas y sus
    relaciones también dejan de aparecer (igual que hace el mock), pero la fila y su historial quedan.
 5. **Historial.** Cada crear, editar, borrar, relacionar y desrelacionar se anota; se guardan los últimos 5
-   cambios por nodo. La ruta para leerlo es `GET /api/entities/<id>/history` (T34, pendiente de B).
+   cambios por nodo. La ruta para leerlo es `GET /api/entities/<id>/history` (T34: ya responde con una copia provisional de A; B la puede reemplazar).
 
 ## 4. Rutas
 
@@ -95,10 +95,11 @@ curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
   -H 'Content-Type: application/json' -d '{"sourceId":"cli-1","targetId":"pro-5","type":"compró"}'
 ```
 
-### Pendientes de otras personas
-- `GET /api/sources` (T28, `rutas_fuentes.py`): todavía no existe; `app.py` lo registra solo cuando aparezca.
+### Rutas de otras personas (ya responden con copias provisionales de A)
+Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando B suba el suyo, se usa ese solo.
+- `GET /api/sources` (T28, `rutas_fuentes.py`) → `[{id, name, type, status, lastSync, recordCount}]`, sin login.
 - `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` (T29/T30, `rutas_auth.py`): ver sección 6.
-- `GET /api/entities/<id>/history` (T34).
+- `GET /api/entities/<id>/history` (T34) → hasta 5 `{accion, usuario, antes, despues, fecha}`, el más nuevo primero; 404 si no existe.
 
 ## 5. Conectar el front (T37)
 
@@ -115,7 +116,7 @@ curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
 |---|---|---|
 | `getEntities()` | `GET /api/entities` | — |
 | `getRelationships()` | `GET /api/relationships` | — |
-| `getSources()` | `GET /api/sources` | Pendiente (T28). |
+| `getSources()` | `GET /api/sources` | Provisional de A (T28). `recordCount` cuenta los nodos reales; `lastSync` viene en ISO. |
 | `createEntity(input)` | `POST /api/entities` con `{type, name}` y después **un** `POST /api/relationships` por cada id de `input.connectedIds` con `{sourceId: nueva.id, targetId, type: input.relationType}` | El back no recibe `connectedIds`: las relaciones se crean aparte. El mock agrega `data: {creado: fecha}`; el back deja `data: {}` salvo que se mande. |
 | `updateEntity(id, {name, type})` | `PUT /api/entities/<id>` con `{name, type}` | `data` no se toca si no se manda. Si cambia el tipo, cambia el id: recargar entidades y relaciones. |
 | `deleteEntity(id)` | `DELETE /api/entities/<id>` | Las relaciones del nodo desaparecen solas del `GET /api/relationships`. |

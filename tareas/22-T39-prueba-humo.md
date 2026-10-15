@@ -1,6 +1,6 @@
 # T39 — Prueba de humo
 
-**Estado:** [ ] pendiente · **Día 7** · **Archivo:** `docs/prueba-humo.md` · **Depende de:** T37
+**Estado:** [~] parte back hecha (15/10), falta con el front · **Día 7** · **Archivo:** `docs/prueba-humo.md` · **Depende de:** T37
 
 ## Qué
 Recorrer la app con el back real y anotar lo que falla (con B).
