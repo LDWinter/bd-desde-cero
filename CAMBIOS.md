@@ -3,6 +3,9 @@
 Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
+## 2026-10-15
+- LDev — Ignorar los informes de análisis locales `docs/analisis/` (`.gitignore`)
+
 ## 2026-10-14
 - LDev — Nota: T13 a T32 las hizo Claude por falta de tiempo. Las piezas de B que hacían falta para probarlas son **copias provisionales** con otro nombre (`*_provisional.py`); el código de A usa el archivo de B en cuanto exista. Las tareas de B siguen pendientes
 - LDev — Prueba manual de las tareas de A (T13 a T32): back/probar_a.py (61ab0dd: `back/probar_a.py`)
