@@ -10,7 +10,7 @@ from flask import Blueprint, g, jsonify, request, session
 try:
     from usuarios import verificar_clave  # T23 (B)
 except ImportError:  # mientras B no suba usuarios.py, se usa la copia provisional
-    from usuarios_provisional import verificar_clave
+    from back.Revisar.usuarios_provisional import verificar_clave
 
 bp = Blueprint("auth", __name__)
 

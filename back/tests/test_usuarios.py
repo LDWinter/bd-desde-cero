@@ -10,7 +10,7 @@ from conftest_provisional import conn  # noqa: F401  (borrar esta línea cuando 
 try:
     from usuarios import registrar_usuario, verificar_clave  # T23 (B)
 except ImportError:  # mientras B no suba usuarios.py, se usa la copia provisional
-    from usuarios_provisional import registrar_usuario, verificar_clave
+    from back.Revisar.usuarios_provisional import registrar_usuario, verificar_clave
 
 
 def test_la_clave_no_se_guarda_en_texto_plano(conn):
