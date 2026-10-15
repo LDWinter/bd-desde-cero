@@ -23,20 +23,20 @@ flask --app app run                  # → http://localhost:5000
 
 | Archivo | Quién | Qué hace |
 |---|---|---|
-| `esquema.sql` | A+B | Las 6 tablas: `tipos_nodo`, `fuentes`, `nodos`, `relaciones`, `usuarios`, `historial`. Se puede correr varias veces. |
+| `esquema.sql` | A+Oziel | Las 6 tablas: `tipos_nodo`, `fuentes`, `nodos`, `relaciones`, `usuarios`, `historial`. Se puede correr varias veces. |
 | `db.py` | A | `conectar(ruta)` (con `foreign_keys=ON` y filas tipo diccionario) y `crear_esquema(conn)`. |
-| `semilla.py` | B | Carga los datos de `src/mocks/data.ts`: 3 fuentes, 14 nodos, 15 relaciones y el usuario de prueba. |
-| `app.py` | B | La aplicación Flask: abre una conexión por request (`g.conn`), registra los blueprints y devuelve todos los errores como JSON. |
-| `formato.py` | B | Traduce filas de la base al JSON del front (`a_entity`, `a_relationship`) y los ids (`id_front`, `id_base`). |
+| `semilla.py` | Oziel | Carga los datos de `src/mocks/data.ts`: 3 fuentes, 14 nodos, 15 relaciones y el usuario de prueba. |
+| `app.py` | Oziel | La aplicación Flask: abre una conexión por request (`g.conn`), registra los blueprints y devuelve todos los errores como JSON. |
+| `formato.py` | Oziel | Traduce filas de la base al JSON del front (`a_entity`, `a_relationship`) y los ids (`id_front`, `id_base`). |
 | `nodos.py` | A | CRUD de nodos: `crear_nodo`, `obtener_nodo`, `listar_nodos`, `editar_nodo`, `borrar_nodo` (borrado lógico). Cada cambio queda en el historial en la misma transacción. |
 | `relaciones.py` | A | `relacionar`, `desrelacionar`, `vecinos`. Cada cambio queda en el historial de **los dos** nodos. |
-| `historial.py` | B | `registrar` (guarda un cambio y deja solo los últimos 5 de ese nodo) e `historial_de`. |
-| `usuarios.py` | B | `registrar_usuario` (guarda solo el hash de la clave) y `verificar_clave`. |
+| `historial.py` | Oziel | `registrar` (guarda un cambio y deja solo los últimos 5 de ese nodo) e `historial_de`. |
+| `usuarios.py` | Oziel | `registrar_usuario` (guarda solo el hash de la clave) y `verificar_clave`. |
 | `rutas_nodos.py` | A | Las rutas `/api/entities` y `/api/relationships` (sección 4). |
 | `rutas_auth_provisional.py` | A | Login **provisional** para poder probar. Lo reemplaza `rutas_auth.py` (sección 6). |
 | `consultas.sql` | A | Consultas de práctica (T12). No las usa la app. |
 | `probar_a.py` | A | Prueba manual completa de punta a punta. |
-| `tests/` | A+B | `pytest`: fixture `conn` (base en memoria) en `conftest.py`. |
+| `tests/` | A+Oziel | `pytest`: fixture `conn` (base en memoria) en `conftest.py`. |
 
 ## 3. Reglas del contrato (leer antes de conectar)
 
@@ -54,7 +54,7 @@ flask --app app run                  # → http://localhost:5000
 4. **Borrado lógico.** Borrar una entidad la marca como borrada: deja de aparecer en todas las rutas y sus
    relaciones también dejan de aparecer (igual que hace el mock), pero la fila y su historial quedan.
 5. **Historial.** Cada crear, editar, borrar, relacionar y desrelacionar se anota; se guardan los últimos 5
-   cambios por nodo. La ruta para leerlo es `GET /api/entities/<id>/history` (T34: ya responde con una copia provisional de A; B la puede reemplazar).
+   cambios por nodo. La ruta para leerlo es `GET /api/entities/<id>/history` (T34: ya responde con una copia provisional de A; Oziel la puede reemplazar).
 
 ## 4. Rutas
 
@@ -96,7 +96,7 @@ curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
 ```
 
 ### Rutas de otras personas (ya responden con copias provisionales de A)
-Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando B suba el suyo, se usa ese solo.
+Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando Oziel suba el suyo, se usa ese solo.
 - `GET /api/sources` (T28, `rutas_fuentes.py`) → `[{id, name, type, status, lastSync, recordCount}]`, sin login.
 - `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` (T29/T30, `rutas_auth.py`): ver sección 6.
 - `GET /api/entities/<id>/history` (T34) → hasta 5 `{accion, usuario, antes, despues, fecha}`, el más nuevo primero; 404 si no existe.

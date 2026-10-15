@@ -1,6 +1,6 @@
 # T12 — Consultas de práctica
 
-**Estado:** [x] completado · **Día 2** · **Archivo:** `back/consultas.sql` · **Depende de:** T11 (semilla de B)
+**Estado:** [x] completado · **Día 2** · **Archivo:** `back/consultas.sql` · **Depende de:** T11 (semilla de Oziel)
 
 ## Qué
 Practicar SELECT con JOIN y GROUP BY sobre los datos reales.

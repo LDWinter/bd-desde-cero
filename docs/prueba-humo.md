@@ -3,7 +3,7 @@
 ## Parte back (A, 15/10) — HECHA
 
 Servidor real (`flask run` sobre una base nueva cargada con `semilla.py`), probado con `curl`.
-Rutas de B todavía con las copias provisionales de A (`rutas_auth_provisional.py`,
+Rutas de Oziel todavía con las copias provisionales de A (`rutas_auth_provisional.py`,
 `rutas_fuentes_provisional.py` y la ruta de historial marcada PROVISIONAL en `rutas_nodos.py`).
 
 | Pantalla del front | Llamadas | Resultado |
@@ -23,7 +23,7 @@ Sin errores en el log del servidor. Tests: `.venv/bin/pytest back -q` → 46 OK.
 2. `lastSync` y las fechas del historial vienen en ISO (`2026-10-05T10:32:00`); el mock muestra `05/10/2026 10:32`: formatear en el front.
 3. No hay CORS: usar el proxy de Vite (`INTEGRACION.md` §5) para que la cookie de sesión funcione.
 
-## Parte front (A+B con la compañera de T37) — PENDIENTE
+## Parte front (A+Oziel con la compañera de T37) — PENDIENTE
 Cuando `api.ts` llame al back: levantar back (`flask --app app run` en `back/`) y front (`npm run dev`),
 recorrer Inicio, Grafo y Entidad con F12 abierto y anotar cada error abajo.
 

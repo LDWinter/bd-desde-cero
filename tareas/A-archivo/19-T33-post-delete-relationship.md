@@ -1,6 +1,6 @@
 # T33 — POST y DELETE /api/relationships
 
-**Estado:** [x] completado · **Día 6** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T17, T30 (B)
+**Estado:** [x] completado · **Día 6** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T17, T30 (Oziel)
 
 ## Qué
 Crear y quitar relaciones desde el front.

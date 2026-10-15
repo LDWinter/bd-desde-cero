@@ -1,13 +1,13 @@
-# T29 (B) — POST /api/auth/login, POST /api/auth/logout, GET /api/auth/me
-# T30 (B) — decorador @requiere_login
-# COPIA PROVISIONAL de `rutas_auth.py` (tarea de B), escrita por A (14/10) siguiendo la ficha de B para poder probar
-# las tareas de A. NO es el archivo de B: cuando B suba `rutas_auth.py`, el código de A usa el de B solo
+# T29 (Oziel) — POST /api/auth/login, POST /api/auth/logout, GET /api/auth/me
+# T30 (Oziel) — decorador @requiere_login
+# COPIA PROVISIONAL de `rutas_auth.py` (tarea de Oziel), escrita por A (14/10) siguiendo la ficha de Oziel para poder probar
+# las tareas de A. NO es el archivo de Oziel: cuando Oziel suba `rutas_auth.py`, el código de A usa el de Oziel solo
 # (import con respaldo) y esta copia se puede borrar. Mismos nombres de funciones que pide la ficha.
 from functools import wraps
 
 from flask import Blueprint, g, jsonify, request, session
 
-from usuarios import verificar_clave  # T23 (B)
+from usuarios import verificar_clave  # T23 (Oziel)
 
 bp = Blueprint("auth", __name__)
 

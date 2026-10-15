@@ -1,9 +1,9 @@
 # T40 — Respaldo final y versión "base firme"
 
-**Estado:** [ ] pendiente · **Día 7** · **Archivo:** — · **Depende de:** T39
+**Estado:** [x] completado por A: respaldo de su parte (15/10); el respaldo "base firme" conjunto se hace con Oziel · **Día 7** · **Archivo:** — · **Depende de:** T39
 
 ## Qué
-Cerrar la entrega del jueves (con B).
+Cerrar la entrega del jueves (con Oziel).
 
 ## Cómo
 1. `./respaldar.sh`.

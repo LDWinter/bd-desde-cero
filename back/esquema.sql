@@ -1,4 +1,4 @@
--- Esquema SQLite (compartido: avisar a B antes de tocarlo)
+-- Esquema SQLite (compartido: avisar a Oziel antes de tocarlo)
 -- Modelo: docs/modelo_relacional.md · Fechas en texto ISO · Las FK necesitan PRAGMA foreign_keys = ON
 -- (lo activa db.py en cada conexión; acá también, para probar con: sqlite3 prueba.db < back/esquema.sql)
 PRAGMA foreign_keys = ON;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS fuentes (
     ultima_sync TEXT CHECK (ultima_sync IS NULL OR datetime(ultima_sync) IS NOT NULL)
 );
 
--- T09 (B) usuarios — Listo cuando: rechaza un email repetido
+-- T09 (Oziel) usuarios — Listo cuando: rechaza un email repetido
 -- (va antes que nodos porque nodos.creado_por la referencia)
 CREATE TABLE IF NOT EXISTS usuarios (
     id         INTEGER PRIMARY KEY,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS relaciones (
     CHECK (origen_id <> destino_id)
 );
 
--- T10 (B) historial + índice — Listo cuando: se crea sin error
+-- T10 (Oziel) historial + índice — Listo cuando: se crea sin error
 CREATE TABLE IF NOT EXISTS historial (
     id          INTEGER PRIMARY KEY,
     nodo_id     INTEGER NOT NULL REFERENCES nodos (id),

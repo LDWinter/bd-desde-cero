@@ -1,9 +1,9 @@
 # T01 — Leer el contrato del front
 
-**Estado:** [~] dudas escritas (falta repasar) · **Día 1 · Jue 8 – Vie 9** · **Archivo:** — (lista de dudas en `docs/dudas-front.md`) · **Depende de:** —
+**Estado:** [x] completado (dudas en docs/INTEGRACION.md §7; 15/10) · **Día 1 · Jue 8 – Vie 9** · **Archivo:** — (lista de dudas en `docs/dudas-front.md`) · **Depende de:** —
 
 ## Qué
-Entender qué datos espera el front antes de diseñar nada (tarea compartida con B).
+Entender qué datos espera el front antes de diseñar nada (tarea compartida con Oziel).
 
 ## Cómo
 1. Abrí `~/Proyectos/front-knowledge-system/src/types.ts`: ahí están `Entity`, `Relationship` y `Source`.

@@ -1,6 +1,6 @@
 # T22b — Historial en relacionar/desrelacionar
 
-**Estado:** [x] completado · **Día 4** · **Archivo:** `back/relaciones.py` · **Depende de:** T17, T20 (B)
+**Estado:** [x] completado · **Día 4** · **Archivo:** `back/relaciones.py` · **Depende de:** T17, T20 (Oziel)
 
 ## Qué
 Una relación cambia dos nodos: se anota en el historial de los dos.

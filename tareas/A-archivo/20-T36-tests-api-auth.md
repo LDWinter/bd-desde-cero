@@ -1,6 +1,6 @@
-# T36 — Tests de API de las rutas de B
+# T36 — Tests de API de las rutas de Oziel
 
-**Estado:** [x] completado (con rutas provisionales de B; 15/10) · **Día 6** · **Archivo:** `back/tests/test_api_auth.py` · **Depende de:** T34
+**Estado:** [x] completado (con rutas provisionales de Oziel; 15/10) · **Día 6** · **Archivo:** `back/tests/test_api_auth.py` · **Depende de:** T34
 
 ## Qué
 Testing cruzado: probás login, fuentes e historial por HTTP.

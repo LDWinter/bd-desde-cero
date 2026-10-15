@@ -1,4 +1,4 @@
-# T24 — tests de registrar_usuario y verificar_clave (de B)
+# T24 — tests de registrar_usuario y verificar_clave (de Oziel)
 # Listo cuando: pytest en verde
 import sqlite3
 

@@ -1,6 +1,6 @@
 # T31 — POST /api/entities
 
-**Estado:** [x] completado · **Día 6 · Mié 14** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T22, T30 (B)
+**Estado:** [x] completado · **Día 6 · Mié 14** · **Archivo:** `back/rutas_nodos.py` · **Depende de:** T22, T30 (Oziel)
 
 ## Qué
 Crear nodos desde el front.

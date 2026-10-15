@@ -1,6 +1,6 @@
-# T28 (B) — GET /api/sources
-# COPIA PROVISIONAL de `rutas_fuentes.py` (tarea de B), escrita por A (15/10) siguiendo la ficha de B para poder probar
-# la integración. NO es el archivo de B: cuando B suba `rutas_fuentes.py`, app.py usa el de B y esta copia se puede borrar.
+# T28 (Oziel) — GET /api/sources
+# COPIA PROVISIONAL de `rutas_fuentes.py` (tarea de Oziel), escrita por A (15/10) siguiendo la ficha de Oziel para poder probar
+# la integración. NO es el archivo de Oziel: cuando Oziel suba `rutas_fuentes.py`, app.py usa el de Oziel y esta copia se puede borrar.
 from flask import Blueprint, g, jsonify
 
 bp = Blueprint("fuentes", __name__)

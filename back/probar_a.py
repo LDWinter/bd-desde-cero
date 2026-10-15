@@ -54,7 +54,7 @@ ver("T13 FK activas (un tipo inexistente falla)",
 subprocess.run([sys.executable, str(AQUI / "semilla.py"), ruta], check=True, stdout=subprocess.DEVNULL)
 conn = conectar(ruta)
 
-from historial import historial_de  # noqa: E402  (T20, B)
+from historial import historial_de  # noqa: E402  (T20, Oziel)
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo  # noqa: E402
 from relaciones import desrelacionar, relacionar, vecinos  # noqa: E402
 
@@ -100,7 +100,7 @@ conn.close()
 
 # ---- T26 a T32: la API con el cliente de prueba de Flask ----
 os.environ["DB"] = ruta
-from app import crear_app  # T25 (B)
+from app import crear_app  # T25 (Oziel)
 
 app = crear_app(ruta)
 if "auth.login" not in app.view_functions:  # el login (T29/T30) lo hace otra compañera: mientras, la copia provisional
