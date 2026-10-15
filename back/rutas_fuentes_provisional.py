@@ -3,16 +3,10 @@
 # la integración. NO es el archivo de B: cuando B suba `rutas_fuentes.py`, app.py usa el de B y esta copia se puede borrar.
 from flask import Blueprint, g, jsonify
 
-try:
-    from rutas_auth import requiere_login
-except ImportError:
-    from rutas_auth_provisional import requiere_login
-
 bp = Blueprint("fuentes", __name__)
 
 
-@bp.get("/api/sources")
-@requiere_login
+@bp.get("/api/sources")  # sin login, igual que los GET de entidades
 def get_sources():
     query = """
         SELECT
