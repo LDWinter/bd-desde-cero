@@ -104,7 +104,7 @@ from app import crear_app  # T25 (Oziel)
 
 app = crear_app(ruta)
 if "auth.login" not in app.view_functions:  # el login (T29/T30) lo hace otra compañera: mientras, la copia provisional
-    from rutas_auth_provisional import bp as bp_auth
+    from back.Revisar.rutas_auth_provisional import bp as bp_auth
     app.register_blueprint(bp_auth)
 api = app.test_client()
 

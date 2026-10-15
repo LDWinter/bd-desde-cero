@@ -32,7 +32,7 @@ from relaciones import desrelacionar, relacionar
 try:
     from rutas_auth import requiere_login  # T30 (Oziel)
 except ImportError:  # mientras Oziel no suba rutas_auth.py, se usa la copia provisional
-    from rutas_auth_provisional import requiere_login
+    from back.Revisar.rutas_auth_provisional import requiere_login
 
 bp = Blueprint("nodos", __name__)
 

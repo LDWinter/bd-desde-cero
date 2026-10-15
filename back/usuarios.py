@@ -58,3 +58,18 @@ def verificar_clave(conn, email, clave):
         "nombre": fila["nombre"],
         "rol": fila["rol"],
     }
+
+
+def obtener_usuario(conn, usuario_id):
+    """El usuario con ese id como {id, email, nombre, rol} (sin hash), o None si no existe."""
+    fila = conn.execute(
+        "SELECT id, email, nombre, rol FROM usuarios WHERE id = ?", (usuario_id,)
+    ).fetchone()
+    if fila is None:
+        return None
+    return {
+        "id": fila["id"],
+        "email": fila["email"],
+        "nombre": fila["nombre"],
+        "rol": fila["rol"],
+    }
