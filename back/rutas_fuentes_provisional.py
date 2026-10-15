@@ -14,7 +14,7 @@ def get_sources():
             f.nombre,
             f.tipo,
             f.estado,
-            f.ultima_sync,
+            COALESCE(strftime('%d/%m/%Y %H:%M', f.ultima_sync), '') AS ultima_sync,
             COUNT(n.id) as recordCount
         FROM fuentes f
         LEFT JOIN nodos n ON n.fuente_id = f.id AND n.borrado = 0

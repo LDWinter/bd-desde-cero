@@ -4,6 +4,7 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-15
+- LDev — /api/sources: lastSync en formato del front (dd/mm/aaaa hh:mm, "" si nunca sincronizó) (`back/rutas_fuentes_provisional.py`)
 - LDev — T39 parte back: prueba de humo con el servidor real, sin errores (`docs/prueba-humo.md`); `docs/INTEGRACION.md` al día con las rutas provisionales
 - LDev — T36: tests de API de login, fuentes e historial (`back/tests/test_api_auth.py`, 46 OK)
 - LDev — T34 provisional `GET /api/entities/<id>/history` (`back/rutas_nodos.py`); `/api/sources` sin login
