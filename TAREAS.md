@@ -30,7 +30,7 @@ cambia **dos** nodos, así que se registra en el historial de cada uno.
 | # | Quién | Tarea | Archivo | Depende de | Listo cuando |
 |---|---|---|---|---|---|
 | T01 | A+B | Leer `src/types.ts` y `src/mocks/data.ts` del front y anotar las dudas | — | — | Hay una lista de dudas para el del front |
-| T02 | A | DER con las 6 tablas: `tipos_nodo`, `fuentes`, `nodos`, `relaciones`, `usuarios`, `historial` | `docs/der.png` + `docs/modelo.md` | T01 | B lo revisó y lo aprobó |
+| T02 | A | DER con las 6 tablas: `tipos_nodo`, `fuentes`, `nodos`, `relaciones`, `usuarios`, `historial` | `docs/der.drawio.png` + `docs/modelo_relacional.md` | T01 | B lo revisó y lo aprobó |
 | T03 | B | Contrato de la API: cada ruta con su método, el JSON que entra, el que sale y los errores | `docs/API.md` | T01 | El del front lo aprobó |
 | T04 | B | Acordar con el del front: fechas ISO, ids en texto, login con cookie y proxy de Vite | `docs/API.md` | T03 | Queda anotado en API.md |
 | T05 | A | Crear `back/`, el entorno virtual y `requirements.txt` (flask, pytest) | `back/` | — | `pytest` corre aunque haya 0 tests |

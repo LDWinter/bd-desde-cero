@@ -4,6 +4,8 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-15
+- LDev — Limpieza: se borran las copias provisionales ya reemplazadas por el código de B (app, formato, historial, usuarios, conftest), `back/esquema_mysql.sql` (sin uso, queda en el historial de git) y `docs/modelo.md` (solo apuntaba a `modelo_relacional.md`)
+- LDev — Integración con el código de B: las rutas usan los ids del front (`cli-1`) con `formato.id_base()`, `/api/relationships` usa `formato.SELECT_RELACION`; T33 (POST y DELETE /api/relationships, 409 en duplicado o lazo); tests y `probar_a.py` al día (`back/rutas_nodos.py`, `back/relaciones.py`, `back/nodos.py`, `back/probar_a.py`, `back/tests/`)
 - LDev — Ignorar los informes de análisis locales `docs/analisis/` (`.gitignore`)
 
 ## 2026-10-14
