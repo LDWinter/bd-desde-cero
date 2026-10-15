@@ -17,6 +17,7 @@ AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
 from db import conectar, crear_esquema  # noqa: E402
+from formato import id_base  # noqa: E402
 
 fallas = 0
 
@@ -53,10 +54,7 @@ ver("T13 FK activas (un tipo inexistente falla)",
 subprocess.run([sys.executable, str(AQUI / "semilla.py"), ruta], check=True, stdout=subprocess.DEVNULL)
 conn = conectar(ruta)
 
-try:
-    from historial import historial_de  # T20 (B)
-except ImportError:
-    from historial_provisional import historial_de
+from historial import historial_de  # noqa: E402  (T20, B)
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo  # noqa: E402
 from relaciones import desrelacionar, relacionar, vecinos  # noqa: E402
 
@@ -102,25 +100,27 @@ conn.close()
 
 # ---- T26 a T32: la API con el cliente de prueba de Flask ----
 os.environ["DB"] = ruta
-try:
-    from app import crear_app  # T25 (B)
-except ImportError:
-    from app_provisional import crear_app
+from app import crear_app  # T25 (B)
 
-api = crear_app(ruta).test_client()
+app = crear_app(ruta)
+if "auth.login" not in app.view_functions:  # el login (T29/T30) lo hace otra compañera: mientras, la copia provisional
+    from rutas_auth_provisional import bp as bp_auth
+    app.register_blueprint(bp_auth)
+api = app.test_client()
 
 r = api.get("/api/entities")
 ver("T26 GET /api/entities = 14 entidades", r.status_code == 200 and len(r.get_json()) == 14)
 ver("T26 forma de cli-1 igual al mock",
-    r.get_json()[0] == {"id": "1", "type": "Cliente", "name": "Acme S.A.", "source": "clientes_2025.xlsx",
+    r.get_json()[0] == {"id": "cli-1", "type": "Cliente", "name": "Acme S.A.", "source": "clientes_2025.xlsx",
                         "data": {"email": "contacto@acme.com", "ciudad": "Córdoba"}})
-ver("T26 GET /api/entities/1 → 200", api.get("/api/entities/1").status_code == 200)
+ver("T26 GET /api/entities/cli-1 → 200", api.get("/api/entities/cli-1").status_code == 200)
+ver("T26 prefijo equivocado (pro-1) → 404", api.get("/api/entities/pro-1").status_code == 404)
 ver("T26 GET /api/entities/999 → 404 con {error}",
     api.get("/api/entities/999").status_code == 404 and "error" in api.get("/api/entities/999").get_json())
 
 r = api.get("/api/relationships")
 ver("T27 GET /api/relationships = 15", r.status_code == 200 and len(r.get_json()) == 15)
-ver("T27 forma igual al mock", r.get_json()[0] == {"sourceId": "9", "targetId": "1", "type": "pertenece a"})
+ver("T27 forma igual al mock", r.get_json()[0] == {"sourceId": "ped-9", "targetId": "cli-1", "type": "pertenece a"})
 
 nueva = {"type": "Producto", "name": "Vino rosado", "source": "Base ventas", "data": {"precio": 5000}}
 ver("T31 sin login → 401", api.post("/api/entities", json=nueva).status_code == 401)
@@ -137,12 +137,21 @@ ver("T31 datos inválidos → 400",
 nueva["name"] = "Vino rosado 750 ml"
 r = api.put(f"/api/entities/{id_nuevo}", json=nueva)
 ver("T32 PUT → 200 con el cambio", r.status_code == 200 and r.get_json()["name"] == "Vino rosado 750 ml")
-ver("T32 PUT inexistente → 404", api.put("/api/entities/999", json=nueva).status_code == 404)
+ver("T32 PUT inexistente → 404", api.put("/api/entities/cli-999", json=nueva).status_code == 404)
 ver("T32 DELETE → 204", api.delete(f"/api/entities/{id_nuevo}").status_code == 204)
 ver("T32 DELETE otra vez → 404", api.delete(f"/api/entities/{id_nuevo}").status_code == 404)
 
+rel = {"sourceId": "cli-1", "targetId": "pro-5", "type": "compró"}
+ver("T33 POST relación → 201", api.post("/api/relationships", json=rel).status_code == 201)
+ver("T33 duplicada → 409", api.post("/api/relationships", json=rel).status_code == 409)
+ver("T33 lazo → 409", api.post("/api/relationships",
+                              json={"sourceId": "cli-1", "targetId": "cli-1", "type": "x"}).status_code == 409)
+ver("T33 nodo inexistente → 404", api.post("/api/relationships", json={**rel, "targetId": "pro-999"}).status_code == 404)
+ver("T33 DELETE → 204", api.delete("/api/relationships", json=rel).status_code == 204)
+ver("T33 DELETE otra vez → 404", api.delete("/api/relationships", json=rel).status_code == 404)
+
 conn = conectar(ruta)
-acciones = [f["accion"] for f in historial_de(conn, int(id_nuevo))]
+acciones = [f["accion"] for f in historial_de(conn, id_base(id_nuevo))]
 ver("T31/T32 crear, editar y borrar quedan en el historial", acciones == ["borrar", "editar", "crear"])
 conn.close()
 

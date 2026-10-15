@@ -3,15 +3,15 @@
 # T31 — POST /api/entities (valida tipo, name, data; 201 con la Entity)
 # T32 — PUT y DELETE /api/entities/<id> (404 si no existe)
 # T33 — POST y DELETE /api/relationships (409 si duplicado o lazo)
+# Ids: el front usa "cli-1"; se traducen solo con formato.id_base()/id_front() (de B).
 # (B agrega T34: GET /api/entities/<id>/history)
+import sqlite3
+
 from flask import Blueprint, g, jsonify, request
 
-try:
-    from formato import a_entity, a_relationship  # T19 (B)
-except ImportError:  # mientras B no suba formato.py, se usa la copia provisional
-    from formato_provisional import a_entity, a_relationship
+from formato import SELECT_RELACION, a_entity, a_relationship, id_base, id_front
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo
-from relaciones import listar_relaciones
+from relaciones import desrelacionar, relacionar
 try:
     from rutas_auth import requiere_login  # T30 (B)
 except ImportError:  # mientras B no suba rutas_auth.py, se usa la copia provisional
@@ -48,9 +48,14 @@ def _validar_entity(datos):
     return None
 
 
-def _id_valido(entity_id):
-    """Los ids llegan como texto ('3'); devuelve el número o None si no es un id posible."""
-    return int(entity_id) if entity_id.isdigit() else None
+def _buscar(entity_id):
+    """Id del front ('cli-1') -> fila del nodo, o None si el id no es válido, no existe o el prefijo
+    no coincide con el tipo ('pro-1' no encuentra al Cliente 1)."""
+    try:
+        fila = obtener_nodo(g.conn, id_base(entity_id))
+    except ValueError:
+        return None
+    return fila if fila is not None and id_front(fila["tipo"], fila["id"]) == entity_id else None
 
 
 # ---- T26 ----
@@ -62,8 +67,7 @@ def get_entities():
 
 @bp.get("/api/entities/<entity_id>")
 def get_entity(entity_id):
-    nodo_id = _id_valido(entity_id)
-    fila = obtener_nodo(g.conn, nodo_id) if nodo_id is not None else None
+    fila = _buscar(entity_id)
     if fila is None:
         return _error("entidad no encontrada", 404)
     return jsonify(a_entity(fila))
@@ -72,7 +76,7 @@ def get_entity(entity_id):
 # ---- T27 ----
 @bp.get("/api/relationships")
 def get_relationships():
-    return jsonify([a_relationship(fila) for fila in listar_relaciones(g.conn)])
+    return jsonify([a_relationship(fila) for fila in g.conn.execute(SELECT_RELACION)])
 
 
 # ---- T31 ----
@@ -94,9 +98,10 @@ def post_entity():
 @bp.put("/api/entities/<entity_id>")
 @requiere_login
 def put_entity(entity_id):
-    nodo_id = _id_valido(entity_id)
-    if nodo_id is None or obtener_nodo(g.conn, nodo_id) is None:
+    fila = _buscar(entity_id)
+    if fila is None:
         return _error("entidad no encontrada", 404)
+    nodo_id = fila["id"]
     datos = request.get_json(silent=True)
     problema = _validar_entity(datos)
     if problema:
@@ -109,7 +114,47 @@ def put_entity(entity_id):
 @bp.delete("/api/entities/<entity_id>")
 @requiere_login
 def delete_entity(entity_id):
-    nodo_id = _id_valido(entity_id)
-    if nodo_id is None or not borrar_nodo(g.conn, nodo_id, g.usuario_id):
+    fila = _buscar(entity_id)
+    if fila is None or not borrar_nodo(g.conn, fila["id"], g.usuario_id):
         return _error("entidad no encontrada", 404)
+    return "", 204
+
+
+# ---- T33 ----
+def _leer_relacion():
+    """Valida {sourceId, targetId, type}. Devuelve (origen, destino, tipo, None) o (.., (mensaje, código))."""
+    datos = request.get_json(silent=True)
+    if not isinstance(datos, dict):
+        return None, None, None, ("se esperaba un objeto JSON", 400)
+    tipo = datos.get("type")
+    if not isinstance(tipo, str) or not tipo.strip():
+        return None, None, None, ("type no puede estar vacío", 400)
+    origen, destino = _buscar(str(datos.get("sourceId"))), _buscar(str(datos.get("targetId")))
+    if origen is None or destino is None:
+        return None, None, None, ("sourceId o targetId no existe", 404)
+    return origen, destino, tipo.strip(), None
+
+
+@bp.post("/api/relationships")
+@requiere_login
+def post_relationship():
+    origen, destino, tipo, problema = _leer_relacion()
+    if problema:
+        return _error(*problema)
+    try:
+        relacionar(g.conn, origen["id"], destino["id"], tipo, g.usuario_id)
+    except sqlite3.IntegrityError:  # UNIQUE(origen, destino, tipo) o CHECK(origen <> destino)
+        return _error("la relación ya existe o une un nodo consigo mismo", 409)
+    return jsonify({"sourceId": id_front(origen["tipo"], origen["id"]),
+                    "targetId": id_front(destino["tipo"], destino["id"]), "type": tipo}), 201
+
+
+@bp.delete("/api/relationships")
+@requiere_login
+def delete_relationship():
+    origen, destino, tipo, problema = _leer_relacion()
+    if problema:
+        return _error(*problema)
+    if not desrelacionar(g.conn, origen["id"], destino["id"], tipo, g.usuario_id):
+        return _error("relación no encontrada", 404)
     return "", 204

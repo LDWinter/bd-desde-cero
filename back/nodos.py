@@ -4,10 +4,7 @@
 # Listo cuando: prueba manual OK; editar deja su 'antes' y 'después'
 import json
 
-try:
-    from historial import registrar  # T20 (B)
-except ImportError:  # mientras B no suba historial.py, se usa la copia provisional
-    from historial_provisional import registrar
+from historial import registrar
 
 # Nodo con el nombre de su tipo y de su fuente (lo que necesita a_entity)
 SELECT_NODO = """

@@ -4,13 +4,8 @@ import sqlite3
 
 import pytest
 
-# Fixture conn: la de B (tests/conftest.py, T14) cuando exista; mientras, la copia provisional
-from conftest_provisional import conn  # noqa: F401  (borrar esta línea cuando B suba tests/conftest.py)
 
-try:
-    from usuarios import registrar_usuario, verificar_clave  # T23 (B)
-except ImportError:  # mientras B no suba usuarios.py, se usa la copia provisional
-    from back.Revisar.usuarios_provisional import registrar_usuario, verificar_clave
+from usuarios import registrar_usuario, verificar_clave
 
 
 def test_la_clave_no_se_guarda_en_texto_plano(conn):

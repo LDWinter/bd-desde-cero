@@ -4,13 +4,8 @@ import sqlite3
 
 import pytest
 
-# Fixture conn: la de B (tests/conftest.py, T14) cuando exista; mientras, la copia provisional
-from conftest_provisional import conn  # noqa: F401  (borrar esta línea cuando B suba tests/conftest.py)
 
-try:
-    from historial import HISTORIAL_MAX, historial_de, registrar  # T20 (B)
-except ImportError:  # mientras B no suba historial.py, se usa la copia provisional
-    from historial_provisional import HISTORIAL_MAX, historial_de, registrar
+from historial import HISTORIAL_MAX, historial_de, registrar
 from nodos import borrar_nodo, crear_nodo, editar_nodo, obtener_nodo
 from relaciones import desrelacionar, relacionar
 
@@ -30,7 +25,7 @@ def test_registrar_y_leer(conn):
 
 
 def test_registrar_accion_invalida_falla(conn):
-    with pytest.raises(sqlite3.IntegrityError):
+    with pytest.raises(ValueError):  # historial.py valida la acción antes de tocar la base
         registrar(conn, 1, 1, "inventada", None, None)
 
 
@@ -91,7 +86,7 @@ def test_rollback_si_falla_registrar_al_crear(conn, monkeypatch):
 def test_rollback_si_falla_registrar_al_editar(conn):
     with pytest.raises(sqlite3.IntegrityError):
         editar_nodo(conn, 1, 999, nombre="No tiene que quedar")
-    assert obtener_nodo(conn, 1)["titulo"] == "Acme S.A."
+    assert obtener_nodo(conn, 1)["titulo"] == "Nodo uno"
     assert cantidad(conn, 1) == 0
 
 
