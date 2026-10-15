@@ -137,6 +137,8 @@ ver("T31 datos inválidos → 400",
 nueva["name"] = "Vino rosado 750 ml"
 r = api.put(f"/api/entities/{id_nuevo}", json=nueva)
 ver("T32 PUT → 200 con el cambio", r.status_code == 200 and r.get_json()["name"] == "Vino rosado 750 ml")
+r = api.put(f"/api/entities/{id_nuevo}", json={"type": "Producto", "name": "Vino rosado 750 ml"})
+ver("T32 PUT sin data no borra los datos", r.status_code == 200 and r.get_json()["data"] == {"precio": 5000})
 ver("T32 PUT inexistente → 404", api.put("/api/entities/cli-999", json=nueva).status_code == 404)
 ver("T32 DELETE → 204", api.delete(f"/api/entities/{id_nuevo}").status_code == 204)
 ver("T32 DELETE otra vez → 404", api.delete(f"/api/entities/{id_nuevo}").status_code == 404)
@@ -152,7 +154,7 @@ ver("T33 DELETE otra vez → 404", api.delete("/api/relationships", json=rel).st
 
 conn = conectar(ruta)
 acciones = [f["accion"] for f in historial_de(conn, id_base(id_nuevo))]
-ver("T31/T32 crear, editar y borrar quedan en el historial", acciones == ["borrar", "editar", "crear"])
+ver("T31/T32 crear, editar y borrar quedan en el historial", acciones == ["borrar", "editar", "editar", "crear"])
 conn.close()
 
 print()
