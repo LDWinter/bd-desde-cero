@@ -10,12 +10,14 @@ Backend (SQLite + Python/Flask) para el front `NickSPC/Knowledge-System`. Trabaj
 | `tareas/B/` | Tareas de B (índice en `tareas/B/README.md`) |
 | `back/` | Código del backend: `esquema.sql` (SQLite), módulos Python, `tests/`, `requirements.txt` |
 | `docs/` | Diseño: DER (`der.drawio`, `der.drawio.png`) y modelo (`modelo_relacional.md`) |
+| `docs/INTEGRACION.md` | **Guía para conectar el front y el login**: rutas, ids, errores, equivalencias con `api.ts` |
 | `respaldar.sh` | Sube un zip del proyecto a Drive (correr desde la raíz) |
 
 ## Arrancar
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r back/requirements.txt
-sqlite3 prueba.db < back/esquema.sql   # crea las tablas (se puede correr varias veces)
-pytest back
+python3 back/semilla.py back/base.db   # base con los datos de los mocks
+pytest back -q && python3 back/probar_a.py
+cd back && flask --app app run         # http://localhost:5000 (ver docs/INTEGRACION.md)
 ```
