@@ -139,20 +139,23 @@ Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando O
 
 ## 6. Enchufar el login (T29/T30)
 
-`app.py` registra automáticamente un archivo `back/rutas_auth.py` en cuanto exista. Tiene que:
+`app.py` registra solo `back/rutas_auth.py` en cuanto exista; mientras no exista, usa `rutas_auth_provisional.py`
+(lo avisa en el log: `Usando rutas_auth_provisional.py hasta que exista rutas_auth.py`). Lo mismo con
+`rutas_fuentes.py`. O sea: **hoy, con `flask run`, el login ya funciona** (con la copia provisional).
+
+`rutas_auth.py` tiene que:
 
 1. Exponer un `Blueprint` llamado **`bp`** con nombre `"auth"`: `bp = Blueprint("auth", __name__)`.
 2. Tener el decorador **`requiere_login`**: si no hay sesión → `401` con `{"error": ...}`; si hay, dejar el id
    del usuario en **`g.usuario_id`** (las rutas de nodos lo usan para el historial).
 3. Usar `usuarios.verificar_clave(g.conn, email, clave)`: devuelve `{id, email, nombre, rol}` o `None`.
-4. Cuando exista, cambiar en `rutas_nodos.py` el import
-   `from rutas_auth_provisional import requiere_login` por `from rutas_auth import requiere_login`
-   y borrar `rutas_auth_provisional.py`. `probar_a.py` usa el login real solo (detecta la ruta `auth.login`).
+4. Mantener las rutas `POST /api/auth/login` (`{email, password}`), `POST /api/auth/logout` y `GET /api/auth/me`
+   con las mismas respuestas, porque `tests/test_api_auth.py` (T36) las prueba.
 
-`rutas_auth_provisional.py` ya cumple ese contrato (login con `{email, password}`, logout y me) y sirve de
-referencia. **Hoy `app.py` no lo registra**, así que con `flask run` las escrituras dan 401 hasta que esté
-`rutas_auth.py`. Para probar el front antes, se puede copiar `rutas_auth_provisional.py` como `rutas_auth.py`
-en la copia local (sin commitearlo).
+No hay que tocar nada más: `rutas_nodos.py` importa `requiere_login` de `rutas_auth` y, si no existe, del
+provisional; `probar_a.py` detecta la ruta `auth.login` sola. Cuando `rutas_auth.py` esté y los tests pasen,
+`rutas_auth_provisional.py` se puede borrar (avisando a A). `rutas_auth_provisional.py` sirve de referencia:
+ya cumple todo lo anterior.
 
 ## 7. Dudas abiertas para el front (T01)
 

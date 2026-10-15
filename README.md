@@ -11,6 +11,7 @@ Backend (SQLite + Python/Flask) para el front `NickSPC/Knowledge-System`. Trabaj
 | `back/` | Código del backend: `esquema.sql` (SQLite), módulos Python, `tests/`, `requirements.txt` |
 | `docs/` | Diseño: DER (`der.drawio`, `der.drawio.png`) y modelo (`modelo_relacional.md`) |
 | `docs/BACKEND.md` | **Documentación completa del back**: arquitectura, decisiones, quién hizo qué, cada tabla, función, ruta y test |
+| `docs/PARA-OZIEL.md` | Lo que le falta a Oziel, en orden, con qué ya está hecho y los casos de T35 |
 | `docs/INTEGRACION.md` | **Guía para conectar el front y el login**: rutas, ids, errores, equivalencias con `api.ts` |
 | `respaldar.sh` | Sube un zip del proyecto a Drive (correr desde la raíz) |
 

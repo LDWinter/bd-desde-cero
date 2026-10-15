@@ -3,10 +3,10 @@
 Ordenadas por **prioridad**: primero lo que bloquea al front y a A, después el resto según las dependencias.
 Fuente completa: `../../TAREAS.md`. Al terminar cada tarea: se cumple "Cumplido cuando" → `./respaldar.sh` → commit → marcar `[x]` acá y en su archivo.
 
-## Compartidas con A (están en `tareas/`)
-- [ ] [T01 — Leer el contrato del front](../01-T01-leer-contrato-front.md) · antes que todo
-- [ ] [T39 — Prueba de humo](../22-T39-prueba-humo.md) · Día 7
-- [ ] [T40 — Respaldo final](../23-T40-respaldo-final.md) · Día 7
+## Compartidas con A (están en `tareas/A-archivo/`)
+- [ ] [T01 — Leer el contrato del front](../A-archivo/01-T01-leer-contrato-front.md) · antes que todo
+- [ ] [T39 — Prueba de humo](../A-archivo/22-T39-prueba-humo.md) · Día 7
+- [ ] [T40 — Respaldo final](../A-archivo/23-T40-respaldo-final.md) · Día 7
 
 ## Tareas de B (en orden de prioridad)
 - [ ] [T03 — Contrato de la API](01-T03-contrato-api.md) · Día 1 · Jue 8 – Vie 9 · depende de T01

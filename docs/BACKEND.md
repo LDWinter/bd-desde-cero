@@ -156,7 +156,7 @@ se guardan en la misma transacción** (`with conn:`). Si algo falla a mitad, no 
 Además A hizo: el DER y el modelo relacional (T02), el entorno (T05), las dudas para el front (T01),
 la guía de integración (`docs/INTEGRACION.md`, para T37) y la prueba de humo del back (T39).
 
-**Lo que falta (no es de A):** que Oziel suba sus archivos reales (`rutas_auth.py`, `rutas_fuentes.py`, T34) y sus
+**Lo que falta (no es de A)** — detalle y orden en [`docs/PARA-OZIEL.md`](PARA-OZIEL.md): que Oziel suba sus archivos reales (`rutas_auth.py`, `rutas_fuentes.py`, T34) y sus
 tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada final de humo con el front
 (T39) y respaldo "base firme" conjunto (T40).
 
