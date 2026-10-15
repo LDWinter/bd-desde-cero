@@ -37,10 +37,14 @@ def _registrar_rutas(app):
         except ModuleNotFoundError as e:
             if e.name != nombre:
                 raise  # falla un import DENTRO del modulo: no hay que taparlo
-            # Todavia no existe (T26, T28 y T29). Cuando esten las tres, conviene
-            # sacar este try/except para que un archivo mal nombrado de error.
-            app.logger.warning("Todavia no existe %s.py: sus rutas no se registran", nombre)
-            continue
+            try:
+                modulo = import_module(nombre + "_provisional")
+                app.logger.warning("Usando %s_provisional.py hasta que exista %s.py", nombre, nombre)
+            except ModuleNotFoundError as e2:
+                if e2.name != nombre + "_provisional":
+                    raise
+                app.logger.warning("Todavia no existe %s.py: sus rutas no se registran", nombre)
+                continue
         app.register_blueprint(modulo.bp)
 
 
