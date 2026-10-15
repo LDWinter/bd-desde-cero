@@ -8,7 +8,7 @@ quien no escribió el código: el resto del grupo, el que integra el front y qui
 - **Prueba de humo**: [`docs/prueba-humo.md`](prueba-humo.md). **Registro de cambios**: [`CAMBIOS.md`](../CAMBIOS.md).
 - **Plan de tareas**: [`TAREAS.md`](../TAREAS.md); fichas de A en `tareas/A-archivo/` (todas terminadas), de Oziel en `tareas/B/` (la carpeta conserva su nombre).
 
-Estado al **15/10/2026** (base firme): 46 tests en verde (`pytest back -q`) y la prueba de punta a punta
+Estado al **15/10/2026** (base firme): 52 tests en verde (`pytest back -q`) y la prueba de punta a punta
 `python3 back/probar_a.py` termina en `TODO OK`.
 
 ---
@@ -825,7 +825,7 @@ tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada f
      {"id": "cli-15", "type": "Cliente", "name": "Juan Pérez", "source": "Manual", "data": {"edad": 30}}
      ```
    - **Errores**:
-     - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, data no es objeto, o los valores de data no son válidos.
+     - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, data no es objeto, o los valores de data no son válidos (texto o número finito: `NaN`/`Infinity` dan 400).
      - 401: Sin sesión iniciada.
 
 6. **`PUT /api/entities/<entity_id>`**
@@ -881,11 +881,11 @@ tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada f
      {"sourceId": "cli-1", "targetId": "pro-5", "type": "compra"}
      ```
    - **Errores**:
-     - 400: Si el JSON es inválido o el tipo está vacío.
+     - 400: Si el JSON es inválido, el tipo está vacío o falta `sourceId`/`targetId`.
      - 401: Sin sesión iniciada.
      - 404: Si sourceId o targetId no existe.
      - 409: Si la relación ya existe o el nodo intenta relacionarse consigo mismo.
-   - **Detalles**: el orden de validación es JSON → `type` → ids. A `type` se le sacan los espacios de los bordes. El 409 sale del `sqlite3.IntegrityError` de la base (`UNIQUE` o `CHECK`). Queda anotado en el historial de las dos entidades.
+   - **Detalles**: el orden de validación es JSON → `type` → que vengan los dos ids → que existan. A `type` se le sacan los espacios de los bordes. El 409 sale del `sqlite3.IntegrityError` de la base (`UNIQUE` o `CHECK`). Queda anotado en el historial de las dos entidades.
 
 9. **`DELETE /api/relationships`**
    - **Propósito**: Elimina una relación existente.
@@ -901,7 +901,7 @@ tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada f
      {"sourceId": "cli-1", "targetId": "pro-5", "type": "compra"}
      ```
    - **Errores**:
-     - 400: Si el JSON es inválido o el tipo está vacío.
+     - 400: Si el JSON es inválido, el tipo está vacío o falta `sourceId`/`targetId`.
      - 401: Sin sesión iniciada.
      - 404: Si sourceId o targetId no existe, o si la relación no existe.
    - **Detalles**: el borrado de relaciones es **real** (no lógico). Queda anotado en el historial de las dos entidades.
@@ -1078,7 +1078,7 @@ tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada f
 
 Cómo correr todo (desde la raíz del repo):
 ```bash
-.venv/bin/pytest back -q              # 46 tests, tiene que dar "46 passed"
+.venv/bin/pytest back -q              # 52 tests, tiene que dar "52 passed"
 .venv/bin/python back/probar_a.py     # prueba de punta a punta, tiene que terminar en "TODO OK"
 ```
 `tests/test_vacio.py` (Oziel) es un test vacío que solo comprueba que pytest corre.
@@ -1186,7 +1186,7 @@ ver("T13 crear_esquema crea las 6 tablas",
 
 **Propósito**: Tests para las rutas de autenticación de la API.
 
-**Autor**: A (T36). **Casos** (7, uno por función; el nombre dice qué comprueba):
+**Autor**: A (T36). **Casos** (13 contando los parametrizados; el nombre dice qué comprueba):
 - `test_login_correcto`
 - `test_login_clave_mala`
 - `test_auth_me_flow`
@@ -1194,6 +1194,8 @@ ver("T13 crear_esquema crea las 6 tablas",
 - `test_get_sources`
 - `test_historial_flow`
 - `test_get_history_not_found`
+- `test_post_entity_con_numero_no_finito_da_400` (NaN, Infinity, -Infinity: 3 casos)
+- `test_relacion_sin_ids_da_400` (falta sourceId, falta targetId, id que no es texto: 3 casos, POST y DELETE)
 
 **Ejemplo de uso**:
 ```python

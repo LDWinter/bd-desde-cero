@@ -3,7 +3,7 @@
 Estado al 15/10/2026. La parte de A está terminada (fichas en `tareas/A-archivo/`). Este doc junta lo que te
 queda, en orden, y para cada cosa qué ya está hecho para que no arranques de cero.
 
-**Antes de empezar:** `git pull`, después `pytest back -q` (tiene que dar 48 passed) y
+**Antes de empezar:** `git pull`, después `pytest back -q` (tiene que dar 52 passed) y
 `python3 back/probar_a.py` (tiene que terminar en `TODO OK`). Cómo está armado todo: [`docs/BACKEND.md`](BACKEND.md).
 
 ## 1. Marcar lo que ya hiciste (5 minutos)

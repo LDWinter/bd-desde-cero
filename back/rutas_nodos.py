@@ -20,6 +20,7 @@ Todas las respuestas de error devuelven un objeto JSON con la estructura:
 # Ids: el front usa "cli-1"; se traducen solo con formato.id_base()/id_front() (de Oziel).
 # (Oziel agrega T34: GET /api/entities/<id>/history)
 import json
+import math
 import sqlite3
 
 from flask import Blueprint, g, jsonify, request
@@ -57,6 +58,9 @@ def _validar_entity(datos):
     for clave, valor in data.items():
         # {clave: texto | número}; bool es un int en Python, por eso se excluye aparte
         if isinstance(valor, bool) or not isinstance(valor, (str, int, float)):
+            return f"data.{clave} tiene que ser texto o número"
+        # Python acepta NaN/Infinity en JSON, pero el CHECK(json_valid) de la base no: sin esto daba 500
+        if isinstance(valor, float) and not math.isfinite(valor):
             return f"data.{clave} tiene que ser texto o número"
     source = datos.get("source", FUENTE_POR_DEFECTO)
     if not isinstance(source, str) or not source.strip():
@@ -178,7 +182,7 @@ def post_entity():
     - Ejemplo de respuesta:
         {"id": "cli-15", "type": "Cliente", "name": "Juan Pérez", "source": "Manual", "data": {"edad": 30}}
     - Errores:
-        - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, data no es objeto, o los valores de data no son válidos.
+        - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, data no es objeto, o los valores de data no son válidos (texto o número finito).
         - 401: Sin sesión iniciada.
     """
     datos = request.get_json(silent=True)
@@ -215,7 +219,7 @@ def put_entity(entity_id):
     - Errores:
         - 401: Sin sesión iniciada.
         - 404: Si la entidad no existe (o el prefijo del id no coincide con su tipo).
-        - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, o los valores de data no son válidos.
+        - 400: Si el JSON es inválido, el tipo no es válido, el nombre está vacío, o los valores de data no son válidos (texto o número finito).
     """
     fila = _buscar(entity_id)
     if fila is None:
@@ -261,7 +265,9 @@ def _leer_relacion():
     tipo = datos.get("type")
     if not isinstance(tipo, str) or not tipo.strip():
         return None, None, None, ("type no puede estar vacío", 400)
-    origen, destino = _buscar(str(datos.get("sourceId"))), _buscar(str(datos.get("targetId")))
+    if not all(isinstance(datos.get(k), str) and datos[k] for k in ("sourceId", "targetId")):
+        return None, None, None, ("sourceId y targetId son obligatorios", 400)
+    origen, destino = _buscar(datos["sourceId"]), _buscar(datos["targetId"])
     if origen is None or destino is None:
         return None, None, None, ("sourceId o targetId no existe", 404)
     return origen, destino, tipo.strip(), None
@@ -285,7 +291,7 @@ def post_relationship():
     - Ejemplo de respuesta:
         {"sourceId": "cli-1", "targetId": "pro-5", "type": "compra"}
     - Errores:
-        - 400: Si el JSON es inválido o el tipo está vacío.
+        - 400: Si el JSON es inválido, el tipo está vacío o falta sourceId/targetId.
         - 401: Sin sesión iniciada.
         - 404: Si sourceId o targetId no existe.
         - 409: Si la relación ya existe o el nodo intenta relacionarse consigo mismo.
@@ -317,7 +323,7 @@ def delete_relationship():
     - Ejemplo de entrada:
         {"sourceId": "cli-1", "targetId": "pro-5", "type": "compra"}
     - Errores:
-        - 400: Si el JSON es inválido o el tipo está vacío.
+        - 400: Si el JSON es inválido, el tipo está vacío o falta sourceId/targetId.
         - 401: Sin sesión iniciada.
         - 404: Si sourceId o targetId no existe.
         - 404: Si la relación no existe.
