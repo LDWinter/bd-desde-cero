@@ -1,0 +1,23 @@
+KNOWLEDGE SYSTEM — versión para ejecutar en cualquier PC
+=========================================================
+
+Requisito: Python 3.10 o más nuevo (https://www.python.org/downloads/).
+En Windows, al instalarlo, marcar "Add python.exe to PATH".
+La primera vez necesita internet para instalar Flask (unos segundos).
+
+CÓMO ABRIRLO
+- Windows: doble clic en "Iniciar (Windows).bat".
+- Linux / macOS: ./iniciar.sh  (o: bash iniciar.sh)
+
+Se abre solo el navegador en http://127.0.0.1:5001
+  Usuario: prueba@local
+  Clave:   prueba123
+Para cerrarlo, cerrar la ventana negra (o Ctrl+C).
+
+CARGAR LOS DATOS
+Empieza vacío. Ir a Fuentes → Importar JSON y elegir:
+- knowledge-system-ejemplo-con-errores.json  → la constructora con los 11 errores (Inicio muestra los avisos)
+- knowledge-system-corregido.json             → la misma empresa con todo resuelto (0 avisos)
+Los dos traen "Reemplazar los datos actuales": cada importación deja solo ese archivo.
+
+Los datos quedan en la carpeta "datos". Para empezar de cero, borrar esa carpeta.
