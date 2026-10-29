@@ -39,3 +39,11 @@ Cargar: **Fuentes → Importar JSON** → `ejemplo-obras.json` (trae `replace: t
   o «Conectar con…» si se la quiere en las tres obras.
 - **Llevar los ladrillos a la Escuela**: clic en *Ladrillo hueco 18 cm* → ⇄ → Ampliación Escuela N° 45.
 - Cada cambio queda en la pestaña **Historial** del nodo (quién y cuándo).
+
+## Versión corregida (docs/ejemplo-obras-corregido.json)
+
+Los mismos datos con todo resuelto (0 avisos en Inicio): cemento duplicado cancelado, Diego solo en Torre,
+Paula solo en Torre y dos responsables de seguridad nuevos (Andrea en el Puente, Martín en la Escuela),
+el generador solo en la Escuela, la licencia de Jorge renovada, Sergio fuera del Puente mientras dura su
+licencia (lo cubre Tomás Herrera), la retro liberada, la excavadora y Ramiro en el Puente, la compactadora
+en los accesos del Puente, el hormigón completo y los ladrillos trasladados a la Escuela.
