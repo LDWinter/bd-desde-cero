@@ -3,6 +3,9 @@
 Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
+## 2026-10-29
+- LDev — Tipos de nodo libres; `POST /api/import` (JSON con entidades y relaciones, todo o nada) y `DELETE /api/data` (`back/rutas_importar.py`, `back/app.py`, `back/nodos.py`, `back/rutas_nodos.py`, `back/tests/`, `docs/ejemplo-import.json`, `docs/INTEGRACION.md`; 61 tests)
+
 ## 2026-10-15
 - LDev — Análisis 15/10: NaN/Infinity en `data` daba 500 → 400; relación sin sourceId/targetId daba 404 → 400; test de formato de `lastSync` (`back/rutas_nodos.py`, `back/tests/test_api_auth.py`, `docs/BACKEND.md`; 52 tests)
 - LDev — Para Oziel: lo que le falta y casos de T35 (`docs/PARA-OZIEL.md`); §6 de `docs/INTEGRACION.md` al día; links de T01/T39/T40 en `tareas/B/README.md` (archivo de Oziel: solo se corrigieron las rutas tras el archivado)

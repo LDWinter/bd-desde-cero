@@ -15,7 +15,7 @@ from werkzeug.exceptions import HTTPException
 from db import conectar, crear_esquema
 
 # Archivos de rutas que se enchufan (cada uno expone `bp`)
-MODULOS_DE_RUTAS = ("rutas_nodos", "rutas_fuentes", "rutas_auth", "rutas_historial")
+MODULOS_DE_RUTAS = ("rutas_nodos", "rutas_fuentes", "rutas_auth", "rutas_historial", "rutas_importar")
 
 # Mensajes por defecto en espanol; si una ruta hace abort(409, "texto"), se usa ese texto
 MENSAJES = {

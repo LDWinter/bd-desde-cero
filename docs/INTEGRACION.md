@@ -97,6 +97,14 @@ curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
   -H 'Content-Type: application/json' -d '{"sourceId":"cli-1","targetId":"pro-5","type":"compró"}'
 ```
 
+### Importar y vaciar (`back/rutas_importar.py`, 29/10)
+- Los `type` de las entidades son **libres** (texto de 1-40 caracteres): si el tipo no existe, se crea.
+- `POST /api/import` (login) → carga todo de un JSON, todo o nada. Ejemplo completo: `docs/ejemplo-import.json`.
+  `{replace, entities: [{id, type, name, source?, data?}], relationships: [{sourceId, targetId, type}]}`.
+  `entities[].id` es una referencia local del archivo; `sourceId`/`targetId` pueden ser esas referencias o ids
+  existentes (`cli-1`, salvo con `replace: true`). Responde 201 `{entities, relationships, ids: {local: id}}`, o 400 `{error}` sin guardar nada.
+- `DELETE /api/data` (login) → vacía nodos, relaciones, historial y fuentes (no toca usuarios). 204.
+
 ### Rutas de otras personas (ya responden con copias provisionales de A)
 Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando Oziel suba el suyo, se usa ese solo.
 - `GET /api/sources` (T28, `rutas_fuentes.py`) → `[{id, name, type, status, lastSync, recordCount}]`, sin login.

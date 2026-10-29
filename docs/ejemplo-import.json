@@ -1,0 +1,21 @@
+{
+  "replace": true,
+  "entities": [
+    {"id": "ana", "type": "Persona", "name": "Ana Gómez", "data": {"rol": "Analista", "edad": 29}},
+    {"id": "bruno", "type": "Persona", "name": "Bruno Díaz", "data": {"rol": "Desarrollador", "edad": 34}},
+    {"id": "carla", "type": "Persona", "name": "Carla Ruiz", "data": {"rol": "Líder de proyecto"}},
+    {"id": "web", "type": "Proyecto", "name": "Portal web", "data": {"estado": "En curso", "presupuesto": 150000}},
+    {"id": "app", "type": "Proyecto", "name": "App móvil", "data": {"estado": "Planificado"}},
+    {"id": "sistemas", "type": "Área", "name": "Sistemas", "data": {"piso": 3}},
+    {"id": "diseno", "type": "Área", "name": "Diseño", "data": {"piso": 2}}
+  ],
+  "relationships": [
+    {"sourceId": "ana", "targetId": "diseno", "type": "pertenece a"},
+    {"sourceId": "bruno", "targetId": "sistemas", "type": "pertenece a"},
+    {"sourceId": "carla", "targetId": "sistemas", "type": "pertenece a"},
+    {"sourceId": "carla", "targetId": "web", "type": "lidera"},
+    {"sourceId": "bruno", "targetId": "web", "type": "trabaja en"},
+    {"sourceId": "ana", "targetId": "app", "type": "trabaja en"},
+    {"sourceId": "web", "targetId": "app", "type": "comparte código con"}
+  ]
+}

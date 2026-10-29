@@ -24,10 +24,10 @@ def test_crear_nodo_funciona(conn):
     assert json.loads(fila["contenido"]) == {"ciudad": "Mendoza"}
 
 
-def test_crear_nodo_con_tipo_inexistente_falla(conn):
-    with pytest.raises(ValueError):
-        crear_nodo(conn, "Inventado", "X", FUENTE, {}, USUARIO)
-    assert len(listar_nodos(conn)) == 2  # no quedo nada guardado
+def test_crear_nodo_con_tipo_nuevo_crea_el_tipo(conn):
+    # tipos libres: si el tipo no existe, se crea
+    nodo_id = crear_nodo(conn, "Inventado", "X", FUENTE, {}, USUARIO)
+    assert obtener_nodo(conn, nodo_id)["tipo"] == "Inventado"
 
 
 def test_crear_nodo_con_fuente_nueva_la_crea(conn):
@@ -101,10 +101,9 @@ def test_editar_nodo_inexistente_devuelve_false(conn):
     assert editar_nodo(conn, 999, USUARIO, nombre="X") is False
 
 
-def test_editar_nodo_con_tipo_inexistente_falla_y_no_cambia_nada(conn):
-    with pytest.raises(ValueError):
-        editar_nodo(conn, 1, USUARIO, nombre="Cambiado", tipo="Inventado")
-    assert obtener_nodo(conn, 1)["titulo"] == "Nodo uno"
+def test_editar_nodo_con_tipo_nuevo_crea_el_tipo(conn):
+    assert editar_nodo(conn, 1, USUARIO, nombre="Cambiado", tipo="Inventado") is True
+    assert obtener_nodo(conn, 1)["tipo"] == "Inventado"
 
 
 # -------------------------------------------------------------- borrar_nodo

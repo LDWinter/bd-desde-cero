@@ -34,7 +34,6 @@ except ImportError:  # mientras Oziel no suba rutas_auth.py, se usa la copia pro
 
 bp = Blueprint("nodos", __name__)
 
-TIPOS = ("Cliente", "Producto", "Pedido")
 FUENTE_POR_DEFECTO = "Manual"  # si el front no manda "source"
 
 
@@ -46,8 +45,8 @@ def _validar_entity(datos):
     """Devuelve un mensaje de error, o None si el JSON es una Entity válida."""
     if not isinstance(datos, dict):
         return "se esperaba un objeto JSON"
-    if datos.get("type") not in TIPOS:
-        return f"type tiene que ser uno de {', '.join(TIPOS)}"
+    if not isinstance(datos.get("type"), str) or not datos["type"].strip() or len(datos["type"].strip()) > 40:
+        return "type tiene que ser un texto de 1-40 caracteres"
     if not isinstance(datos.get("name"), str) or not datos["name"].strip():
         return "name no puede estar vacío"
     data = datos.get("data", {})
@@ -147,7 +146,7 @@ def post_entity():
     - URL: /api/entities
     - Login: Requerido.
     - Parámetros (JSON):
-        - type (str): Tipo de entidad ("Cliente", "Producto" o "Pedido").
+        - type (str): Tipo de entidad (texto libre de 1-40 caracteres; si no existe, se crea).
         - name (str): Nombre de la entidad.
         - source (str, opcional): Origen de la entidad. Por defecto "Manual".
         - data (dict, opcional): Diccionario de atributos (texto, números).
@@ -165,7 +164,7 @@ def post_entity():
     if problema:
         return _error(problema, 400)
     nodo_id = crear_nodo(
-        g.conn, datos["type"], datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
+        g.conn, datos["type"].strip(), datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
         datos.get("data", {}), g.usuario_id,
     )
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id))), 201
@@ -205,7 +204,7 @@ def put_entity(entity_id):
     if problema:
         return _error(problema, 400)
     editar_nodo(g.conn, nodo_id, g.usuario_id,
-                nombre=datos["name"].strip(), data=datos.get("data"), tipo=datos["type"])  # sin data: no se toca
+                nombre=datos["name"].strip(), data=datos.get("data"), tipo=datos["type"].strip())  # sin data: no se toca
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id)))
 
 
