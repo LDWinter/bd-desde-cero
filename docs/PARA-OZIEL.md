@@ -27,7 +27,7 @@ Podés **copiar la provisional como punto de partida**, revisarla y renombrarla.
 | Tarea | Tenés que crear | Copia de referencia | Qué no puede cambiar (lo usa el front o los tests) |
 |---|---|---|---|
 | T29 login/logout/me + T30 `@requiere_login` | `back/rutas_auth.py` | `back/rutas_auth_provisional.py` | `bp = Blueprint("auth", ...)`, función `requiere_login` que deja `g.usuario_id`, login con `{email, password}`, 401 `{"error": ...}`. Detalle en `docs/INTEGRACION.md` §6 |
-| T28 GET /api/sources | `back/rutas_fuentes.py` | `back/rutas_fuentes_provisional.py` | `{id (número), name, type, status ("ok"/"error"), lastSync ("dd/mm/aaaa hh:mm" o ""), recordCount}` |
+| T28 GET /api/sources | `back/rutas_fuentes.py` | `back/rutas_fuentes_provisional.py` | `{id (número), name, type, status ("ok"/"error"), lastSync (ISO o null; el front lo formatea), recordCount}` |
 | T34 GET /api/entities/<id>/history | (ya está en `back/rutas_nodos.py`, sección T34) | — | Revisala y, si te sirve, marcá T34. Si la cambiás, avisale a A (el archivo es de A) |
 
 Cuando subas cada archivo: corré los tests (T36 ya prueba estas rutas: `tests/test_api_auth.py`) y avisale a A

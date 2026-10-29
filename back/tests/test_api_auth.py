@@ -2,7 +2,6 @@
 # Listo cuando: verde
 # Mientras Oziel no suba sus archivos, prueban las copias provisionales (rutas_*_provisional.py)
 import pathlib
-import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
@@ -95,10 +94,26 @@ def test_get_sources(cliente):
         assert source_map[name]["recordCount"] == count
         assert set(source_map[name].keys()) == {"id", "name", "type", "status", "lastSync", "recordCount"}
         assert source_map[name]["status"] in ("ok", "error")
-        # el front espera la fecha como en el mock: "05/10/2026 10:32" ("" si nunca se sincronizó)
-        last = source_map[name]["lastSync"]
-        assert last == "" or re.fullmatch(r"\d\d/\d\d/\d{4} \d\d:\d\d", last), last
-    assert source_map["clientes_2025.xlsx"]["lastSync"] == "05/10/2026 10:32"
+    # El contrato HTTP usa ISO; el front se ocupa de la presentación local.
+    assert source_map["clientes_2025.xlsx"]["lastSync"] == "2026-10-05T10:32:00"
+
+
+def test_fuente_sin_sincronizar_devuelve_null(cliente):
+    with cliente.application.config["CONN"] as conn:
+        conn.execute("UPDATE fuentes SET ultima_sync = NULL WHERE id = 1")
+    fuente = next(f for f in cliente.get("/api/sources").get_json() if f["id"] == 1)
+    assert fuente["lastSync"] is None
+
+
+def test_historial_usa_ruta_definitiva_e_ids_del_front(cliente):
+    rutas = [r for r in cliente.application.url_map.iter_rules() if r.rule.endswith("/history")]
+    assert len(rutas) == 1
+    _login(cliente)
+    relacion = {"sourceId": "cli-1", "targetId": "pro-5", "type": "compró"}
+    assert cliente.post("/api/relationships", json=relacion).status_code == 201
+    cambio = cliente.get("/api/entities/cli-1/history").get_json()[0]
+    assert cambio["accion"] == "relacionar"
+    assert cambio["despues"] == relacion
 
 
 def test_historial_flow(cliente):

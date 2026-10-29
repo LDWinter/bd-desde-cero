@@ -37,7 +37,7 @@ Orígenes de datos (`Source` del front).
 | `nombre` | TEXT | NOT NULL, UNIQUE | → `Source.name` y `Entity.source` (por eso es único) |
 | `tipo` | TEXT | NOT NULL | → `Source.type` (ej. CRM, ERP, CSV) |
 | `estado` | TEXT | NOT NULL, CHECK (`ok`, `error`) | → `Source.status` |
-| `ultima_sync` | TEXT | ISO, puede ser NULL | → `Source.lastSync` (el front espera texto: la API manda `""` si es NULL) |
+| `ultima_sync` | TEXT | ISO, puede ser NULL | → `Source.lastSync` (la API lo manda en ISO, o `null` si es NULL; el front lo formatea) |
 
 `Source.recordCount` **no se guarda**: se calcula con `COUNT(*)` de `nodos` por `fuente_id`,
 así nunca queda desactualizado.

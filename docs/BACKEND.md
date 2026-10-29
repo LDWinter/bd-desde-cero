@@ -945,14 +945,14 @@ tests de las rutas de A (T35); conectar el front (T37, lado del front); pasada f
      ```json
      [
          {"id": 1, "name": "clientes_2025.xlsx", "type": "Excel", "status": "ok",
-          "lastSync": "05/10/2026 10:32", "recordCount": 4}
+          "lastSync": "2026-10-05T10:32:00", "recordCount": 4}
      ]
      ```
    - **Detalles**:
      - `id` es un **número** (no texto como en las entidades), igual que en el mock.
      - `status` es `"ok"` o `"error"` (lo garantiza un `CHECK` en la tabla).
      - `recordCount` se **calcula** contando los nodos no borrados de esa fuente; no se guarda.
-     - `lastSync`: en la base es ISO; la ruta lo da como `dd/mm/aaaa hh:mm`, igual que el mock. Si la fuente nunca se sincronizó, `""`.
+     - `lastSync`: ISO (`2026-10-05T10:32:00`) tal como está en la base, o `null` si la fuente nunca se sincronizó. El front lo formatea como `dd/mm/aaaa hh:mm`.
      - Sin login, como los demás GET.
 
 ### `rutas_auth_provisional.py`
