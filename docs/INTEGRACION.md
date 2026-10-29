@@ -1,5 +1,7 @@
 # Guía de integración — Backend Knowledge System
 
+Actualización 29/10/2026: se usan los módulos definitivos `rutas_auth.py`, `rutas_fuentes.py` y `rutas_historial.py`. Logout devuelve `204` sin cuerpo. `Source.lastSync` usa ISO o `null` si nunca se sincronizó; se formatea en el frontend. El historial tiene una única ruta, definida en `rutas_historial.py`, con IDs del frontend también en las fotos de relaciones. Las referencias a copias provisionales más abajo corresponden al estado del 15/10.
+
 Para quien conecta el front (`NickSPC/Knowledge-System`) y para quien hace el login.
 Todo lo que está acá está probado con `back/probar_a.py` y `pytest back` (fecha: 2026-10-15).
 

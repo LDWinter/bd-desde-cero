@@ -19,7 +19,6 @@ Todas las respuestas de error devuelven un objeto JSON con la estructura:
 # T33 — POST y DELETE /api/relationships (409 si duplicado o lazo)
 # Ids: el front usa "cli-1"; se traducen solo con formato.id_base()/id_front() (de Oziel).
 # (Oziel agrega T34: GET /api/entities/<id>/history)
-import json
 import math
 import sqlite3
 
@@ -27,7 +26,6 @@ from flask import Blueprint, g, jsonify, request
 
 from formato import SELECT_RELACION, a_entity, a_relationship, id_base, id_front
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo
-from historial import historial_de
 from relaciones import desrelacionar, relacionar
 try:
     from rutas_auth import requiere_login  # T30 (Oziel)
@@ -120,29 +118,6 @@ def get_entity(entity_id):
     if fila is None:
         return _error("entidad no encontrada", 404)
     return jsonify(a_entity(fila))
-
-
-# ---- T34 (Oziel) — PROVISIONAL escrita por A (15/10) siguiendo la ficha de Oziel; Oziel la puede reemplazar ----
-@bp.get("/api/entities/<entity_id>/history")
-def get_history(entity_id):
-    """Últimos cambios (máximo 5) de una entidad, del más nuevo al más viejo.
-    - Respuesta: [{"accion", "usuario", "antes", "despues", "fecha"}] (fecha ISO; antes/despues objeto o null).
-    - Errores: 404 si la entidad no existe.
-    """
-    fila = _buscar(entity_id)
-    if fila is None:
-        return _error("entidad no encontrada", 404)
-    nombres = dict(g.conn.execute("SELECT id, nombre FROM usuarios").fetchall())
-    return jsonify([
-        {
-            "accion": c["accion"],
-            "usuario": nombres.get(c["usuario_id"]),
-            "antes": json.loads(c["antes"]) if c["antes"] else None,
-            "despues": json.loads(c["despues"]) if c["despues"] else None,
-            "fecha": c["fecha"],
-        }
-        for c in historial_de(g.conn, fila["id"])
-    ])
 
 
 # ---- T27 ----
