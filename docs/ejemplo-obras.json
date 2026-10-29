@@ -1,0 +1,86 @@
+{
+  "replace": true,
+  "entities": [
+    {"id": "torre", "type": "Obra", "name": "Torre Alvear", "source": "Constructora Andina", "data": {"descripcion": "Edificio de 12 pisos y 2 subsuelos", "ubicacion": "Av. Alvear 1450, Córdoba", "estado": "En ejecución", "inicio": "2026-08-01", "fin_previsto": "2027-06-30", "avance_%": 35}},
+    {"id": "puente", "type": "Obra", "name": "Puente Río Suquía", "source": "Constructora Andina", "data": {"descripcion": "Puente vehicular de 80 m", "ubicacion": "Ruta 9, km 12", "estado": "En ejecución", "inicio": "2026-09-15", "fin_previsto": "2027-03-31", "avance_%": 10}},
+    {"id": "escuela", "type": "Obra", "name": "Ampliación Escuela N° 45", "source": "Constructora Andina", "data": {"descripcion": "6 aulas nuevas y techado del patio", "ubicacion": "Barrio Alta Córdoba", "estado": "En ejecución", "inicio": "2026-07-01", "fin_previsto": "2026-12-15", "avance_%": 70}},
+    {"id": "barrio", "type": "Obra", "name": "Barrio Los Álamos (24 viviendas)", "source": "Constructora Andina", "data": {"descripcion": "24 viviendas unifamiliares", "ubicacion": "Malagueño", "estado": "PAUSADA: esperando permiso municipal", "inicio": "2026-06-01", "fin_previsto": "2027-08-30", "avance_%": 15}},
+
+    {"id": "plan-torre", "type": "Plan de acción", "name": "Plan Torre Alvear", "source": "Constructora Andina", "data": {"etapa_actual": "Estructura del piso 5", "proximo_hito": "Losa piso 6 (2026-11-20)", "requiere": "Grúa torre, hormigón H-30, acero"}},
+    {"id": "plan-puente", "type": "Plan de acción", "name": "Plan Puente Río Suquía", "source": "Constructora Andina", "data": {"etapa_actual": "Excavación para pilotes", "proximo_hito": "Pilotes de la margen norte (2026-11-30)", "requiere": "Excavadora, retroexcavadora, acero, vigas"}},
+    {"id": "plan-escuela", "type": "Plan de acción", "name": "Plan Escuela N° 45", "source": "Constructora Andina", "data": {"etapa_actual": "Instalación eléctrica y techos", "proximo_hito": "Entrega de aulas (2026-12-15)", "requiere": "Andamio, generador, cable, chapa"}},
+    {"id": "plan-barrio", "type": "Plan de acción", "name": "Plan Barrio Los Álamos", "source": "Constructora Andina", "data": {"etapa_actual": "Detenido", "proximo_hito": "Permiso municipal (sin fecha)", "requiere": "Excavadora y ladrillos al reanudar"}},
+
+    {"id": "marta", "type": "Empleado", "name": "Marta Sosa", "source": "RR. HH.", "data": {"puesto": "Jefa de obra", "dedicacion_%": 100}},
+    {"id": "jorge", "type": "Empleado", "name": "Jorge Paz", "source": "RR. HH.", "data": {"puesto": "Operador de grúa", "dedicacion_%": 100, "licencia_operador_vence": "2026-09-15"}},
+    {"id": "diego", "type": "Empleado", "name": "Diego Luna", "source": "RR. HH.", "data": {"puesto": "Albañil", "dedicacion_%": 100}},
+    {"id": "paula", "type": "Empleado", "name": "Paula Vera", "source": "RR. HH.", "data": {"puesto": "Responsable de seguridad e higiene", "dedicacion_%": 100, "nota": "Reparte su jornada 50 % y 50 %"}},
+    {"id": "lucia", "type": "Empleado", "name": "Lucía Fernández", "source": "RR. HH.", "data": {"puesto": "Ingeniera civil, jefa de obra", "dedicacion_%": 100}},
+    {"id": "sergio", "type": "Empleado", "name": "Sergio Ríos", "source": "RR. HH.", "data": {"puesto": "Soldador", "dedicacion_%": 100, "estado": "De licencia médica hasta 2026-11-20"}},
+    {"id": "hugo", "type": "Empleado", "name": "Hugo Ibarra", "source": "RR. HH.", "data": {"puesto": "Capataz", "dedicacion_%": 100}},
+    {"id": "carla", "type": "Empleado", "name": "Carla Méndez", "source": "RR. HH.", "data": {"puesto": "Electricista matriculada", "dedicacion_%": 100}},
+    {"id": "ramiro", "type": "Empleado", "name": "Ramiro Gómez", "source": "RR. HH.", "data": {"puesto": "Operador de excavadora", "dedicacion_%": 100, "licencia_operador_vence": "2027-05-10"}},
+    {"id": "nicolas", "type": "Empleado", "name": "Nicolás Ortiz", "source": "RR. HH.", "data": {"puesto": "Ayudante", "dedicacion_%": 100}},
+
+    {"id": "grua", "type": "Máquina", "name": "Grúa torre Liebherr 132 EC", "source": "Pañol de equipos", "data": {"estado": "Operativa", "proximo_service": "2027-01-10", "costo_dia_$": 450000}},
+    {"id": "excavadora", "type": "Máquina", "name": "Excavadora CAT 320", "source": "Pañol de equipos", "data": {"estado": "Operativa, sin uso (obra pausada)", "proximo_service": "2027-02-01", "costo_dia_$": 380000}},
+    {"id": "retro", "type": "Máquina", "name": "Retroexcavadora JCB 3CX", "source": "Pañol de equipos", "data": {"estado": "EN MANTENIMIENTO hasta 2026-11-10", "costo_dia_$": 220000}},
+    {"id": "generador", "type": "Máquina", "name": "Generador 60 kVA", "source": "Pañol de equipos", "data": {"estado": "Operativa", "unidades": 1, "costo_dia_$": 60000}},
+    {"id": "hormigonera", "type": "Máquina", "name": "Hormigonera 350 L", "source": "Pañol de equipos", "data": {"estado": "Operativa", "costo_dia_$": 25000}},
+    {"id": "andamio", "type": "Máquina", "name": "Andamio tubular 200 m²", "source": "Pañol de equipos", "data": {"estado": "Operativo", "costo_dia_$": 30000}},
+    {"id": "compactadora", "type": "Máquina", "name": "Compactadora vibratoria", "source": "Pañol de equipos", "data": {"estado": "Operativa", "costo_dia_$": 40000, "nota": "Alquilada: se paga aunque no se use"}},
+
+    {"id": "hormigon", "type": "Material", "name": "Hormigón H-30", "source": "Compras", "data": {"unidad": "m³", "requerido": 120, "en_stock": 80, "proveedor": "Hormigonera del Centro"}},
+    {"id": "acero", "type": "Material", "name": "Acero ADN 420", "source": "Compras", "data": {"unidad": "t", "requerido": 18, "en_stock": 20, "proveedor": "Aceros Córdoba"}},
+    {"id": "cemento1", "type": "Material", "name": "Cemento Portland 50 kg", "source": "Compras", "data": {"unidad": "bolsa", "requerido": 300, "en_stock": 300, "proveedor": "Corralón Norte", "precio_$": 9800}},
+    {"id": "cemento2", "type": "Material", "name": "Cemento portland x50kg", "source": "Compras", "data": {"unidad": "bolsa", "requerido": 300, "en_stock": 0, "proveedor": "Materiales Sur", "precio_$": 11200, "nota": "Pedido nuevo en curso"}},
+    {"id": "cable", "type": "Material", "name": "Cable unipolar 2,5 mm²", "source": "Compras", "data": {"unidad": "rollo de 100 m", "requerido": 25, "en_stock": 25}},
+    {"id": "chapa", "type": "Material", "name": "Chapa trapezoidal T-101", "source": "Compras", "data": {"unidad": "m²", "requerido": 450, "en_stock": 450}},
+    {"id": "ladrillo", "type": "Material", "name": "Ladrillo hueco 18 cm", "source": "Compras", "data": {"unidad": "unidad", "requerido": 8000, "en_stock": 8000, "nota": "Acopiado en Barrio Los Álamos"}},
+    {"id": "vigas", "type": "Material", "name": "Vigas pretensadas 20 m", "source": "Compras", "data": {"unidad": "unidad", "requerido": 8, "en_stock": 8}}
+  ],
+  "relationships": [
+    {"sourceId": "plan-torre", "targetId": "torre", "type": "plan de"},
+    {"sourceId": "plan-puente", "targetId": "puente", "type": "plan de"},
+    {"sourceId": "plan-escuela", "targetId": "escuela", "type": "plan de"},
+    {"sourceId": "plan-barrio", "targetId": "barrio", "type": "plan de"},
+
+    {"sourceId": "marta", "targetId": "torre", "type": "asignado a"},
+    {"sourceId": "jorge", "targetId": "torre", "type": "asignado a"},
+    {"sourceId": "diego", "targetId": "torre", "type": "asignado a"},
+    {"sourceId": "diego", "targetId": "escuela", "type": "asignado a"},
+    {"sourceId": "paula", "targetId": "torre", "type": "asignado a"},
+    {"sourceId": "paula", "targetId": "puente", "type": "asignado a"},
+    {"sourceId": "lucia", "targetId": "puente", "type": "asignado a"},
+    {"sourceId": "sergio", "targetId": "puente", "type": "asignado a"},
+    {"sourceId": "hugo", "targetId": "escuela", "type": "asignado a"},
+    {"sourceId": "carla", "targetId": "escuela", "type": "asignado a"},
+    {"sourceId": "ramiro", "targetId": "barrio", "type": "asignado a"},
+    {"sourceId": "nicolas", "targetId": "barrio", "type": "asignado a"},
+
+    {"sourceId": "jorge", "targetId": "grua", "type": "opera"},
+    {"sourceId": "ramiro", "targetId": "excavadora", "type": "opera"},
+
+    {"sourceId": "grua", "targetId": "torre", "type": "asignada a"},
+    {"sourceId": "generador", "targetId": "torre", "type": "asignada a"},
+    {"sourceId": "generador", "targetId": "escuela", "type": "asignada a"},
+    {"sourceId": "retro", "targetId": "puente", "type": "asignada a"},
+    {"sourceId": "hormigonera", "targetId": "escuela", "type": "asignada a"},
+    {"sourceId": "andamio", "targetId": "escuela", "type": "asignada a"},
+    {"sourceId": "excavadora", "targetId": "barrio", "type": "asignada a"},
+
+    {"sourceId": "plan-puente", "targetId": "excavadora", "type": "requiere"},
+    {"sourceId": "plan-puente", "targetId": "retro", "type": "requiere"},
+    {"sourceId": "plan-torre", "targetId": "grua", "type": "requiere"},
+
+    {"sourceId": "hormigon", "targetId": "torre", "type": "usado en"},
+    {"sourceId": "acero", "targetId": "torre", "type": "usado en"},
+    {"sourceId": "acero", "targetId": "puente", "type": "usado en"},
+    {"sourceId": "vigas", "targetId": "puente", "type": "usado en"},
+    {"sourceId": "cemento1", "targetId": "escuela", "type": "usado en"},
+    {"sourceId": "cemento2", "targetId": "escuela", "type": "usado en"},
+    {"sourceId": "cable", "targetId": "escuela", "type": "usado en"},
+    {"sourceId": "chapa", "targetId": "escuela", "type": "usado en"},
+    {"sourceId": "ladrillo", "targetId": "barrio", "type": "usado en"}
+  ]
+}

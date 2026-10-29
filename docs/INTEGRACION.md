@@ -104,6 +104,8 @@ curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
   `entities[].id` es una referencia local del archivo; `sourceId`/`targetId` pueden ser esas referencias o ids
   existentes (`cli-1`, salvo con `replace: true`). Responde 201 `{entities, relationships, ids: {local: id}}`, o 400 `{error}` sin guardar nada.
 - `DELETE /api/data` (login) → vacía nodos, relaciones, historial y fuentes (no toca usuarios). 204.
+- `DELETE /api/sources/<id>` (login) → borra la fuente con sus nodos y las conexiones de esos nodos. 204, o 404.
+- `docs/ejemplo-obras.json`: ejemplo de la presentación (4 obras de una constructora, 33 nodos, 37 conexiones).
 
 ### Rutas de otras personas (ya responden con copias provisionales de A)
 Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando Oziel suba el suyo, se usa ese solo.

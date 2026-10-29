@@ -4,6 +4,7 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-10-29
+- LDev — `DELETE /api/sources/<id>` (borra la fuente con sus nodos y conexiones) y ejemplo de 4 obras para la presentación (`back/rutas_importar.py`, `back/tests/test_api_importar.py`, `docs/ejemplo-obras.json`, `docs/INTEGRACION.md`; 63 tests)
 - LDev — Tipos de nodo libres; `POST /api/import` (JSON con entidades y relaciones, todo o nada) y `DELETE /api/data` (`back/rutas_importar.py`, `back/app.py`, `back/nodos.py`, `back/rutas_nodos.py`, `back/tests/`, `docs/ejemplo-import.json`, `docs/INTEGRACION.md`; 61 tests)
 
 ## 2026-10-15

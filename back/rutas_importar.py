@@ -11,6 +11,7 @@ POST /api/import (login) carga entidades y relaciones desde un JSON:
 - Respuesta 201: {"entities": n, "relationships": n, "ids": {id_local: id_front}}
 
 DELETE /api/data (login) vacía historial, relaciones, nodos y fuentes (no toca usuarios ni tipos). 204.
+DELETE /api/sources/<id> (login) borra una fuente con sus nodos y las conexiones de esos nodos. 204, o 404.
 """
 import json
 import sqlite3
@@ -123,4 +124,20 @@ def importar():
 def vaciar_datos():
     with g.conn:
         _vaciar(g.conn)
+    return "", 204
+
+
+@bp.delete("/api/sources/<int:fuente_id>")
+@requiere_login
+def borrar_fuente(fuente_id):
+    conn = g.conn
+    if conn.execute("SELECT 1 FROM fuentes WHERE id = ?", (fuente_id,)).fetchone() is None:
+        return jsonify({"error": "fuente no encontrada"}), 404
+    nodos = "SELECT id FROM nodos WHERE fuente_id = ?"
+    with conn:  # todo o nada, en el orden que piden las FK
+        conn.execute(f"DELETE FROM historial WHERE nodo_id IN ({nodos})", (fuente_id,))
+        conn.execute(f"DELETE FROM relaciones WHERE origen_id IN ({nodos}) OR destino_id IN ({nodos})",
+                     (fuente_id, fuente_id))
+        conn.execute("DELETE FROM nodos WHERE fuente_id = ?", (fuente_id,))
+        conn.execute("DELETE FROM fuentes WHERE id = ?", (fuente_id,))
     return "", 204

@@ -88,3 +88,22 @@ def test_tipo_nuevo_por_post(cliente):
     assert res.status_code == 201
     assert res.get_json()["type"] == "Persona"
     assert cliente.post("/api/entities", json={"type": "x" * 41, "name": "A"}).status_code == 400
+
+
+def test_borrar_fuente_con_sus_nodos_y_conexiones(cliente):
+    fuentes = {f["name"]: f for f in cliente.get("/api/sources").get_json()}
+    fuente = fuentes["clientes_2025.xlsx"]
+    assert cliente.delete(f"/api/sources/{fuente['id']}").status_code == 204
+    entidades = cliente.get("/api/entities").get_json()
+    assert all(e["source"] != "clientes_2025.xlsx" for e in entidades)
+    ids = {e["id"] for e in entidades}
+    assert all(r["sourceId"] in ids and r["targetId"] in ids for r in cliente.get("/api/relationships").get_json())
+    assert "clientes_2025.xlsx" not in {f["name"] for f in cliente.get("/api/sources").get_json()}
+    assert cliente.delete(f"/api/sources/{fuente['id']}").status_code == 404
+
+
+def test_ejemplo_obras_importa(cliente):
+    obras = json.loads((pathlib.Path(__file__).resolve().parents[2] / "docs" / "ejemplo-obras.json").read_text())
+    res = cliente.post("/api/import", json=obras)
+    assert res.status_code == 201, res.get_json()
+    assert (res.get_json()["entities"], res.get_json()["relationships"]) == (33, 37)
