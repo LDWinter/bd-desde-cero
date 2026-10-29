@@ -106,4 +106,4 @@ def test_ejemplo_obras_importa(cliente):
     obras = json.loads((pathlib.Path(__file__).resolve().parents[2] / "docs" / "ejemplo-obras.json").read_text())
     res = cliente.post("/api/import", json=obras)
     assert res.status_code == 201, res.get_json()
-    assert (res.get_json()["entities"], res.get_json()["relationships"]) == (33, 37)
+    assert (res.get_json()["entities"], res.get_json()["relationships"]) == (34, 41)

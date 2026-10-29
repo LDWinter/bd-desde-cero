@@ -1,6 +1,8 @@
 {
   "replace": true,
   "entities": [
+    {"id": "empresa", "type": "Empresa", "name": "Constructora Andina S.A.", "source": "Archivo maestro", "data": {"razon_social": "Constructora Andina S.A.", "cuit": "30-71234567-8", "domicilio": "Bv. San Juan 820, Córdoba", "telefono": "0351 555-0142", "email": "contacto@constructoraandina.com.ar", "director": "Ing. Roberto Andrade", "empleados_total": 10, "maquinas_total": 7, "obras_en_curso": 3, "obras_pausadas": 1, "fundada": 1998}},
+
     {"id": "torre", "type": "Obra", "name": "Torre Alvear", "source": "Constructora Andina", "data": {"descripcion": "Edificio de 12 pisos y 2 subsuelos", "ubicacion": "Av. Alvear 1450, Córdoba", "estado": "En ejecución", "inicio": "2026-08-01", "fin_previsto": "2027-06-30", "avance_%": 35}},
     {"id": "puente", "type": "Obra", "name": "Puente Río Suquía", "source": "Constructora Andina", "data": {"descripcion": "Puente vehicular de 80 m", "ubicacion": "Ruta 9, km 12", "estado": "En ejecución", "inicio": "2026-09-15", "fin_previsto": "2027-03-31", "avance_%": 10}},
     {"id": "escuela", "type": "Obra", "name": "Ampliación Escuela N° 45", "source": "Constructora Andina", "data": {"descripcion": "6 aulas nuevas y techado del patio", "ubicacion": "Barrio Alta Córdoba", "estado": "En ejecución", "inicio": "2026-07-01", "fin_previsto": "2026-12-15", "avance_%": 70}},
@@ -40,6 +42,11 @@
     {"id": "vigas", "type": "Material", "name": "Vigas pretensadas 20 m", "source": "Compras", "data": {"unidad": "unidad", "requerido": 8, "en_stock": 8}}
   ],
   "relationships": [
+    {"sourceId": "torre", "targetId": "empresa", "type": "obra de"},
+    {"sourceId": "puente", "targetId": "empresa", "type": "obra de"},
+    {"sourceId": "escuela", "targetId": "empresa", "type": "obra de"},
+    {"sourceId": "barrio", "targetId": "empresa", "type": "obra de"},
+
     {"sourceId": "plan-torre", "targetId": "torre", "type": "plan de"},
     {"sourceId": "plan-puente", "targetId": "puente", "type": "plan de"},
     {"sourceId": "plan-escuela", "targetId": "escuela", "type": "plan de"},
