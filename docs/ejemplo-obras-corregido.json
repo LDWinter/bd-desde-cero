@@ -1,0 +1,626 @@
+{
+  "replace": true,
+  "entities": [
+    {
+      "data": {
+        "cuit": "30-71234567-8",
+        "director": "Ing. Roberto Andrade",
+        "domicilio": "Bv. San Juan 820, Córdoba",
+        "email": "contacto@constructoraandina.com.ar",
+        "empleados_total": 13,
+        "fundada": 1998,
+        "maquinas_total": 7,
+        "obras_en_curso": 3,
+        "obras_pausadas": 1,
+        "razon_social": "Constructora Andina S.A.",
+        "telefono": "0351 555-0142"
+      },
+      "id": "emp-1",
+      "name": "Constructora Andina S.A.",
+      "source": "Archivo maestro",
+      "type": "Empresa"
+    },
+    {
+      "data": {
+        "avance_%": 35,
+        "descripcion": "Edificio de 12 pisos y 2 subsuelos",
+        "estado": "En ejecución",
+        "fin_previsto": "2027-06-30",
+        "inicio": "2026-08-01",
+        "ubicacion": "Av. Alvear 1450, Córdoba",
+        "energia": "Conexión eléctrica de obra (EPEC)"
+      },
+      "id": "obr-2",
+      "name": "Torre Alvear",
+      "source": "Constructora Andina",
+      "type": "Obra"
+    },
+    {
+      "data": {
+        "avance_%": 10,
+        "descripcion": "Puente vehicular de 80 m",
+        "estado": "En ejecución",
+        "fin_previsto": "2027-03-31",
+        "inicio": "2026-09-15",
+        "ubicacion": "Ruta 9, km 12"
+      },
+      "id": "obr-3",
+      "name": "Puente Río Suquía",
+      "source": "Constructora Andina",
+      "type": "Obra"
+    },
+    {
+      "data": {
+        "avance_%": 70,
+        "descripcion": "6 aulas nuevas y techado del patio",
+        "estado": "En ejecución",
+        "fin_previsto": "2026-12-15",
+        "inicio": "2026-07-01",
+        "ubicacion": "Barrio Alta Córdoba"
+      },
+      "id": "obr-4",
+      "name": "Ampliación Escuela N° 45",
+      "source": "Constructora Andina",
+      "type": "Obra"
+    },
+    {
+      "data": {
+        "avance_%": 15,
+        "descripcion": "24 viviendas unifamiliares",
+        "estado": "PAUSADA: esperando permiso municipal",
+        "fin_previsto": "2027-08-30",
+        "inicio": "2026-06-01",
+        "ubicacion": "Malagueño"
+      },
+      "id": "obr-5",
+      "name": "Barrio Los Álamos (24 viviendas)",
+      "source": "Constructora Andina",
+      "type": "Obra"
+    },
+    {
+      "data": {
+        "etapa_actual": "Estructura del piso 5",
+        "proximo_hito": "Losa piso 6 (2026-11-20)",
+        "requiere": "Grúa torre, hormigón H-30, acero"
+      },
+      "id": "pla-6",
+      "name": "Plan Torre Alvear",
+      "source": "Constructora Andina",
+      "type": "Plan de acción"
+    },
+    {
+      "data": {
+        "etapa_actual": "Excavación para pilotes",
+        "proximo_hito": "Pilotes de la margen norte (2026-11-30)",
+        "requiere": "Excavadora, retroexcavadora, acero, vigas"
+      },
+      "id": "pla-7",
+      "name": "Plan Puente Río Suquía",
+      "source": "Constructora Andina",
+      "type": "Plan de acción"
+    },
+    {
+      "data": {
+        "etapa_actual": "Instalación eléctrica y techos",
+        "proximo_hito": "Entrega de aulas (2026-12-15)",
+        "requiere": "Andamio, generador, cable, chapa"
+      },
+      "id": "pla-8",
+      "name": "Plan Escuela N° 45",
+      "source": "Constructora Andina",
+      "type": "Plan de acción"
+    },
+    {
+      "data": {
+        "etapa_actual": "Detenido",
+        "proximo_hito": "Permiso municipal (sin fecha)",
+        "requiere": "Excavadora y ladrillos al reanudar"
+      },
+      "id": "pla-9",
+      "name": "Plan Barrio Los Álamos",
+      "source": "Constructora Andina",
+      "type": "Plan de acción"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Jefa de obra"
+      },
+      "id": "emp-10",
+      "name": "Marta Sosa",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "licencia_operador_vence": "2027-09-15",
+        "puesto": "Operador de grúa",
+        "nota": "Licencia renovada el 2026-10-29"
+      },
+      "id": "emp-11",
+      "name": "Jorge Paz",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Albañil"
+      },
+      "id": "emp-12",
+      "name": "Diego Luna",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "nota": "Dedicada 100 % a Torre Alvear",
+        "puesto": "Responsable de seguridad e higiene"
+      },
+      "id": "emp-13",
+      "name": "Paula Vera",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Ingeniera civil, jefa de obra"
+      },
+      "id": "emp-14",
+      "name": "Lucía Fernández",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "estado": "De licencia médica hasta 2026-11-20",
+        "puesto": "Soldador"
+      },
+      "id": "emp-15",
+      "name": "Sergio Ríos",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Capataz"
+      },
+      "id": "emp-16",
+      "name": "Hugo Ibarra",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Electricista matriculada"
+      },
+      "id": "emp-17",
+      "name": "Carla Méndez",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "licencia_operador_vence": "2027-05-10",
+        "puesto": "Operador de excavadora"
+      },
+      "id": "emp-18",
+      "name": "Ramiro Gómez",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "dedicacion_%": 100,
+        "puesto": "Ayudante"
+      },
+      "id": "emp-19",
+      "name": "Nicolás Ortiz",
+      "source": "RR. HH.",
+      "type": "Empleado"
+    },
+    {
+      "data": {
+        "costo_dia_$": 450000,
+        "estado": "Operativa",
+        "proximo_service": "2027-01-10"
+      },
+      "id": "máq-20",
+      "name": "Grúa torre Liebherr 132 EC",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 380000,
+        "estado": "Operativa",
+        "proximo_service": "2027-02-01"
+      },
+      "id": "máq-21",
+      "name": "Excavadora CAT 320",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 220000,
+        "estado": "EN MANTENIMIENTO hasta 2026-11-10"
+      },
+      "id": "máq-22",
+      "name": "Retroexcavadora JCB 3CX",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 60000,
+        "estado": "Operativa",
+        "unidades": 1
+      },
+      "id": "máq-23",
+      "name": "Generador 60 kVA",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 25000,
+        "estado": "Operativa"
+      },
+      "id": "máq-24",
+      "name": "Hormigonera 350 L",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 30000,
+        "estado": "Operativo"
+      },
+      "id": "máq-25",
+      "name": "Andamio tubular 200 m²",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "costo_dia_$": 40000,
+        "estado": "Operativa",
+        "nota": "Compactación de los terraplenes de acceso del Puente"
+      },
+      "id": "máq-26",
+      "name": "Compactadora vibratoria",
+      "source": "Pañol de equipos",
+      "type": "Máquina"
+    },
+    {
+      "data": {
+        "en_stock": 120,
+        "proveedor": "Hormigonera del Centro",
+        "requerido": 120,
+        "unidad": "m³",
+        "nota": "Compra de 40 m³ recibida el 2026-10-28"
+      },
+      "id": "mat-27",
+      "name": "Hormigón H-30",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 20,
+        "proveedor": "Aceros Córdoba",
+        "requerido": 18,
+        "unidad": "t"
+      },
+      "id": "mat-28",
+      "name": "Acero ADN 420",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 300,
+        "precio_$": 9800,
+        "proveedor": "Corralón Norte",
+        "requerido": 300,
+        "unidad": "bolsa",
+        "nota": "Pedido duplicado a Materiales Sur cancelado (2026-10-29)"
+      },
+      "id": "mat-29",
+      "name": "Cemento Portland 50 kg",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 25,
+        "requerido": 25,
+        "unidad": "rollo de 100 m"
+      },
+      "id": "mat-31",
+      "name": "Cable unipolar 2,5 mm²",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 450,
+        "requerido": 450,
+        "unidad": "m²"
+      },
+      "id": "mat-32",
+      "name": "Chapa trapezoidal T-101",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 8000,
+        "nota": "Trasladados desde Barrio Los Álamos (obra pausada)",
+        "requerido": 8000,
+        "unidad": "unidad"
+      },
+      "id": "mat-33",
+      "name": "Ladrillo hueco 18 cm",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "data": {
+        "en_stock": 8,
+        "requerido": 8,
+        "unidad": "unidad"
+      },
+      "id": "mat-34",
+      "name": "Vigas pretensadas 20 m",
+      "source": "Compras",
+      "type": "Material"
+    },
+    {
+      "id": "andrea",
+      "type": "Empleado",
+      "name": "Andrea Quiroga",
+      "source": "RR. HH.",
+      "data": {
+        "puesto": "Responsable de seguridad e higiene",
+        "dedicacion_%": 100
+      }
+    },
+    {
+      "id": "martin",
+      "type": "Empleado",
+      "name": "Martín Acosta",
+      "source": "RR. HH.",
+      "data": {
+        "puesto": "Responsable de seguridad e higiene",
+        "dedicacion_%": 100
+      }
+    },
+    {
+      "id": "tomas",
+      "type": "Empleado",
+      "name": "Tomás Herrera",
+      "source": "RR. HH.",
+      "data": {
+        "puesto": "Soldador",
+        "dedicacion_%": 100,
+        "nota": "Reemplaza a Sergio Ríos hasta 2026-11-20"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "sourceId": "obr-2",
+      "targetId": "emp-1",
+      "type": "obra de"
+    },
+    {
+      "sourceId": "obr-3",
+      "targetId": "emp-1",
+      "type": "obra de"
+    },
+    {
+      "sourceId": "obr-4",
+      "targetId": "emp-1",
+      "type": "obra de"
+    },
+    {
+      "sourceId": "obr-5",
+      "targetId": "emp-1",
+      "type": "obra de"
+    },
+    {
+      "sourceId": "pla-6",
+      "targetId": "obr-2",
+      "type": "plan de"
+    },
+    {
+      "sourceId": "pla-7",
+      "targetId": "obr-3",
+      "type": "plan de"
+    },
+    {
+      "sourceId": "pla-8",
+      "targetId": "obr-4",
+      "type": "plan de"
+    },
+    {
+      "sourceId": "pla-9",
+      "targetId": "obr-5",
+      "type": "plan de"
+    },
+    {
+      "sourceId": "emp-10",
+      "targetId": "obr-2",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-11",
+      "targetId": "obr-2",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-12",
+      "targetId": "obr-2",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-13",
+      "targetId": "obr-2",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-14",
+      "targetId": "obr-3",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-16",
+      "targetId": "obr-4",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-17",
+      "targetId": "obr-4",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-19",
+      "targetId": "obr-5",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-11",
+      "targetId": "máq-20",
+      "type": "opera"
+    },
+    {
+      "sourceId": "emp-18",
+      "targetId": "máq-21",
+      "type": "opera"
+    },
+    {
+      "sourceId": "máq-20",
+      "targetId": "obr-2",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "máq-23",
+      "targetId": "obr-4",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "máq-24",
+      "targetId": "obr-4",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "máq-25",
+      "targetId": "obr-4",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "pla-7",
+      "targetId": "máq-21",
+      "type": "requiere"
+    },
+    {
+      "sourceId": "pla-7",
+      "targetId": "máq-22",
+      "type": "requiere"
+    },
+    {
+      "sourceId": "pla-6",
+      "targetId": "máq-20",
+      "type": "requiere"
+    },
+    {
+      "sourceId": "mat-27",
+      "targetId": "obr-2",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-28",
+      "targetId": "obr-2",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-28",
+      "targetId": "obr-3",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-34",
+      "targetId": "obr-3",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-29",
+      "targetId": "obr-4",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-31",
+      "targetId": "obr-4",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "mat-32",
+      "targetId": "obr-4",
+      "type": "usado en"
+    },
+    {
+      "sourceId": "máq-26",
+      "targetId": "emp-1",
+      "type": "relacionado con"
+    },
+    {
+      "sourceId": "andrea",
+      "targetId": "obr-3",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "martin",
+      "targetId": "obr-4",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "emp-15",
+      "targetId": "emp-1",
+      "type": "empleado de"
+    },
+    {
+      "sourceId": "tomas",
+      "targetId": "obr-3",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "máq-21",
+      "targetId": "obr-3",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "emp-18",
+      "targetId": "obr-3",
+      "type": "asignado a"
+    },
+    {
+      "sourceId": "máq-26",
+      "targetId": "obr-3",
+      "type": "asignada a"
+    },
+    {
+      "sourceId": "mat-33",
+      "targetId": "obr-4",
+      "type": "usado en"
+    }
+  ]
+}

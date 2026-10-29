@@ -19,7 +19,6 @@ Todas las respuestas de error devuelven un objeto JSON con la estructura:
 # T33 — POST y DELETE /api/relationships (409 si duplicado o lazo)
 # Ids: el front usa "cli-1"; se traducen solo con formato.id_base()/id_front() (de Oziel).
 # (Oziel agrega T34: GET /api/entities/<id>/history)
-import json
 import math
 import sqlite3
 
@@ -27,7 +26,6 @@ from flask import Blueprint, g, jsonify, request
 
 from formato import SELECT_RELACION, a_entity, a_relationship, id_base, id_front
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo
-from historial import historial_de
 from relaciones import desrelacionar, relacionar
 try:
     from rutas_auth import requiere_login  # T30 (Oziel)
@@ -36,7 +34,6 @@ except ImportError:  # mientras Oziel no suba rutas_auth.py, se usa la copia pro
 
 bp = Blueprint("nodos", __name__)
 
-TIPOS = ("Cliente", "Producto", "Pedido")
 FUENTE_POR_DEFECTO = "Manual"  # si el front no manda "source"
 
 
@@ -48,8 +45,8 @@ def _validar_entity(datos):
     """Devuelve un mensaje de error, o None si el JSON es una Entity válida."""
     if not isinstance(datos, dict):
         return "se esperaba un objeto JSON"
-    if datos.get("type") not in TIPOS:
-        return f"type tiene que ser uno de {', '.join(TIPOS)}"
+    if not isinstance(datos.get("type"), str) or not datos["type"].strip() or len(datos["type"].strip()) > 40:
+        return "type tiene que ser un texto de 1-40 caracteres"
     if not isinstance(datos.get("name"), str) or not datos["name"].strip():
         return "name no puede estar vacío"
     data = datos.get("data", {})
@@ -122,29 +119,6 @@ def get_entity(entity_id):
     return jsonify(a_entity(fila))
 
 
-# ---- T34 (Oziel) — PROVISIONAL escrita por A (15/10) siguiendo la ficha de Oziel; Oziel la puede reemplazar ----
-@bp.get("/api/entities/<entity_id>/history")
-def get_history(entity_id):
-    """Últimos cambios (máximo 5) de una entidad, del más nuevo al más viejo.
-    - Respuesta: [{"accion", "usuario", "antes", "despues", "fecha"}] (fecha ISO; antes/despues objeto o null).
-    - Errores: 404 si la entidad no existe.
-    """
-    fila = _buscar(entity_id)
-    if fila is None:
-        return _error("entidad no encontrada", 404)
-    nombres = dict(g.conn.execute("SELECT id, nombre FROM usuarios").fetchall())
-    return jsonify([
-        {
-            "accion": c["accion"],
-            "usuario": nombres.get(c["usuario_id"]),
-            "antes": json.loads(c["antes"]) if c["antes"] else None,
-            "despues": json.loads(c["despues"]) if c["despues"] else None,
-            "fecha": c["fecha"],
-        }
-        for c in historial_de(g.conn, fila["id"])
-    ])
-
-
 # ---- T27 ----
 @bp.get("/api/relationships")
 def get_relationships():
@@ -172,7 +146,7 @@ def post_entity():
     - URL: /api/entities
     - Login: Requerido.
     - Parámetros (JSON):
-        - type (str): Tipo de entidad ("Cliente", "Producto" o "Pedido").
+        - type (str): Tipo de entidad (texto libre de 1-40 caracteres; si no existe, se crea).
         - name (str): Nombre de la entidad.
         - source (str, opcional): Origen de la entidad. Por defecto "Manual".
         - data (dict, opcional): Diccionario de atributos (texto, números).
@@ -190,7 +164,7 @@ def post_entity():
     if problema:
         return _error(problema, 400)
     nodo_id = crear_nodo(
-        g.conn, datos["type"], datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
+        g.conn, datos["type"].strip(), datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
         datos.get("data", {}), g.usuario_id,
     )
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id))), 201
@@ -230,7 +204,7 @@ def put_entity(entity_id):
     if problema:
         return _error(problema, 400)
     editar_nodo(g.conn, nodo_id, g.usuario_id,
-                nombre=datos["name"].strip(), data=datos.get("data"), tipo=datos["type"])  # sin data: no se toca
+                nombre=datos["name"].strip(), data=datos.get("data"), tipo=datos["type"].strip())  # sin data: no se toca
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id)))
 
 

@@ -1,5 +1,7 @@
 # Guía de integración — Backend Knowledge System
 
+Actualización 29/10/2026: se usan los módulos definitivos `rutas_auth.py`, `rutas_fuentes.py` y `rutas_historial.py`. Logout devuelve `204` sin cuerpo. `Source.lastSync` usa ISO o `null` si nunca se sincronizó; se formatea en el frontend. El historial tiene una única ruta, definida en `rutas_historial.py`, con IDs del frontend también en las fotos de relaciones. Las referencias a copias provisionales más abajo corresponden al estado del 15/10.
+
 Para quien conecta el front (`NickSPC/Knowledge-System`) y para quien hace el login.
 Todo lo que está acá está probado con `back/probar_a.py` y `pytest back` (fecha: 2026-10-15).
 
@@ -94,6 +96,16 @@ Ejemplo:
 curl -s -X POST localhost:5000/api/relationships -b cookies.txt \
   -H 'Content-Type: application/json' -d '{"sourceId":"cli-1","targetId":"pro-5","type":"compró"}'
 ```
+
+### Importar y vaciar (`back/rutas_importar.py`, 29/10)
+- Los `type` de las entidades son **libres** (texto de 1-40 caracteres): si el tipo no existe, se crea.
+- `POST /api/import` (login) → carga todo de un JSON, todo o nada. Ejemplo completo: `docs/ejemplo-import.json`.
+  `{replace, entities: [{id, type, name, source?, data?}], relationships: [{sourceId, targetId, type}]}`.
+  `entities[].id` es una referencia local del archivo; `sourceId`/`targetId` pueden ser esas referencias o ids
+  existentes (`cli-1`, salvo con `replace: true`). Responde 201 `{entities, relationships, ids: {local: id}}`, o 400 `{error}` sin guardar nada.
+- `DELETE /api/data` (login) → vacía nodos, relaciones, historial y fuentes (no toca usuarios). 204.
+- `DELETE /api/sources/<id>` (login) → borra la fuente con sus nodos y las conexiones de esos nodos. 204, o 404.
+- `docs/ejemplo-obras.json`: ejemplo de la presentación (4 obras de una constructora con su nodo central «Empresa», 34 nodos, 41 conexiones).
 
 ### Rutas de otras personas (ya responden con copias provisionales de A)
 Mientras falte el archivo real, `app.py` usa `<nombre>_provisional.py`; cuando Oziel suba el suyo, se usa ese solo.

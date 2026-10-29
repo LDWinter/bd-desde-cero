@@ -23,22 +23,20 @@ SELECT_NODO = """
 
 def _tipo_id(conn, tipo):
     """
-    Obtiene el ID de un tipo por su nombre.
+    Obtiene el ID de un tipo por su nombre; si no existe, lo crea.
 
     Args:
         conn (sqlite3.Connection): Conexión a la base de datos.
-        tipo (str): Nombre del tipo a buscar.
+        tipo (str): Nombre del tipo a buscar o crear.
 
     Returns:
         int: El ID del tipo.
-
-    Raises:
-        ValueError: Si el tipo no existe en la base de datos.
     """
     fila = conn.execute("SELECT id FROM tipos_nodo WHERE nombre = ?", (tipo,)).fetchone()
-    if fila is None:
-        raise ValueError(f"tipo inexistente: {tipo}")
-    return fila["id"]
+    if fila is not None:
+        return fila["id"]
+    cur = conn.execute("INSERT INTO tipos_nodo (nombre) VALUES (?)", (tipo,))
+    return cur.lastrowid
 
 
 def _fuente_id(conn, fuente):
