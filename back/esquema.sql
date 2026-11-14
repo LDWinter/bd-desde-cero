@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 -- T07 (A) nodos — Listo cuando: rechaza un JSON inválido y un tipo inexistente
 CREATE TABLE IF NOT EXISTS nodos (
-    id             INTEGER PRIMARY KEY,
+    -- AUTOINCREMENT: tras borrar una fuente no se reusa el id (el historial apuntaría a otro nodo)
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
     tipo_id        INTEGER NOT NULL REFERENCES tipos_nodo (id),
     fuente_id      INTEGER NOT NULL REFERENCES fuentes (id),
     creado_por     INTEGER REFERENCES usuarios (id),

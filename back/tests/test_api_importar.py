@@ -107,3 +107,22 @@ def test_ejemplo_obras_importa(cliente):
     res = cliente.post("/api/import", json=obras)
     assert res.status_code == 201, res.get_json()
     assert (res.get_json()["entities"], res.get_json()["relationships"]) == (34, 41)
+
+
+def test_ids_y_referencias_invalidas_no_dan_500(cliente):
+    enorme = "9" * 30  # no entra en un entero de SQLite
+    assert cliente.get(f"/api/entities/cli-{enorme}").status_code == 404
+    assert cliente.get(f"/api/entities/cli-{enorme}/history").status_code == 404
+    assert cliente.delete(f"/api/sources/{enorme}").status_code == 404
+    for ref in ([], {}, 5, None):
+        res = cliente.post("/api/import", json={"relationships": [{"sourceId": ref, "targetId": "cli-1", "type": "t"}]})
+        assert res.status_code == 400, res.get_json()
+
+
+def test_borrar_fuente_no_reusa_ids(cliente):
+    # si el id se reusara, el historial y el front apuntarían a otro nodo
+    viejo = cliente.post("/api/entities", json={"type": "Cliente", "name": "x", "source": "temporal"}).get_json()["id"]
+    fuente = {f["name"]: f["id"] for f in cliente.get("/api/sources").get_json()}["temporal"]
+    assert cliente.delete(f"/api/sources/{fuente}").status_code == 204
+    nuevo = cliente.post("/api/entities", json={"type": "Cliente", "name": "y"}).get_json()["id"]
+    assert nuevo != viejo

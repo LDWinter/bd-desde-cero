@@ -3,6 +3,11 @@
 Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
+## 2026-11-14
+- LDev — Entradas inválidas que daban 500 ahora dan 400/404: id de entidad o de fuente demasiado grande para SQLite, y `sourceId`/`targetId` que no son texto en `POST /api/import` (`back/formato.py`, `back/rutas_importar.py`, `back/tests/test_api_importar.py`; 64 tests)
+- LDev — `probar_a.py`: el caso «tipo inválido» usaba "Otro", que desde los tipos libres es válido; ahora usa un tipo vacío (`back/probar_a.py`)
+- LDev — `nodos.id` con AUTOINCREMENT: al borrar una fuente, el nodo nuevo reusaba el id y el historial de otro nodo apuntaba a él; solo aplica a bases nuevas (`back/esquema.sql`, `back/tests/test_api_importar.py`; 65 tests)
+
 ## 2026-10-29
 - LDev — Paquete para correr en cualquier PC con solo Python (Flask sirve el front compilado) y script para armarlo (`paquete/`); ejemplo de obras corregido (`docs/ejemplo-obras-corregido.json`)
 - LDev — `DELETE /api/sources/<id>` (borra la fuente con sus nodos y conexiones) y ejemplo de 4 obras para la presentación (`back/rutas_importar.py`, `back/tests/test_api_importar.py`, `docs/ejemplo-obras.json`, `docs/INTEGRACION.md`; 63 tests)

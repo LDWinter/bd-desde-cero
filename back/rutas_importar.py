@@ -63,7 +63,8 @@ def _validar(datos):
             return f"relationships[{i}]: type no puede estar vacío"
         for clave in ("sourceId", "targetId"):
             ref = r.get(clave)
-            if ref not in vistos and (not isinstance(ref, str) or _buscar(ref) is None):
+            # primero el isinstance: una lista o un objeto no se puede buscar en un set (daba 500)
+            if not isinstance(ref, str) or (ref not in vistos and _buscar(ref) is None):
                 return f"relationships[{i}]: {clave} {ref!r} no existe ni en el archivo ni en la base"
     return None
 
@@ -127,7 +128,7 @@ def vaciar_datos():
     return "", 204
 
 
-@bp.delete("/api/sources/<int:fuente_id>")
+@bp.delete("/api/sources/<int(max=9223372036854775807):fuente_id>")  # un id más grande no entra en SQLite (daba 500)
 @requiere_login
 def borrar_fuente(fuente_id):
     conn = g.conn

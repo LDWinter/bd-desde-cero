@@ -130,7 +130,7 @@ r = api.post("/api/entities", json=nueva)
 ver("T31 POST válido → 201 con la Entity", r.status_code == 201 and r.get_json()["name"] == "Vino rosado")
 id_nuevo = r.get_json()["id"]
 ver("T31 datos inválidos → 400",
-    api.post("/api/entities", json={"type": "Otro", "name": "x", "data": {}}).status_code == 400
+    api.post("/api/entities", json={"type": " ", "name": "x", "data": {}}).status_code == 400
     and api.post("/api/entities", json={"type": "Cliente", "name": " ", "data": {}}).status_code == 400
     and api.post("/api/entities", json={"type": "Cliente", "name": "x", "data": [1]}).status_code == 400)
 

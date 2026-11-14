@@ -43,7 +43,10 @@ def id_base(texto):
     _, sep, numero = str(texto).rpartition("-")
     if not sep:
         raise ValueError(f"id con formato invalido: {texto!r}")
-    return int(numero)
+    numero = int(numero)
+    if numero >= 2**63:  # SQLite no guarda enteros mas grandes: sin esto la consulta daba 500
+        raise ValueError(f"id con formato invalido: {texto!r}")
+    return numero
 
 
 def a_entity(fila):
