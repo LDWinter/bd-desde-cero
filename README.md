@@ -1,25 +1,25 @@
-# Backend Knowledge System — Base de datos desde cero
+# Knowledge System — backend
 
-Backend (SQLite + Python/Flask) para el front `NickSPC/Knowledge-System`. Trabajo en grupo: A = Lautaro, compañero: Oziel (GitHub Ozis02).
+Backend (SQLite + Python/Flask) del front Knowledge System (repositorio `NickSPC/Knowledge-System`, React + TypeScript).
+Guarda entidades de cualquier tipo, las relaciones entre ellas (un grafo), las fuentes de donde salieron y el
+historial de cambios, y lo sirve con una API HTTP/JSON.
 
 ## Estructura
 | Ruta | Qué hay |
 |---|---|
-| `TAREAS.md` | Reparto completo T01–T40 (fuente de verdad, se sube a Drive con el respaldo) |
-| `tareas/A-archivo/` | Fichas de las tareas de A, **todas terminadas** (qué, cómo, herramientas, cumplido cuando) |
-| `tareas/B/` | Tareas de Oziel (índice en `tareas/B/README.md`) |
-| `back/` | Código del backend: `esquema.sql` (SQLite), módulos Python, `tests/`, `requirements.txt` |
-| `docs/` | Diseño: DER (`der.drawio`, `der.drawio.png`) y modelo (`modelo_relacional.md`) |
-| `docs/BACKEND.md` | **Documentación completa del back**: arquitectura, decisiones, quién hizo qué, cada tabla, función, ruta y test |
-| `docs/PARA-OZIEL.md` | Lo que le falta a Oziel, en orden, con qué ya está hecho y los casos de T35 |
-| `docs/INTEGRACION.md` | **Guía para conectar el front y el login**: rutas, ids, errores, equivalencias con `api.ts` |
-| `respaldar.sh` | Sube un zip del proyecto a Drive (correr desde la raíz) |
+| `back/` | Código del backend: `esquema.sql`, módulos Python, `tests/`, `requirements.txt` |
+| `paquete/` | Versión para correr en cualquier PC con solo Python: `armar.sh` arma `KnowledgeSystem.zip` (este back + el front compilado) |
+| `docs/BACKEND.md` | Cómo está armado el back: capas, decisiones, archivos, paquete y pruebas |
+| `docs/INTEGRACION.md` | **Referencia de la API**: cada ruta con lo que recibe, lo que devuelve y sus errores |
+| `docs/modelo_relacional.md` | Las 6 tablas; diagrama en `docs/der.drawio` y `docs/der.drawio.png` |
+| `docs/ejemplo-*.json` | Archivos de ejemplo para `POST /api/import`; `docs/guion-ejemplo-obras.md` explica el de obras |
+| `respaldar.sh` | Sube un zip del proyecto a Drive (necesita `rclone` configurado) |
 
 ## Arrancar
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r back/requirements.txt
-python3 back/semilla.py back/base.db   # base con los datos de los mocks
-pytest back -q && python3 back/probar_a.py
-cd back && flask --app app run         # http://localhost:5000 (ver docs/INTEGRACION.md)
+python3 back/semilla.py back/base.db   # base con datos de ejemplo y el usuario prueba@local / prueba123
+pytest back -q && python3 back/probar_a.py   # 68 tests y "TODO OK"
+cd back && flask --app app run         # http://localhost:5000 (rutas en docs/INTEGRACION.md)
 ```
