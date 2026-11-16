@@ -4,6 +4,7 @@ Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
 ## 2026-11-16
+- LDev — Se quita del código el reparto de tareas y la autoría: números de tarea en las etiquetas de `probar_a.py` y el aviso de archivo compartido en `esquema.sql`; sin cambios de lógica (`back/probar_a.py`, `back/esquema.sql`; 68 tests)
 - LDev — Se quitan los comentarios y docstrings no indispensables (quedan los que explican un porqué); sin cambios de lógica, verificado comparando el AST (`back/*.py`, `back/tests/`, `back/*.sql`, `paquete/iniciar.py`; 68 tests)
 - LDev — Optimización: fuera el código de respaldo a las copias provisionales (ya no se usan) y comentarios viejos; aviso al arrancar si la base es anterior al AUTOINCREMENT; tipo con signos (`A/B`) ya no deja la entidad inalcanzable (el prefijo del id usa solo letras y números — **Oziel: cambia `formato._prefijo`**); `source` sin espacios al guardar; `replace` que no es booleano da 400; el paquete usa una clave de sesión propia, crea solo el usuario de prueba y responde 404 JSON en rutas `/api` inexistentes (`back/app.py`, `back/formato.py`, `back/rutas_nodos.py`, `back/rutas_importar.py`, `back/probar_a.py`, `back/tests/`, `paquete/iniciar.py`, `paquete/LEEME.txt`; 68 tests)
 

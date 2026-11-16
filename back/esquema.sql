@@ -1,4 +1,3 @@
--- Esquema SQLite (compartido: avisar a Oziel antes de tocarlo)
 -- Modelo: docs/modelo_relacional.md · Fechas en texto ISO · Las FK necesitan PRAGMA foreign_keys = ON
 -- (lo activa db.py en cada conexión; acá también, para probar con: sqlite3 prueba.db < back/esquema.sql)
 PRAGMA foreign_keys = ON;
