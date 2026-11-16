@@ -1,6 +1,3 @@
-# T18 - Tests de las funciones de nodos (codigo de A: T15 y T16).
-# Usa la fixture `conn` de conftest.py: ya trae el tipo 1 (Cliente), la fuente
-# "fuente de prueba", el usuario 1 y los nodos 1 ("Nodo uno") y 2 ("Nodo dos").
 import json
 import sqlite3
 
@@ -12,7 +9,6 @@ USUARIO = 1
 FUENTE = "fuente de prueba"
 
 
-# ---------------------------------------------------------------- crear_nodo
 def test_crear_nodo_funciona(conn):
     nodo_id = crear_nodo(conn, "Cliente", "Nuevo S.A.", FUENTE, {"ciudad": "Mendoza"}, USUARIO)
 
@@ -38,7 +34,6 @@ def test_crear_nodo_con_fuente_nueva_la_crea(conn):
     assert fila["estado"] == "ok"
 
 
-# -------------------------------------------------- reglas que pone el esquema
 def test_la_base_rechaza_un_json_invalido(conn):
     with pytest.raises(sqlite3.IntegrityError) as error:
         conn.execute(
@@ -57,7 +52,6 @@ def test_la_base_rechaza_un_tipo_inexistente(conn):
     assert "FOREIGN KEY" in str(error.value)
 
 
-# ------------------------------------------------------------- obtener_nodo
 def test_obtener_nodo_funciona(conn):
     fila = obtener_nodo(conn, 1)
     assert fila["id"] == 1
@@ -68,7 +62,6 @@ def test_obtener_nodo_inexistente_devuelve_none(conn):
     assert obtener_nodo(conn, 999) is None
 
 
-# -------------------------------------------------------------- listar_nodos
 def test_listar_nodos_funciona(conn):
     assert [f["id"] for f in listar_nodos(conn)] == [1, 2]
     assert [f["id"] for f in listar_nodos(conn, tipo="Cliente")] == [1, 2]
@@ -78,7 +71,6 @@ def test_listar_nodos_de_un_tipo_sin_nodos_devuelve_vacio(conn):
     assert listar_nodos(conn, tipo="Pedido") == []
 
 
-# --------------------------------------------------------------- editar_nodo
 def test_editar_nodo_funciona(conn):
     assert editar_nodo(conn, 1, USUARIO, nombre="Nombre nuevo", data={"a": 1}) is True
 
@@ -106,7 +98,6 @@ def test_editar_nodo_con_tipo_nuevo_crea_el_tipo(conn):
     assert obtener_nodo(conn, 1)["tipo"] == "Inventado"
 
 
-# -------------------------------------------------------------- borrar_nodo
 def test_borrar_nodo_funciona_y_es_logico(conn):
     assert borrar_nodo(conn, 1, USUARIO) is True
 

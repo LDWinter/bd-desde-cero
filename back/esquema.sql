@@ -3,14 +3,11 @@
 -- (lo activa db.py en cada conexión; acá también, para probar con: sqlite3 prueba.db < back/esquema.sql)
 PRAGMA foreign_keys = ON;
 
--- T06 (A) tipos_nodo y fuentes — Listo cuando: el script se ejecuta 2 veces sin error
--- Catálogo de tipos de nodo (EntityType del front)
 CREATE TABLE IF NOT EXISTS tipos_nodo (
     id     INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL UNIQUE
 );
 
--- Orígenes de datos (Source del front)
 -- tipo: tipo de la fuente (CRM, ERP, CSV) → Source.type; NO es FK a tipos_nodo
 -- estado: en minúscula porque el contrato es Source.status: "ok" | "error"
 -- ultima_sync: texto ISO o NULL (el CHECK rechaza fechas que SQLite no puede leer)
@@ -22,8 +19,7 @@ CREATE TABLE IF NOT EXISTS fuentes (
     ultima_sync TEXT CHECK (ultima_sync IS NULL OR datetime(ultima_sync) IS NOT NULL)
 );
 
--- T09 (Oziel) usuarios — Listo cuando: rechaza un email repetido
--- (va antes que nodos porque nodos.creado_por la referencia)
+-- usuarios va antes que nodos porque nodos.creado_por la referencia
 CREATE TABLE IF NOT EXISTS usuarios (
     id         INTEGER PRIMARY KEY,
     email      TEXT NOT NULL UNIQUE,
@@ -33,7 +29,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     creado     TEXT DEFAULT (datetime('now'))
 );
 
--- T07 (A) nodos — Listo cuando: rechaza un JSON inválido y un tipo inexistente
 CREATE TABLE IF NOT EXISTS nodos (
     -- AUTOINCREMENT: tras borrar una fuente no se reusa el id (el historial apuntaría a otro nodo)
     id             INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,7 +42,6 @@ CREATE TABLE IF NOT EXISTS nodos (
     borrado        INTEGER NOT NULL DEFAULT 0 CHECK (borrado IN (0, 1))
 );
 
--- T08 (A) relaciones — Listo cuando: rechaza duplicados y lazos
 CREATE TABLE IF NOT EXISTS relaciones (
     id         INTEGER PRIMARY KEY,
     origen_id  INTEGER NOT NULL REFERENCES nodos (id),
@@ -57,7 +51,6 @@ CREATE TABLE IF NOT EXISTS relaciones (
     CHECK (origen_id <> destino_id)
 );
 
--- T10 (Oziel) historial + índice — Listo cuando: se crea sin error
 CREATE TABLE IF NOT EXISTS historial (
     id          INTEGER PRIMARY KEY,
     nodo_id     INTEGER NOT NULL REFERENCES nodos (id),

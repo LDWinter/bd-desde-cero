@@ -1,5 +1,3 @@
-# T18 - Tests de las funciones de relaciones (codigo de A: T17).
-# Usa la fixture `conn`: nodos 1 ("Nodo uno") y 2 ("Nodo dos"), usuario 1.
 import sqlite3
 
 import pytest
@@ -14,7 +12,6 @@ def _contar(conn):
     return conn.execute("SELECT COUNT(*) FROM relaciones").fetchone()[0]
 
 
-# ----------------------------------------------------------------- relacionar
 def test_relacionar_funciona(conn):
     relacion_id = relacionar(conn, 1, 2, "conoce a", USUARIO)
 
@@ -47,7 +44,6 @@ def test_relacionar_con_un_nodo_inexistente_falla(conn):
     assert _contar(conn) == 0
 
 
-# --------------------------------------------------------------- desrelacionar
 def test_desrelacionar_funciona(conn):
     relacionar(conn, 1, 2, "conoce a", USUARIO)
     assert desrelacionar(conn, 1, 2, "conoce a", USUARIO) is True
@@ -58,7 +54,6 @@ def test_desrelacionar_algo_que_no_existe_devuelve_false(conn):
     assert desrelacionar(conn, 1, 2, "conoce a", USUARIO) is False
 
 
-# --------------------------------------------------------------------- vecinos
 def test_vecinos_funciona_de_los_dos_lados(conn):
     relacionar(conn, 1, 2, "conoce a", USUARIO)
 

@@ -1,11 +1,3 @@
-"""T28 - GET /api/sources
-
-Devuelve las fuentes como las muestra el front:
-    [{id, name, type, status, lastSync, recordCount}, ...]
-
-recordCount no se guarda: se calcula contando los nodos de cada fuente,
-sin contar los borrados (borrado = 1).
-"""
 from flask import Blueprint, g, jsonify
 
 bp = Blueprint("fuentes", __name__)
@@ -28,7 +20,7 @@ def _a_source(fila):
         "name": fila["nombre"],
         "type": fila["tipo"],
         "status": fila["estado"],
-        "lastSync": fila["ultima_sync"],  # ISO, o null si nunca se sincronizo
+        "lastSync": fila["ultima_sync"],
         "recordCount": fila["cantidad"],
     }
 

@@ -1,4 +1,3 @@
-# POST /api/import, DELETE /api/data y tipos libres
 import json
 import pathlib
 import sys

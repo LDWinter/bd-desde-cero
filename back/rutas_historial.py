@@ -1,10 +1,3 @@
-"""T34 - GET /api/entities/<id>/history
-
-Los ultimos cambios de un nodo (maximo HISTORIAL_MAX), del mas nuevo al mas viejo:
-    [{accion, usuario, antes, despues, fecha}, ...]
-
-Va en su propio archivo (y no en rutas_nodos.py) para no pisar el trabajo de A.
-"""
 import json
 
 from flask import Blueprint, abort, g, jsonify
@@ -17,7 +10,6 @@ bp = Blueprint("historial", __name__)
 
 
 def _nombres_de_usuarios(conn, ids):
-    """{id: nombre} (o el email si no tiene nombre) para los usuarios de esos cambios."""
     ids = sorted(set(ids))
     if not ids:
         return {}

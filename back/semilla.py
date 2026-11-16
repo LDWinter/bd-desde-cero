@@ -1,12 +1,4 @@
-"""T11 - Semilla con los mismos datos de los mocks del front.
-
-Uso:
-    python semilla.py base.db
-
-Borra los datos de la base y los vuelve a cargar, asi se puede correr
-las veces que haga falta. Si las tablas no existen, las crea con
-esquema.sql (que tiene que estar en la misma carpeta).
-"""
+"""Semilla con los datos de src/mocks/data.ts del front. Uso: python semilla.py base.db (borra y recarga)."""
 import sqlite3
 import sys
 from datetime import datetime
@@ -14,10 +6,6 @@ from pathlib import Path
 
 from werkzeug.security import generate_password_hash
 
-# ---------------------------------------------------------------------
-# DATOS: copiados de src/mocks/data.ts del front
-# 3 fuentes, 14 nodos (4 clientes + 4 productos + 6 pedidos), 15 relaciones
-# ---------------------------------------------------------------------
 TIPOS = ["Cliente", "Producto", "Pedido"]
 
 # (nombre, tipo, estado, ultima_sync)  -- fechas pasadas a ISO
@@ -75,7 +63,6 @@ USUARIO_PRUEBA = {
     "rol": "admin",
 }
 
-# Esperado segun el "Listo cuando" de T11
 ESPERADO = {"fuentes": 3, "nodos": 14, "relaciones": 15}
 
 # Hijas primero, para no chocar con las claves foraneas
@@ -117,7 +104,7 @@ def cargar(conn):
     )
     usuario_id = cur.lastrowid
 
-    nodo_id = {}  # id del mock -> id en la base
+    nodo_id = {}
     for id_mock, tipo, name, fuente, data in NODOS:
         cur = conn.execute(
             "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido, creado_en)"
@@ -161,7 +148,7 @@ def main():
         conn.executescript(esquema.read_text(encoding="utf-8"))
 
     try:
-        with conn:  # una sola transaccion: si algo falla, no queda nada a medias
+        with conn:
             vaciar(conn)
             cargar(conn)
     except sqlite3.Error as e:

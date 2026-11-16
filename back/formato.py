@@ -1,19 +1,8 @@
-"""T19 - Pasa filas de la base al formato JSON que espera el front.
-
-a_entity(fila)       -> {id, type, name, source, data}
-a_relationship(fila) -> {sourceId, targetId, type}
-
-La base usa ids enteros y el front usa ids de texto ("cli-1"). La regla
-para pasar de uno a otro vive solo en id_front() / id_base(), asi si el
-equipo decide otra cosa (por ejemplo una columna id_externo) se cambia aca.
-"""
+"""Filas de la base -> JSON del front. La regla de ids ('cli-1' <-> 1) vive solo aca."""
 import json
 
-# Prefijo del id del front segun el tipo de nodo
 PREFIJOS = {"Cliente": "cli", "Producto": "pro", "Pedido": "ped"}
 
-# Consulta que arma las filas que espera a_relationship (la usa GET /api/relationships):
-# cada relacion con el tipo de sus dos extremos, sin las de nodos borrados.
 SELECT_RELACION = """
     SELECT r.origen_id, t1.nombre AS origen_tipo,
            r.destino_id, t2.nombre AS destino_tipo,
@@ -51,10 +40,9 @@ def id_base(texto):
 
 
 def a_entity(fila):
-    """Fila de nodo (id, tipo, fuente, titulo, contenido) -> Entity del front."""
     return {
         "id": id_front(fila["tipo"], fila["id"]),
-        "type": fila["tipo"],  # el nombre del tipo, no su id
+        "type": fila["tipo"],
         "name": fila["titulo"],
         "source": fila["fuente"],
         "data": json.loads(fila["contenido"]),
@@ -62,7 +50,6 @@ def a_entity(fila):
 
 
 def a_relationship(fila):
-    """Fila con origen_id, origen_tipo, destino_id, destino_tipo, tipo -> Relationship."""
     return {
         "sourceId": id_front(fila["origen_tipo"], fila["origen_id"]),
         "targetId": id_front(fila["destino_tipo"], fila["destino_id"]),

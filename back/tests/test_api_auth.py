@@ -1,5 +1,3 @@
-# T36 — tests de API de las rutas de Oziel (T28 a T30, T34) con app.test_client()
-# Listo cuando: verde
 import pathlib
 import sys
 
@@ -13,7 +11,6 @@ from app import crear_app  # noqa: E402
 
 @pytest.fixture
 def cliente():
-    """App con base en memoria cargada con la semilla (datos del mock del front)."""
     app = crear_app(":memory:")
     semilla.cargar(app.config["CONN"])
     return app.test_client()
@@ -38,28 +35,23 @@ def test_login_clave_mala(cliente):
 
 
 def test_auth_me_flow(cliente):
-    # No login
     res1 = cliente.get("/api/auth/me")
     assert res1.status_code == 401
 
-    # Login
     res2 = cliente.post("/api/auth/login", json={
         "email": semilla.USUARIO_PRUEBA["email"],
         "password": semilla.USUARIO_PRUEBA["clave"]
     })
     assert res2.status_code == 200
 
-    # GET /api/auth/me
     res3 = cliente.get("/api/auth/me")
     assert res3.status_code == 200
     data = res3.get_json()
     assert data["email"] == semilla.USUARIO_PRUEBA["email"]
 
-    # Logout
     res4 = cliente.post("/api/auth/logout")
     assert res4.status_code == 204
 
-    # GET /api/auth/me again
     res5 = cliente.get("/api/auth/me")
     assert res5.status_code == 401
 
@@ -86,7 +78,6 @@ def test_get_sources(cliente):
         "Tablero Proyectos": 0
     }
 
-    # Verify each source has the correct keys and recordCount
     source_map = {s["name"]: s for s in data}
     for name, count in expected_counts.items():
         assert name in source_map
@@ -116,13 +107,11 @@ def test_historial_usa_ruta_definitiva_e_ids_del_front(cliente):
 
 
 def test_historial_flow(cliente):
-    # Login
     cliente.post("/api/auth/login", json={
         "email": semilla.USUARIO_PRUEBA["email"],
         "password": semilla.USUARIO_PRUEBA["clave"]
     })
 
-    # 6 PUTs
     for n in range(1, 7):
         response = cliente.put("/api/entities/cli-1", json={
             "type": "Cliente",
@@ -131,7 +120,6 @@ def test_historial_flow(cliente):
         })
         assert response.status_code == 200
 
-    # GET history
     response = cliente.get("/api/entities/cli-1/history")
     assert response.status_code == 200
     data = response.get_json()
@@ -140,7 +128,7 @@ def test_historial_flow(cliente):
     for item in data:
         assert set(item.keys()) == {"accion", "usuario", "antes", "despues", "fecha"}
 
-    assert data[0]["despues"]["name"] == "Nombre 6"  # el más nuevo primero
+    assert data[0]["despues"]["name"] == "Nombre 6"
     fechas = [item["fecha"] for item in data]
     assert fechas == sorted(fechas, reverse=True)
 
@@ -149,8 +137,6 @@ def test_get_history_not_found(cliente):
     response = cliente.get("/api/entities/cli-99/history")
     assert response.status_code == 404
 
-
-# ---- Regresiones de rutas_nodos.py encontradas en el análisis del 15/10 (los tests completos son T35) ----
 
 def _login(cliente):
     cliente.post("/api/auth/login", json={

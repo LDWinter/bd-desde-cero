@@ -1,11 +1,4 @@
-"""Prueba manual de las tareas de A (T13 a T32) sobre una base nueva con la semilla.
-
-Uso (desde la raíz del proyecto, con el entorno virtual activado):
-    python3 back/probar_a.py
-
-Crea una base temporal, carga la semilla, prueba las funciones y las rutas, y la borra al final.
-Cada línea dice OK o FALLA; termina con un resumen.
-"""
+"""Prueba de punta a punta sobre una base temporal con la semilla. Uso: python3 back/probar_a.py"""
 import os
 import shutil
 import sqlite3
@@ -41,7 +34,6 @@ def lanza(funcion, error=sqlite3.IntegrityError):
 tmp = tempfile.mkdtemp()
 ruta = os.path.join(tmp, "prueba.db")
 
-# ---- T13 ----
 c = conectar(":memory:")
 crear_esquema(c)
 crear_esquema(c)  # dos veces sin error
@@ -51,22 +43,19 @@ ver("T13 crear_esquema crea las 6 tablas",
 ver("T13 FK activas (un tipo inexistente falla)",
     lanza(lambda: c.execute("INSERT INTO nodos (tipo_id, fuente_id, titulo) VALUES (99, 99, 'x')")))
 
-# semilla en una base de archivo (3 fuentes, 14 nodos, 15 relaciones, usuario 1 = prueba@local)
 subprocess.run([sys.executable, str(AQUI / "semilla.py"), ruta], check=True, stdout=subprocess.DEVNULL)
 conn = conectar(ruta)
 
-from historial import historial_de  # noqa: E402  (T20, Oziel)
+from historial import historial_de  # noqa: E402
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo  # noqa: E402
 from relaciones import desrelacionar, relacionar, vecinos  # noqa: E402
 
-# ---- T15 ----
 nuevo = crear_nodo(conn, "Cliente", "Prueba SRL", "clientes_2025.xlsx", {"ciudad": "Salta"}, 1)
 fila = obtener_nodo(conn, nuevo)
 ver("T15 crear_nodo + obtener_nodo devuelve lo mismo",
     fila["titulo"] == "Prueba SRL" and fila["tipo"] == "Cliente" and '"Salta"' in fila["contenido"])
 ver("T15 id inexistente → None", obtener_nodo(conn, 9999) is None)
 
-# ---- T16 ----
 ver("T16 listar_nodos() = 15 (14 de la semilla + 1)", len(listar_nodos(conn)) == 15)
 ver("T16 listar_nodos('Cliente') = 5", len(listar_nodos(conn, "Cliente")) == 5)
 ver("T16 editar_nodo cambia el nombre",
@@ -78,14 +67,12 @@ ver("T16 borrado: no aparece en obtener ni en listar",
 ver("T16 borrado lógico: la fila sigue con borrado = 1",
     conn.execute("SELECT borrado FROM nodos WHERE id = ?", (nuevo,)).fetchone()[0] == 1)
 
-# ---- T17 ----
 ver("T17 vecinos(2) = pedidos 10 y 11", [f["vecino_id"] for f in vecinos(conn, 2)] == [10, 11])
 relacionar(conn, 1, 2, "conoce a", 1)
 ver("T17 relacionar agrega el vecino", 2 in [f["vecino_id"] for f in vecinos(conn, 1)])
 ver("T17 relación duplicada → IntegrityError", lanza(lambda: relacionar(conn, 1, 2, "conoce a", 1)))
 ver("T17 lazo → IntegrityError", lanza(lambda: relacionar(conn, 1, 1, "conoce a", 1)))
 
-# ---- T22 / T22b ----
 editar_nodo(conn, 3, 1, data={"email": "info@dcuyo.com", "ciudad": "Mendoza"})
 h = historial_de(conn, 3)[0]
 ver("T22 editar deja 'antes' y 'después'",
@@ -99,7 +86,6 @@ ver("T22b desrelacionar también queda en ambos",
     historial_de(conn, 1)[0]["accion"] == "desrelacionar" and historial_de(conn, 2)[0]["accion"] == "desrelacionar")
 conn.close()
 
-# ---- T26 a T32: la API con el cliente de prueba de Flask ----
 from app import crear_app  # noqa: E402
 
 api = crear_app(ruta).test_client()

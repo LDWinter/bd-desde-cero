@@ -1,18 +1,4 @@
-"""POST /api/import y DELETE /api/data
-
-POST /api/import (login) carga entidades y relaciones desde un JSON:
-    {"replace": false,
-     "entities": [{"id": "ana", "type": "Persona", "name": "Ana", "source": "Importado", "data": {...}}],
-     "relationships": [{"sourceId": "ana", "targetId": "pro-3", "type": "trabaja en"}]}
-- entities[].id es una referencia LOCAL del archivo (única dentro del archivo).
-- sourceId/targetId: primero se buscan entre los ids locales; si no, se toman como id del front de un nodo existente.
-- replace: true vacía los datos antes de importar.
-- Todo o nada: ante cualquier error responde 400 {"error": ...} y no guarda nada.
-- Respuesta 201: {"entities": n, "relationships": n, "ids": {id_local: id_front}}
-
-DELETE /api/data (login) vacía historial, relaciones, nodos y fuentes (no toca usuarios ni tipos). 204.
-DELETE /api/sources/<id> (login) borra una fuente con sus nodos y las conexiones de esos nodos. 204, o 404.
-"""
+"""Importar un JSON (todo o nada; entities[].id es una referencia local del archivo), vaciar datos y borrar fuentes."""
 import json
 import sqlite3
 
@@ -37,7 +23,6 @@ def _vaciar(conn):
 
 
 def _validar(datos):
-    """Revisa el archivo entero antes de tocar la base. Devuelve un mensaje de error o None."""
     if not isinstance(datos, dict):
         return "se esperaba un objeto JSON"
     if not isinstance(datos.get("replace", False), bool):  # "true" (texto) se tomaba como false, sin avisar
@@ -86,7 +71,7 @@ def importar():
                 return jsonify({"error": f"relationships[{i}]: con replace solo se puede unir entidades del archivo"}), 400
 
     conn = g.conn
-    ids = {}  # id local -> id de la base
+    ids = {}
     try:
         # Una sola transacción (no se usan crear_nodo/relacionar porque cada una hace su propio commit).
         with conn:
@@ -106,7 +91,7 @@ def importar():
                 try:
                     conn.execute("INSERT INTO relaciones (origen_id, destino_id, tipo) VALUES (?, ?, ?)",
                                  (origen, destino, tipo))
-                except sqlite3.IntegrityError:  # UNIQUE(origen, destino, tipo) o CHECK(origen <> destino)
+                except sqlite3.IntegrityError:
                     raise ValueError(f"relationships[{i}]: la relación ya existe o une un nodo consigo mismo")
                 foto = _foto_relacion(origen, destino, tipo)
                 registrar(conn, origen, g.usuario_id, "relacionar", None, foto)

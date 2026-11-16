@@ -1,4 +1,3 @@
-# T14 - Fixture `conn`: una base en memoria, con el esquema y datos minimos.
 import sys
 from pathlib import Path
 
@@ -14,18 +13,11 @@ AHORA = "2026-10-11T10:00:00"
 
 @pytest.fixture
 def conn():
-    """Base en memoria nueva para cada test.
-
-    Datos minimos, con ids fijos para que los tests sean predecibles:
-      tipos_nodo: 1 = Cliente
-      fuentes:    1 = fuente de prueba
-      usuarios:   1 = prueba@local
-      nodos:      1 y 2 (los dos de tipo Cliente, fuente 1, creados por el usuario 1)
-    """
+    """Base en memoria nueva por test, con ids fijos: tipo 1, fuente 1, usuario 1 y nodos 1 y 2."""
     conn = conectar(":memory:")
     crear_esquema(conn)
 
-    with conn:  # confirma todo junto (commit) al salir
+    with conn:
         conn.execute("INSERT INTO tipos_nodo (id, nombre) VALUES (1, 'Cliente')")
         conn.execute(
             "INSERT INTO fuentes (id, nombre, tipo, estado, ultima_sync)"

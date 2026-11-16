@@ -1,9 +1,4 @@
-"""Knowledge System en una sola carpeta: el back (Flask) sirve también el front compilado (web/).
-
-Uso: python iniciar.py   (lo llaman «Iniciar (Windows).bat» e «iniciar.sh»)
-Abre http://127.0.0.1:5001 en el navegador. Usuario: prueba@local / clave: prueba123
-La base queda en datos/base.db; para empezar de cero, borrar esa carpeta.
-"""
+"""El back (Flask) sirve también el front compilado (web/). La base queda en datos/base.db."""
 import os
 import secrets
 import sys
@@ -32,7 +27,7 @@ BASE.parent.mkdir(exist_ok=True)
 if not CLAVE.exists():
     CLAVE.write_text(secrets.token_hex(32))
 os.environ.setdefault("SECRET_KEY", CLAVE.read_text().strip())
-app = crear_app(str(BASE))  # crea las tablas si la base es nueva
+app = crear_app(str(BASE))
 
 if es_nueva:
     # Solo el usuario de prueba: los datos se cargan desde Fuentes → Importar JSON

@@ -1,5 +1,3 @@
-# T24 — tope de 5 por nodo, los 5 tipos de cambio y rollback
-# Listo cuando: pytest en verde
 import sqlite3
 
 import pytest
@@ -14,7 +12,6 @@ def cantidad(conn, nodo_id):
     return conn.execute("SELECT COUNT(*) FROM historial WHERE nodo_id = ?", (nodo_id,)).fetchone()[0]
 
 
-# ---- registrar / historial_de ----
 def test_registrar_y_leer(conn):
     with conn:
         registrar(conn, 1, 1, "editar", {"name": "viejo"}, {"name": "nuevo"})
@@ -36,7 +33,6 @@ def test_historial_del_mas_nuevo_al_mas_viejo(conn):
     assert [c["despues"] for c in historial_de(conn, 1)] == ['{"vuelta": 2}', '{"vuelta": 1}', '{"vuelta": 0}']
 
 
-# ---- purga: tope de 5 por nodo ----
 def test_tope_de_5_por_nodo_sin_tocar_otros(conn):
     with conn:
         for i in range(8):
@@ -51,7 +47,6 @@ def test_tope_de_5_por_nodo_sin_tocar_otros(conn):
     assert historial_de(conn, 1)[-1]["despues"] == '{"vuelta": 3}'
 
 
-# ---- los 5 tipos de cambio (T22 y T22b) ----
 def test_crear_editar_borrar_quedan_en_el_historial(conn):
     nodo = crear_nodo(conn, "Cliente", "Nuevo", "Base ventas", {"ciudad": "Rosario"}, 1)
     editar_nodo(conn, nodo, 1, nombre="Nuevo SRL")
@@ -69,7 +64,6 @@ def test_relacionar_y_desrelacionar_en_los_dos_nodos(conn):
         assert [c["accion"] for c in historial_de(conn, nodo)] == ["desrelacionar", "relacionar"]
 
 
-# ---- rollback: si algo falla a mitad, no queda nada ----
 def test_rollback_si_falla_registrar_al_crear(conn, monkeypatch):
     import nodos
 

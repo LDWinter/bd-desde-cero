@@ -1,8 +1,4 @@
-"""T23 - Alta de usuarios y verificacion de clave.
-
-La clave nunca se guarda ni se devuelve en texto plano: en la base queda
-solo el hash que genera werkzeug (hash_clave).
-"""
+"""La clave nunca se guarda ni se devuelve en texto plano: solo el hash de werkzeug."""
 from datetime import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -17,16 +13,12 @@ def _normalizar(email):
 
 
 def registrar_usuario(conn, email, nombre, clave, rol="editor"):
-    """Da de alta un usuario con la clave hasheada. Devuelve su id.
-
-    Levanta ValueError si la clave esta vacia o el rol no existe, y
-    sqlite3.IntegrityError si el email ya esta registrado (lo controla el esquema).
-    """
+    """Levanta ValueError (clave vacia o rol invalido) o sqlite3.IntegrityError (email repetido)."""
     if not clave:
         raise ValueError("la clave no puede estar vacia")
     if rol not in ROLES:
         raise ValueError(f"rol invalido: {rol!r} (debe ser uno de {ROLES})")
-    with conn:  # transaccion propia: se confirma sola al salir
+    with conn:
         cur = conn.execute(
             "INSERT INTO usuarios (email, nombre, hash_clave, rol, creado) VALUES (?, ?, ?, ?, ?)",
             (
@@ -41,11 +33,7 @@ def registrar_usuario(conn, email, nombre, clave, rol="editor"):
 
 
 def verificar_clave(conn, email, clave):
-    """Si el email existe y la clave es correcta, devuelve el usuario; si no, None.
-
-    El usuario es un diccionario {id, email, nombre, rol}: nunca incluye la clave
-    ni su hash.
-    """
+    """El usuario {id, email, nombre, rol} si la clave es correcta; si no, None."""
     fila = conn.execute(
         "SELECT id, email, nombre, rol, hash_clave FROM usuarios WHERE email = ?",
         (_normalizar(email),),
@@ -61,7 +49,6 @@ def verificar_clave(conn, email, clave):
 
 
 def obtener_usuario(conn, usuario_id):
-    """El usuario con ese id como {id, email, nombre, rol} (sin hash), o None si no existe."""
     fila = conn.execute(
         "SELECT id, email, nombre, rol FROM usuarios WHERE id = ?", (usuario_id,)
     ).fetchone()

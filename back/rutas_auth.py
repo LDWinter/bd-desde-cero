@@ -1,20 +1,4 @@
-"""T29 y T30 - Sesion con cookie y proteccion de rutas.
-
-POST /api/auth/login    {email, password}  -> el usuario, o 401
-POST /api/auth/logout                      -> cierra la sesion
-GET  /api/auth/me                          -> el usuario logueado, o 401
-
-El usuario siempre sale como {id, email, nombre, rol}: nunca la clave ni su hash.
-
-Para proteger una ruta (el decorador va DEBAJO de @bp.route):
-
-    from rutas_auth import requiere_login
-
-    @bp.route("/api/entities", methods=["POST"])
-    @requiere_login
-    def crear():
-        ...  # g.usuario_id es el id del usuario logueado
-"""
+"""Sesion con cookie. Para proteger una ruta: @requiere_login DEBAJO de @bp.route."""
 from functools import wraps
 
 from flask import Blueprint, g, jsonify, request, session
@@ -27,10 +11,7 @@ MENSAJE_NO_AUTENTICADO = "no autenticado"
 
 
 def _usuario_de_la_sesion():
-    """El usuario logueado ({id, email, nombre, rol}) o None.
-
-    Si la cookie apunta a un usuario que ya no existe, se limpia la sesion.
-    """
+    """Si la cookie apunta a un usuario que ya no existe, se limpia la sesion."""
     usuario_id = session.get("usuario_id")
     usuario = obtener_usuario(g.conn, usuario_id) if usuario_id is not None else None
     if usuario is None:
@@ -39,8 +20,7 @@ def _usuario_de_la_sesion():
 
 
 def requiere_login(vista):
-    """Decorador: sin sesion valida responde 401; con sesion, deja el usuario en
-    g.usuario_id (su id, para anotar el historial) y g.usuario (el diccionario completo)."""
+    """Sin sesion valida responde 401; con sesion deja g.usuario_id y g.usuario."""
 
     @wraps(vista)
     def envoltura(*args, **kwargs):

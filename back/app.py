@@ -1,11 +1,4 @@
-"""T25 - Base de la aplicacion Flask (patron factory).
-
-Aca se enchufan todas las rutas. Cada archivo de MODULOS_DE_RUTAS tiene que
-exponer un Blueprint llamado `bp`.
-
-Levantar:      flask --app app run          (desde la carpeta back/)
-En los tests:  app = crear_app(":memory:")
-"""
+"""Fabrica de la aplicacion Flask. Levantar: flask --app app run (desde back/)."""
 import os
 from importlib import import_module
 
@@ -14,10 +7,8 @@ from werkzeug.exceptions import HTTPException
 
 from db import conectar, crear_esquema
 
-# Archivos de rutas que se enchufan (cada uno expone `bp`)
 MODULOS_DE_RUTAS = ("rutas_nodos", "rutas_fuentes", "rutas_auth", "rutas_historial", "rutas_importar")
 
-# Mensajes por defecto en espanol; si una ruta hace abort(409, "texto"), se usa ese texto
 MENSAJES = {
     400: "Solicitud invalida",
     401: "Hace falta iniciar sesion",
@@ -31,8 +22,7 @@ MENSAJES = {
 
 
 def _avisar_si_es_base_vieja(app, conn):
-    """Una base creada antes del AUTOINCREMENT de nodos.id no lo recibe (CREATE IF NOT EXISTS):
-    ahi, tras borrar una fuente, un nodo nuevo reusa el id y hereda historial ajeno."""
+    """Sin AUTOINCREMENT en nodos.id, tras borrar una fuente un nodo nuevo reusa el id y hereda historial ajeno."""
     sql = conn.execute("SELECT sql FROM sqlite_master WHERE name = 'nodos'").fetchone()[0]
     if "AUTOINCREMENT" not in sql.upper():
         app.logger.warning(
@@ -50,7 +40,7 @@ def crear_app(ruta_db="base.db"):
     # (los tests) todos los requests comparten una sola conexion, que queda en
     # app.config["CONN"] para que el test pueda cargarle datos.
     conn = conectar(ruta_db)
-    crear_esquema(conn)  # si la base es nueva, crea las tablas
+    crear_esquema(conn)
     _avisar_si_es_base_vieja(app, conn)
     if ruta_db == ":memory:":
         app.config["CONN"] = conn
