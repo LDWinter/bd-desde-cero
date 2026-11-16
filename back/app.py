@@ -1,7 +1,7 @@
 """T25 - Base de la aplicacion Flask (patron factory).
 
-Aca se enchufan todas las rutas. Cada archivo de rutas (rutas_nodos.py,
-rutas_fuentes.py, rutas_auth.py) tiene que exponer un Blueprint llamado `bp`.
+Aca se enchufan todas las rutas. Cada archivo de MODULOS_DE_RUTAS tiene que
+exponer un Blueprint llamado `bp`.
 
 Levantar:      flask --app app run          (desde la carpeta back/)
 En los tests:  app = crear_app(":memory:")
@@ -30,18 +30,14 @@ MENSAJES = {
 }
 
 
-def _registrar_rutas(app):
-    for nombre in MODULOS_DE_RUTAS:
-        try:
-            modulo = import_module(nombre)
-        except ModuleNotFoundError as e:
-            if e.name != nombre:
-                raise  # falla un import DENTRO del modulo: no hay que taparlo
-            # Todavia no existe (T26, T28 y T29). Cuando esten las tres, conviene
-            # sacar este try/except para que un archivo mal nombrado de error.
-            app.logger.warning("Todavia no existe %s.py: sus rutas no se registran", nombre)
-            continue
-        app.register_blueprint(modulo.bp)
+def _avisar_si_es_base_vieja(app, conn):
+    """Una base creada antes del AUTOINCREMENT de nodos.id no lo recibe (CREATE IF NOT EXISTS):
+    ahi, tras borrar una fuente, un nodo nuevo reusa el id y hereda historial ajeno."""
+    sql = conn.execute("SELECT sql FROM sqlite_master WHERE name = 'nodos'").fetchone()[0]
+    if "AUTOINCREMENT" not in sql.upper():
+        app.logger.warning(
+            "La base %s es de una version anterior (nodos.id sin AUTOINCREMENT): "
+            "conviene exportar los datos, borrarla y volver a importarlos.", app.config["RUTA_DB"])
 
 
 def crear_app(ruta_db="base.db"):
@@ -53,12 +49,12 @@ def crear_app(ruta_db="base.db"):
     # Una base en memoria desaparece al cerrar su conexion, asi que en ese caso
     # (los tests) todos los requests comparten una sola conexion, que queda en
     # app.config["CONN"] para que el test pueda cargarle datos.
+    conn = conectar(ruta_db)
+    crear_esquema(conn)  # si la base es nueva, crea las tablas
+    _avisar_si_es_base_vieja(app, conn)
     if ruta_db == ":memory:":
-        app.config["CONN"] = conectar(ruta_db)
-        crear_esquema(app.config["CONN"])
+        app.config["CONN"] = conn
     else:
-        conn = conectar(ruta_db)
-        crear_esquema(conn)  # si la base es nueva, crea las tablas
         conn.close()
 
     @app.before_request
@@ -76,7 +72,8 @@ def crear_app(ruta_db="base.db"):
         mensaje = MENSAJES.get(e.code, e.name) if e.description == type(e).description else e.description
         return jsonify({"error": mensaje}), e.code
 
-    _registrar_rutas(app)
+    for nombre in MODULOS_DE_RUTAS:
+        app.register_blueprint(import_module(nombre).bp)
     return app
 
 

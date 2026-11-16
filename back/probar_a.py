@@ -7,6 +7,7 @@ Crea una base temporal, carga la semilla, prueba las funciones y las rutas, y la
 Cada línea dice OK o FALLA; termina con un resumen.
 """
 import os
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -99,14 +100,9 @@ ver("T22b desrelacionar también queda en ambos",
 conn.close()
 
 # ---- T26 a T32: la API con el cliente de prueba de Flask ----
-os.environ["DB"] = ruta
-from app import crear_app  # T25 (Oziel)
+from app import crear_app  # noqa: E402
 
-app = crear_app(ruta)
-if "auth.login" not in app.view_functions:  # el login (T29/T30) lo hace otra compañera: mientras, la copia provisional
-    from back.Revisar.rutas_auth_provisional import bp as bp_auth
-    app.register_blueprint(bp_auth)
-api = app.test_client()
+api = crear_app(ruta).test_client()
 
 r = api.get("/api/entities")
 ver("T26 GET /api/entities = 14 entidades", r.status_code == 200 and len(r.get_json()) == 14)
@@ -156,6 +152,7 @@ conn = conectar(ruta)
 acciones = [f["accion"] for f in historial_de(conn, id_base(id_nuevo))]
 ver("T31/T32 crear, editar y borrar quedan en el historial", acciones == ["borrar", "editar", "editar", "crear"])
 conn.close()
+shutil.rmtree(tmp)
 
 print()
 print("TODO OK" if fallas == 0 else f"{fallas} FALLA(S)")

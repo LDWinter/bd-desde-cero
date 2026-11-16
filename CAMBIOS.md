@@ -3,6 +3,9 @@
 Todo lo que se va modificando en el proyecto, lo más nuevo arriba.
 Formato: `fecha — quién — qué cambió (archivos)`. Se agrega una línea por cada commit.
 
+## 2026-11-16
+- LDev — Optimización: fuera el código de respaldo a las copias provisionales (ya no se usan) y comentarios viejos; aviso al arrancar si la base es anterior al AUTOINCREMENT; tipo con signos (`A/B`) ya no deja la entidad inalcanzable (el prefijo del id usa solo letras y números — **Oziel: cambia `formato._prefijo`**); `source` sin espacios al guardar; `replace` que no es booleano da 400; el paquete usa una clave de sesión propia, crea solo el usuario de prueba y responde 404 JSON en rutas `/api` inexistentes (`back/app.py`, `back/formato.py`, `back/rutas_nodos.py`, `back/rutas_importar.py`, `back/probar_a.py`, `back/tests/`, `paquete/iniciar.py`, `paquete/LEEME.txt`; 68 tests)
+
 ## 2026-11-14
 - LDev — Entradas inválidas que daban 500 ahora dan 400/404: id de entidad o de fuente demasiado grande para SQLite, y `sourceId`/`targetId` que no son texto en `POST /api/import` (`back/formato.py`, `back/rutas_importar.py`, `back/tests/test_api_importar.py`; 64 tests)
 - LDev — `probar_a.py`: el caso «tipo inválido» usaba "Otro", que desde los tipos libres es válido; ahora usa un tipo vacío (`back/probar_a.py`)

@@ -1,6 +1,5 @@
 # T36 — tests de API de las rutas de Oziel (T28 a T30, T34) con app.test_client()
 # Listo cuando: verde
-# Mientras Oziel no suba sus archivos, prueban las copias provisionales (rutas_*_provisional.py)
 import pathlib
 import sys
 

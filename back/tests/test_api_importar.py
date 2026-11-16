@@ -126,3 +126,30 @@ def test_borrar_fuente_no_reusa_ids(cliente):
     assert cliente.delete(f"/api/sources/{fuente}").status_code == 204
     nuevo = cliente.post("/api/entities", json={"type": "Cliente", "name": "y"}).get_json()["id"]
     assert nuevo != viejo
+
+
+def test_tipo_con_signos_se_puede_pedir_por_id(cliente):
+    # "A/B" daba el id "a/b-1": imposible de pedir por URL
+    entidad = cliente.post("/api/entities", json={"type": "A/B", "name": "x"}).get_json()
+    assert entidad["id"].startswith("ab-")
+    assert cliente.get(f"/api/entities/{entidad['id']}").get_json() == entidad
+
+
+def test_source_sin_espacios_y_replace_solo_booleano(cliente):
+    res = cliente.post("/api/entities", json={"type": "Cliente", "name": "x", "source": " Base ventas "})
+    assert res.get_json()["source"] == "Base ventas"  # antes creaba otra fuente, " Base ventas "
+    res = cliente.post("/api/import", json={"replace": "true", "entities": [{"id": "a", "type": "T", "name": "A"}]})
+    assert res.status_code == 400
+
+
+def test_base_sin_autoincrement_avisa_al_arrancar(tmp_path, caplog):
+    from db import ESQUEMA, conectar
+    ruta = str(tmp_path / "vieja.db")
+    conn = conectar(ruta)
+    conn.executescript(ESQUEMA.read_text(encoding="utf-8").replace("AUTOINCREMENT", ""))
+    conn.close()
+    crear_app(ruta)
+    assert "AUTOINCREMENT" in caplog.text
+    caplog.clear()
+    crear_app(str(tmp_path / "nueva.db"))
+    assert "AUTOINCREMENT" not in caplog.text

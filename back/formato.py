@@ -12,8 +12,8 @@ import json
 # Prefijo del id del front segun el tipo de nodo
 PREFIJOS = {"Cliente": "cli", "Producto": "pro", "Pedido": "ped"}
 
-# Consulta que arma las filas que espera a_relationship (para usar en T27).
-# Igual que listar_relaciones de relaciones.py, pero agregando el tipo de cada extremo.
+# Consulta que arma las filas que espera a_relationship (la usa GET /api/relationships):
+# cada relacion con el tipo de sus dos extremos, sin las de nodos borrados.
 SELECT_RELACION = """
     SELECT r.origen_id, t1.nombre AS origen_tipo,
            r.destino_id, t2.nombre AS destino_tipo,
@@ -29,8 +29,9 @@ SELECT_RELACION = """
 
 
 def _prefijo(tipo):
-    # Si aparece un tipo nuevo, se usan sus 3 primeras letras
-    return PREFIJOS.get(tipo, tipo[:3].lower())
+    # Tipo nuevo: sus 3 primeras letras o numeros. Los signos se saltean: el tipo "A/B"
+    # daba el id "a/b-1", que no se puede pedir por URL (la entidad quedaba inalcanzable).
+    return PREFIJOS.get(tipo) or "".join(c for c in tipo if c.isalnum())[:3].lower() or "nod"
 
 
 def id_front(tipo, nodo_id):

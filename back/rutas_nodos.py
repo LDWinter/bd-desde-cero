@@ -1,10 +1,8 @@
 """
 Este módulo define las rutas de la API para la gestión de nodos (entidades) y relaciones en el sistema.
 
-Los IDs utilizados por el front-end siguen el formato '<prefijo>-<id_de_la_base>', donde:
-- 'cli' corresponde a Clientes.
-- 'pro' corresponde a Productos.
-- 'ped' corresponde a Pedidos.
+Los IDs utilizados por el front-end siguen el formato '<prefijo>-<id_de_la_base>'
+('cli-1', 'pro-5', 'ped-9'; un tipo nuevo usa sus 3 primeras letras o números).
 
 La conversión entre el ID del front y el ID de la base de datos se realiza mediante
 las funciones `formato.id_base()` y `formato.id_front()`.
@@ -17,8 +15,7 @@ Todas las respuestas de error devuelven un objeto JSON con la estructura:
 # T31 — POST /api/entities (valida tipo, name, data; 201 con la Entity)
 # T32 — PUT y DELETE /api/entities/<id> (404 si no existe)
 # T33 — POST y DELETE /api/relationships (409 si duplicado o lazo)
-# Ids: el front usa "cli-1"; se traducen solo con formato.id_base()/id_front() (de Oziel).
-# (Oziel agrega T34: GET /api/entities/<id>/history)
+# (T34, GET /api/entities/<id>/history, está en rutas_historial.py)
 import math
 import sqlite3
 
@@ -27,10 +24,7 @@ from flask import Blueprint, g, jsonify, request
 from formato import SELECT_RELACION, a_entity, a_relationship, id_base, id_front
 from nodos import borrar_nodo, crear_nodo, editar_nodo, listar_nodos, obtener_nodo
 from relaciones import desrelacionar, relacionar
-try:
-    from rutas_auth import requiere_login  # T30 (Oziel)
-except ImportError:  # mientras Oziel no suba rutas_auth.py, se usa la copia provisional
-    from back.Revisar.rutas_auth_provisional import requiere_login
+from rutas_auth import requiere_login
 
 bp = Blueprint("nodos", __name__)
 
@@ -164,7 +158,7 @@ def post_entity():
     if problema:
         return _error(problema, 400)
     nodo_id = crear_nodo(
-        g.conn, datos["type"].strip(), datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO),
+        g.conn, datos["type"].strip(), datos["name"].strip(), datos.get("source", FUENTE_POR_DEFECTO).strip(),
         datos.get("data", {}), g.usuario_id,
     )
     return jsonify(a_entity(obtener_nodo(g.conn, nodo_id))), 201

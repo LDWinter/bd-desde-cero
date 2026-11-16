@@ -40,6 +40,8 @@ def _validar(datos):
     """Revisa el archivo entero antes de tocar la base. Devuelve un mensaje de error o None."""
     if not isinstance(datos, dict):
         return "se esperaba un objeto JSON"
+    if not isinstance(datos.get("replace", False), bool):  # "true" (texto) se tomaba como false, sin avisar
+        return "replace tiene que ser true o false"
     entidades = datos.get("entities", [])
     relaciones = datos.get("relationships", [])
     if not isinstance(entidades, list) or not isinstance(relaciones, list):
@@ -73,12 +75,11 @@ def _validar(datos):
 @requiere_login
 def importar():
     datos = request.get_json(silent=True)
-    reemplazar = isinstance(datos, dict) and datos.get("replace") is True
-    # Con replace, las referencias a nodos existentes desaparecen: solo valen los ids del archivo.
     problema = _validar(datos)
     if problema:
         return jsonify({"error": problema}), 400
-    if reemplazar:
+    reemplazar = datos.get("replace", False)
+    if reemplazar:  # las referencias a nodos existentes desaparecen: solo valen los ids del archivo
         locales = {e["id"] for e in datos.get("entities", [])}
         for i, r in enumerate(datos.get("relationships", [])):
             if r["sourceId"] not in locales or r["targetId"] not in locales:
@@ -94,7 +95,7 @@ def importar():
             for e in datos.get("entities", []):
                 cur = conn.execute(
                     "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido) VALUES (?, ?, ?, ?, ?)",
-                    (_tipo_id(conn, e["type"].strip()), _fuente_id(conn, e.get("source", FUENTE_IMPORTADA)),
+                    (_tipo_id(conn, e["type"].strip()), _fuente_id(conn, e.get("source", FUENTE_IMPORTADA).strip()),
                      g.usuario_id, e["name"].strip(), json.dumps(e.get("data", {}), ensure_ascii=False)),
                 )
                 ids[e["id"]] = cur.lastrowid
