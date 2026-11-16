@@ -28,7 +28,7 @@ python3 semilla.py base.db     # crea base.db con datos de ejemplo (se puede rep
 flask --app app run             # → http://localhost:5000
 ```
 
-Verificar (desde la raíz): `pytest back -q` (68 tests) y `python3 back/probar_a.py` (40 comprobaciones de punta a
+Verificar (desde la raíz): `pytest back -q` (68 tests) y `python3 back/probar_a.py` (41 comprobaciones de punta a
 punta; tiene que terminar en `TODO OK`). Usuario de la semilla: `prueba@local` / `prueba123` (rol `admin`).
 
 ## 3. Cómo está armado (capas)
@@ -161,7 +161,7 @@ con este back, el front compilado y los lanzadores. El zip no se versiona.
 
 ```bash
 .venv/bin/pytest back -q              # 68 passed
-.venv/bin/python back/probar_a.py     # 40 líneas OK y "TODO OK"
+.venv/bin/python back/probar_a.py     # 41 líneas OK y "TODO OK"
 ```
 
 | Archivo | Tests | Qué cubre |
