@@ -36,7 +36,7 @@ def registrar(conn, nodo_id, usuario_id, accion, antes, despues):
         ),
     )
     _purgar(conn, nodo_id)
-    return cur.lastrowid  # sin commit a proposito
+    return cur.lastrowid
 
 
 def historial_de(conn, nodo_id):

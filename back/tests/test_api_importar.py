@@ -1,13 +1,10 @@
 import json
 import pathlib
-import sys
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+import pytest
 
-import pytest  # noqa: E402
-
-import semilla  # noqa: E402
-from app import crear_app  # noqa: E402
+import semilla
+from app import crear_app
 
 EJEMPLO = json.loads((pathlib.Path(__file__).resolve().parents[2] / "docs" / "ejemplo-import.json").read_text())
 

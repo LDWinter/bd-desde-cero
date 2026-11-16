@@ -1,12 +1,7 @@
-import pathlib
-import sys
+import pytest
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
-
-import pytest  # noqa: E402
-
-import semilla  # noqa: E402
-from app import crear_app  # noqa: E402
+import semilla
+from app import crear_app
 
 
 @pytest.fixture

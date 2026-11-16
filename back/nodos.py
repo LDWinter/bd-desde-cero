@@ -39,7 +39,7 @@ def _foto(fila):
 
 
 def crear_nodo(conn, tipo, nombre, fuente, data, usuario_id):
-    with conn:  # una transacción: el nodo y su historial se guardan juntos o no se guarda nada
+    with conn:
         cur = conn.execute(
             "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido) VALUES (?, ?, ?, ?, ?)",
             (_tipo_id(conn, tipo), _fuente_id(conn, fuente), usuario_id, nombre,

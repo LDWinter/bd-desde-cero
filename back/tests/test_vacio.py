@@ -1,5 +1,3 @@
-# (pytest no busca tests dentro de conftest.py, por eso va en su propio archivo)
-
-
+# Comprueba la fixture `conn`; va aparte porque pytest no busca tests dentro de conftest.py
 def test_vacio(conn):
     assert conn

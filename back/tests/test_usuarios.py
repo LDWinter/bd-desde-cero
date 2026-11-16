@@ -2,7 +2,6 @@ import sqlite3
 
 import pytest
 
-
 from usuarios import registrar_usuario, verificar_clave
 
 

@@ -1,4 +1,5 @@
 """Semilla con los datos de src/mocks/data.ts del front. Uso: python semilla.py base.db (borra y recarga)."""
+import json
 import sqlite3
 import sys
 from datetime import datetime
@@ -82,8 +83,6 @@ def vaciar(conn):
 
 
 def cargar(conn):
-    import json
-
     tipo_id = {}
     for nombre in TIPOS:
         cur = conn.execute("INSERT INTO tipos_nodo (nombre) VALUES (?)", (nombre,))
