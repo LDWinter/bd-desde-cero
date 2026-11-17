@@ -1,6 +1,7 @@
 """Nodos (ids enteros de la base). Cada cambio y su historial van en una misma transacción (`with conn`)."""
 import json
 
+from db import ahora
 from historial import registrar
 
 SELECT_NODO = """
@@ -11,22 +12,15 @@ SELECT_NODO = """
 """
 
 
+# OR IGNORE y después buscar: buscando primero, dos pedidos a la vez con un nombre nuevo chocaban con el UNIQUE
 def _tipo_id(conn, tipo):
-    fila = conn.execute("SELECT id FROM tipos_nodo WHERE nombre = ?", (tipo,)).fetchone()
-    if fila is not None:
-        return fila["id"]
-    cur = conn.execute("INSERT INTO tipos_nodo (nombre) VALUES (?)", (tipo,))
-    return cur.lastrowid
+    conn.execute("INSERT OR IGNORE INTO tipos_nodo (nombre) VALUES (?)", (tipo,))
+    return conn.execute("SELECT id FROM tipos_nodo WHERE nombre = ?", (tipo,)).fetchone()["id"]
 
 
 def _fuente_id(conn, fuente):
-    fila = conn.execute("SELECT id FROM fuentes WHERE nombre = ?", (fuente,)).fetchone()
-    if fila is not None:
-        return fila["id"]
-    cur = conn.execute(
-        "INSERT INTO fuentes (nombre, tipo, estado) VALUES (?, 'Manual', 'ok')", (fuente,)
-    )
-    return cur.lastrowid
+    conn.execute("INSERT OR IGNORE INTO fuentes (nombre, tipo, estado) VALUES (?, 'Manual', 'ok')", (fuente,))
+    return conn.execute("SELECT id FROM fuentes WHERE nombre = ?", (fuente,)).fetchone()["id"]
 
 
 def _foto(fila):
@@ -38,16 +32,20 @@ def _foto(fila):
     }
 
 
+def insertar_nodo(conn, tipo, nombre, fuente, data, usuario_id):
+    """Sin commit: la importación guarda todos sus nodos en una sola transacción."""
+    nodo_id = conn.execute(
+        "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido, creado_en) VALUES (?, ?, ?, ?, ?, ?)",
+        (_tipo_id(conn, tipo), _fuente_id(conn, fuente), usuario_id, nombre,
+         json.dumps(data, ensure_ascii=False), ahora()),
+    ).lastrowid
+    registrar(conn, nodo_id, usuario_id, "crear", None, _foto(obtener_nodo(conn, nodo_id)))
+    return nodo_id
+
+
 def crear_nodo(conn, tipo, nombre, fuente, data, usuario_id):
     with conn:
-        cur = conn.execute(
-            "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido) VALUES (?, ?, ?, ?, ?)",
-            (_tipo_id(conn, tipo), _fuente_id(conn, fuente), usuario_id, nombre,
-             json.dumps(data, ensure_ascii=False)),
-        )
-        nodo_id = cur.lastrowid
-        registrar(conn, nodo_id, usuario_id, "crear", None, _foto(obtener_nodo(conn, nodo_id)))
-    return nodo_id
+        return insertar_nodo(conn, tipo, nombre, fuente, data, usuario_id)
 
 
 def obtener_nodo(conn, nodo_id):
@@ -68,12 +66,12 @@ def editar_nodo(conn, nodo_id, usuario_id, nombre=None, data=None, tipo=None):
         if antes is None:
             return False
         conn.execute(
-            "UPDATE nodos SET titulo = ?, contenido = ?, tipo_id = ?, actualizado_en = datetime('now')"
-            " WHERE id = ?",
+            "UPDATE nodos SET titulo = ?, contenido = ?, tipo_id = ?, actualizado_en = ? WHERE id = ?",
             (
                 antes["titulo"] if nombre is None else nombre,
                 antes["contenido"] if data is None else json.dumps(data, ensure_ascii=False),
                 _tipo_id(conn, antes["tipo"] if tipo is None else tipo),
+                ahora(),
                 nodo_id,
             ),
         )
@@ -86,8 +84,6 @@ def borrar_nodo(conn, nodo_id, usuario_id):
         antes = obtener_nodo(conn, nodo_id)
         if antes is None:
             return False
-        conn.execute(
-            "UPDATE nodos SET borrado = 1, actualizado_en = datetime('now') WHERE id = ?", (nodo_id,)
-        )
+        conn.execute("UPDATE nodos SET borrado = 1, actualizado_en = ? WHERE id = ?", (ahora(), nodo_id))
         registrar(conn, nodo_id, usuario_id, "borrar", _foto(antes), None)
     return True

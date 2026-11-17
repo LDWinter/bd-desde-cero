@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 
 from test_api_importar import cliente  # noqa: F401  (fixture: app con la semilla y sesión iniciada)
@@ -94,13 +96,21 @@ def test_historial_global(cliente):
     cliente.post("/api/relationships", json=REL)
 
     cambios = cliente.get("/api/history").get_json()
-    assert [c["accion"] for c in cambios] == ["relacionar", "relacionar", "crear"]  # una relación: sus dos nodos
-    assert {c["entityId"] for c in cambios[:2]} == {"cli-1", "pro-5"}
-    assert cambios[2]["entityId"] == id_nuevo and cambios[2]["entityName"] == "Vino rosado"
+    assert [c["accion"] for c in cambios] == ["relacionar", "crear"]  # la relación, una sola vez (nodo de origen)
+    assert cambios[0]["entityId"] == "cli-1"
+    assert cambios[1]["entityId"] == id_nuevo and cambios[1]["entityName"] == "Vino rosado"
     assert set(cambios[0]) == {"accion", "usuario", "antes", "despues", "fecha", "entityId", "entityName"}
 
     assert len(cliente.get("/api/history?limit=1").get_json()) == 1
     assert len(cliente.get("/api/history?limit=0").get_json()) == 1
-    assert len(cliente.get("/api/history?limit=abc").get_json()) == 3
+    assert len(cliente.get("/api/history?limit=abc").get_json()) == 2
     cliente.post("/api/auth/logout")
     assert cliente.get("/api/history").status_code == 401
+
+
+def test_fechas_del_nodo_en_la_misma_hora_que_el_historial(cliente):
+    cliente.put("/api/entities/cli-1", json={"type": "Cliente", "name": "Acme"})
+    fila = cliente.application.config["CONN"].execute("SELECT actualizado_en FROM nodos WHERE id = 1").fetchone()
+    fecha = cliente.get("/api/entities/cli-1/history").get_json()[0]["fecha"]
+    # antes el nodo quedaba en UTC y el historial en hora local
+    assert abs(datetime.fromisoformat(fila["actualizado_en"]) - datetime.fromisoformat(fecha)).total_seconds() < 5

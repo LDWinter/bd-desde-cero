@@ -63,3 +63,8 @@ CREATE TABLE IF NOT EXISTS historial (
 );
 
 CREATE INDEX IF NOT EXISTS idx_historial_nodo_fecha ON historial (nodo_id, fecha);
+
+-- Sin estos tres, borrar una fuente recorre tablas enteras por cada fila (minutos con decenas de miles de nodos)
+CREATE INDEX IF NOT EXISTS idx_relaciones_destino ON relaciones (destino_id);
+CREATE INDEX IF NOT EXISTS idx_historial_relacion ON historial (relacion_id);
+CREATE INDEX IF NOT EXISTS idx_nodos_fuente ON nodos (fuente_id);

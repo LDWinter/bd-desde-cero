@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from pathlib import Path
 
 ESQUEMA = Path(__file__).with_name("esquema.sql")
@@ -10,6 +11,10 @@ def conectar(ruta):
     conn.execute("PRAGMA foreign_keys = ON")  # SQLite no controla las FK si no se lo pedís en cada conexión
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def ahora():
+    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def crear_esquema(conn):

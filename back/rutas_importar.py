@@ -1,20 +1,19 @@
-"""Importar un JSON (todo o nada; entities[].id es una referencia local del archivo), vaciar datos y borrar fuentes."""
-import json
+"""Exportar e importar un JSON (todo o nada; entities[].id es una referencia local del archivo), vaciar datos y borrar fuentes."""
 import sqlite3
 
 from flask import Blueprint, g, jsonify, request
 
-from formato import id_front
-from historial import registrar
-from nodos import _foto as _foto_nodo, _fuente_id, _tipo_id, obtener_nodo
-from relaciones import _foto as _foto_relacion
+from formato import SELECT_RELACION, a_entity, a_relationship, id_front
+from nodos import insertar_nodo, listar_nodos, obtener_nodo
+from relaciones import insertar_relacion
 from rutas_auth import requiere_login
+from rutas_fuentes import SELECT_FUENTES
 from rutas_nodos import _buscar, _validar_entity
 
 bp = Blueprint("importar", __name__)
 
 FUENTE_IMPORTADA = "Importado"
-TABLAS_DE_DATOS = ("historial", "relaciones", "nodos", "fuentes")  # en este orden por las FK
+TABLAS_DE_DATOS = ("historial", "relaciones", "nodos", "fuentes", "tipos_nodo")  # en este orden por las FK
 
 
 def _vaciar(conn):
@@ -27,12 +26,17 @@ def _validar(datos):
         return "se esperaba un objeto JSON"
     if not isinstance(datos.get("replace", False), bool):  # "true" (texto) se tomaba como false, sin avisar
         return "replace tiene que ser true o false"
+    fuentes = datos.get("sources", [])
     entidades = datos.get("entities", [])
     relaciones = datos.get("relationships", [])
-    if not isinstance(entidades, list) or not isinstance(relaciones, list):
-        return "entities y relationships tienen que ser listas"
+    if not all(isinstance(lista, list) for lista in (fuentes, entidades, relaciones)):
+        return "sources, entities y relationships tienen que ser listas"
     if not entidades and not relaciones:
         return "el archivo no trae entidades ni relaciones"
+    for i, f in enumerate(fuentes):
+        if not (isinstance(f, dict) and all(isinstance(f.get(k), str) and f[k].strip() for k in ("name", "type"))
+                and f.get("status") in ("ok", "error") and isinstance(f.get("lastSync"), (str, type(None)))):
+            return f"sources[{i}]: se esperaba {{name, type, status: ok o error, lastSync: fecha ISO o null}}"
     vistos = set()
     for i, e in enumerate(entidades):
         problema = _validar_entity(e)
@@ -73,29 +77,28 @@ def importar():
     conn = g.conn
     ids = {}
     try:
-        # Una sola transacción (no se usan crear_nodo/relacionar porque cada una hace su propio commit).
-        with conn:
+        with conn:  # una sola transacción: por eso no se usan crear_nodo / relacionar, que confirman cada una
             if reemplazar:
                 _vaciar(conn)
+            for i, f in enumerate(datos.get("sources", [])):
+                try:
+                    conn.execute(
+                        "INSERT INTO fuentes (nombre, tipo, estado, ultima_sync) VALUES (?, ?, ?, ?)"
+                        " ON CONFLICT (nombre) DO UPDATE SET tipo = excluded.tipo, estado = excluded.estado,"
+                        " ultima_sync = excluded.ultima_sync",
+                        (f["name"].strip(), f["type"].strip(), f["status"], f["lastSync"]),
+                    )
+                except sqlite3.IntegrityError:  # el CHECK de fuentes.ultima_sync
+                    raise ValueError(f"sources[{i}]: lastSync no es una fecha válida")
             for e in datos.get("entities", []):
-                cur = conn.execute(
-                    "INSERT INTO nodos (tipo_id, fuente_id, creado_por, titulo, contenido) VALUES (?, ?, ?, ?, ?)",
-                    (_tipo_id(conn, e["type"].strip()), _fuente_id(conn, e.get("source", FUENTE_IMPORTADA).strip()),
-                     g.usuario_id, e["name"].strip(), json.dumps(e.get("data", {}), ensure_ascii=False)),
-                )
-                ids[e["id"]] = cur.lastrowid
-                registrar(conn, cur.lastrowid, g.usuario_id, "crear", None, _foto_nodo(obtener_nodo(conn, cur.lastrowid)))
+                ids[e["id"]] = insertar_nodo(conn, e["type"].strip(), e["name"].strip(),
+                                             e.get("source", FUENTE_IMPORTADA).strip(), e.get("data", {}), g.usuario_id)
             for i, r in enumerate(datos.get("relationships", [])):
                 origen, destino = (ids.get(ref) or _buscar(ref)["id"] for ref in (r["sourceId"], r["targetId"]))
-                tipo = r["type"].strip()
                 try:
-                    conn.execute("INSERT INTO relaciones (origen_id, destino_id, tipo) VALUES (?, ?, ?)",
-                                 (origen, destino, tipo))
+                    insertar_relacion(conn, origen, destino, r["type"].strip(), g.usuario_id)
                 except sqlite3.IntegrityError:
                     raise ValueError(f"relationships[{i}]: la relación ya existe o une un nodo consigo mismo")
-                foto = _foto_relacion(origen, destino, tipo)
-                registrar(conn, origen, g.usuario_id, "relacionar", None, foto)
-                registrar(conn, destino, g.usuario_id, "relacionar", None, foto)
     except ValueError as e:  # `with conn` ya hizo rollback
         return jsonify({"error": str(e)}), 400
 
@@ -104,6 +107,19 @@ def importar():
         "relationships": len(datos.get("relationships", [])),
         "ids": {local: id_front(obtener_nodo(conn, nodo)["tipo"], nodo) for local, nodo in ids.items()},
     }), 201
+
+
+@bp.get("/api/export")
+@requiere_login
+def exportar():
+    """Mismo formato que recibe /api/import: reimportarlo restaura entidades, relaciones y fuentes."""
+    return jsonify({
+        "replace": True,
+        "sources": [{"name": f["nombre"], "type": f["tipo"], "status": f["estado"], "lastSync": f["ultima_sync"]}
+                    for f in g.conn.execute(SELECT_FUENTES)],
+        "entities": [a_entity(f) for f in listar_nodos(g.conn)],
+        "relationships": [a_relationship(f) for f in g.conn.execute(SELECT_RELACION)],
+    })
 
 
 @bp.delete("/api/data")

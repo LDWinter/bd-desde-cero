@@ -1,7 +1,7 @@
 """La clave nunca se guarda ni se devuelve en texto plano: solo el hash de werkzeug."""
-from datetime import datetime
-
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from db import ahora
 
 # Roles que permite el esquema (CHECK de la tabla usuarios)
 ROLES = ("admin", "editor", "lector")
@@ -10,6 +10,10 @@ ROLES = ("admin", "editor", "lector")
 def _normalizar(email):
     """Sin espacios y en minusculas, asi 'Ana@X.com' y 'ana@x.com' son el mismo usuario."""
     return email.strip().lower()
+
+
+def _publico(fila):
+    return {clave: fila[clave] for clave in ("id", "email", "nombre", "rol")}
 
 
 def registrar_usuario(conn, email, nombre, clave, rol="editor"):
@@ -26,7 +30,7 @@ def registrar_usuario(conn, email, nombre, clave, rol="editor"):
                 nombre,
                 generate_password_hash(clave),
                 rol,
-                datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                ahora(),
             ),
         )
     return cur.lastrowid
@@ -40,23 +44,11 @@ def verificar_clave(conn, email, clave):
     ).fetchone()
     if fila is None or not check_password_hash(fila["hash_clave"], clave):
         return None
-    return {
-        "id": fila["id"],
-        "email": fila["email"],
-        "nombre": fila["nombre"],
-        "rol": fila["rol"],
-    }
+    return _publico(fila)
 
 
 def obtener_usuario(conn, usuario_id):
     fila = conn.execute(
         "SELECT id, email, nombre, rol FROM usuarios WHERE id = ?", (usuario_id,)
     ).fetchone()
-    if fila is None:
-        return None
-    return {
-        "id": fila["id"],
-        "email": fila["email"],
-        "nombre": fila["nombre"],
-        "rol": fila["rol"],
-    }
+    return fila and _publico(fila)

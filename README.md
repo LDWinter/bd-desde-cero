@@ -27,6 +27,6 @@ Para desarrollar el back:
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r back/requirements.txt
 python3 back/semilla.py back/base.db   # base con datos de ejemplo y el usuario prueba@local / prueba123
-pytest back -q && python3 back/probar_a.py   # 86 tests y "TODO OK"
+pytest back -q && python3 back/probar_a.py   # 89 tests y "TODO OK"
 cd back && flask --app app run         # http://localhost:5000 (rutas en docs/INTEGRACION.md)
 ```

@@ -77,6 +77,7 @@ def test_vaciar_datos(cliente):
     assert cliente.get("/api/relationships").get_json() == []
     assert cliente.get("/api/sources").get_json() == []
     assert cliente.get("/api/auth/me").status_code == 200  # los usuarios no se borran
+    assert cliente.application.config["CONN"].execute("SELECT COUNT(*) FROM tipos_nodo").fetchone()[0] == 0
 
 
 def test_tipo_nuevo_por_post(cliente):
@@ -143,9 +144,34 @@ def test_base_sin_autoincrement_avisa_al_arrancar(tmp_path, caplog):
     ruta = str(tmp_path / "vieja.db")
     conn = conectar(ruta)
     conn.executescript(ESQUEMA.read_text(encoding="utf-8").replace("AUTOINCREMENT", ""))
-    conn.close()
+    conn.execute("DROP INDEX idx_nodos_fuente")
     crear_app(ruta)
     assert "AUTOINCREMENT" in caplog.text
+    assert conn.execute("SELECT 1 FROM sqlite_master WHERE name = 'idx_nodos_fuente'").fetchone()  # los índices sí llegan
+    conn.close()
     caplog.clear()
     crear_app(str(tmp_path / "nueva.db"))
     assert "AUTOINCREMENT" not in caplog.text
+
+
+def test_exportar_e_importar_devuelve_lo_mismo(cliente):
+    def sin_ids(datos):
+        nombre = {e["id"]: e["name"] for e in datos["entities"]}
+        return (datos["sources"], [{**e, "id": None} for e in datos["entities"]],
+                [(nombre[r["sourceId"]], nombre[r["targetId"]], r["type"]) for r in datos["relationships"]])
+
+    exportado = cliente.get("/api/export").get_json()
+    assert exportado["sources"][0] == {"name": "clientes_2025.xlsx", "type": "Excel", "status": "ok",
+                                       "lastSync": "2026-10-05T10:32:00"}
+    assert cliente.post("/api/import", json=exportado).status_code == 201
+    assert sin_ids(cliente.get("/api/export").get_json()) == sin_ids(exportado)
+
+
+def test_importar_fuentes_invalidas_da_400(cliente):
+    base = {"entities": [{"id": "a", "type": "T", "name": "A"}]}
+    fuente = {"name": "F", "type": "CSV", "status": "ok", "lastSync": None}
+    for mala in ({**fuente, "status": "x"}, {**fuente, "name": ""}, {**fuente, "lastSync": "ayer"}, "F"):
+        assert cliente.post("/api/import", json={**base, "sources": [mala]}).status_code == 400
+    assert cliente.post("/api/import", json={**base, "sources": [fuente]}).status_code == 201
+    cliente.post("/api/auth/logout")
+    assert cliente.get("/api/export").status_code == 401

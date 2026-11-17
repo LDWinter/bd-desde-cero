@@ -15,11 +15,18 @@ Se abre solo el navegador en http://127.0.0.1:5001
 Para cerrarlo, cerrar la ventana negra (o Ctrl+C).
 
 CARGAR LOS DATOS
-Empieza vacío. Ir a Fuentes → Importar JSON y elegir:
-- knowledge-system-ejemplo-con-errores.json  → la constructora con los 11 errores (Inicio muestra los avisos)
-- knowledge-system-corregido.json             → la misma empresa con todo resuelto (0 avisos)
-Los dos traen "Reemplazar los datos actuales": cada importación deja solo ese archivo.
+Empieza vacío. Ir a Fuentes → Importar JSON y elegir uno de los archivos de esta carpeta:
+- ejemplo-obras.json            → la constructora con los 11 errores (Inicio muestra los avisos)
+- ejemplo-obras-corregido.json  → la misma empresa con todo resuelto (0 avisos)
+- ejemplo-import.json           → un ejemplo chico de personas y proyectos
+Los tres traen "Reemplazar los datos actuales": cada importación deja solo ese archivo.
 
-Los datos quedan en la carpeta "datos". Para empezar de cero, borrar esa carpeta.
-Si venís de una versión anterior: no copies la carpeta "datos" vieja (usar Fuentes → Exportar JSON
-en la versión vieja e importarlo en esta); la ventana negra avisa si la base es de una versión anterior.
+RESPALDAR Y RESTAURAR
+Los datos quedan en la carpeta "datos". Para respaldarlos: cerrar la app y copiar esa carpeta.
+Para restaurarlos: cerrar la app y volver a poner la carpeta copiada en su lugar.
+Para empezar de cero: cerrar la app y borrar la carpeta "datos".
+
+Si venís de una versión anterior (la ventana negra lo avisa): en la versión vieja, Fuentes → Exportar JSON;
+en esta, Fuentes → Importar JSON con ese archivo. No copies la carpeta "datos" vieja.
+
+Si dice que el puerto ya está en uso, la app ya está abierta: usar esa ventana del navegador.

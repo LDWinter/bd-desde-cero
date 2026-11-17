@@ -11,7 +11,7 @@ mkdir -p "$DEST/back"
 cp "$RAIZ"/back/{app,db,formato,historial,nodos,relaciones,semilla,usuarios}.py "$RAIZ"/back/rutas_*.py "$RAIZ"/back/esquema.sql "$DEST/back/"
 grep -vi pytest "$RAIZ/back/requirements.txt" > "$DEST/back/requirements.txt"
 cp -r "$RAIZ/web" "$DEST/web"
-cp "$RAIZ"/{iniciar.py,"Iniciar (Windows).bat",iniciar.sh} "$AQUI/LEEME.txt" "$DEST/"
+cp "$RAIZ"/{iniciar.py,"Iniciar (Windows).bat",iniciar.sh} "$AQUI/LEEME.txt" "$RAIZ"/docs/ejemplo-*.json "$DEST/"
 (cd "$TMP" && zip -qr nuevo.zip KnowledgeSystem && mv -f nuevo.zip "$AQUI/KnowledgeSystem.zip")  # no agrega a un zip viejo
 rm -rf "$TMP"
 echo "Listo: $AQUI/KnowledgeSystem.zip"

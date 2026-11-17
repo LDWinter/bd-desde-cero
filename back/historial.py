@@ -1,5 +1,6 @@
 import json
-from datetime import datetime
+
+from db import ahora
 
 HISTORIAL_MAX = 5
 
@@ -32,7 +33,7 @@ def registrar(conn, nodo_id, usuario_id, accion, antes, despues):
             accion,
             _a_json(antes),
             _a_json(despues),
-            datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            ahora(),
         ),
     )
     _purgar(conn, nodo_id)
@@ -53,6 +54,9 @@ def historial_reciente(conn, limite):
     return conn.execute(
         "SELECT h.usuario_id, h.accion, h.antes, h.despues, h.fecha, h.nodo_id, n.titulo, t.nombre AS tipo"
         " FROM historial h JOIN nodos n ON n.id = h.nodo_id JOIN tipos_nodo t ON t.id = n.tipo_id"
+        # una relación se anota en sus dos nodos: acá cuenta una vez, la del nodo de origen
+        " WHERE h.accion NOT IN ('relacionar', 'desrelacionar')"
+        "    OR h.nodo_id = CAST(json_extract(COALESCE(h.despues, h.antes), '$.sourceId') AS INTEGER)"
         " ORDER BY h.fecha DESC, h.id DESC LIMIT ?",
         (limite,),
     ).fetchall()

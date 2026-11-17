@@ -66,8 +66,8 @@ Entidades del grafo (`Entity` del front).
 | `creado_por` | INTEGER | FK → `usuarios.id`, NULL | Autor, si lo creó un usuario |
 | `titulo` | TEXT | NOT NULL | → `Entity.name` |
 | `contenido` | TEXT | NOT NULL, `CHECK(json_valid(contenido))` | → `Entity.data` (`{clave: texto\|número}`; `'{}'` si está vacío) |
-| `creado_en` | TEXT | NOT NULL DEFAULT `datetime('now')` | Fecha de alta (la pone SQLite: UTC, `2026-11-16 19:33:39`) |
-| `actualizado_en` | TEXT | NULL | Última edición o borrado (`datetime('now')`, UTC) |
+| `creado_en` | TEXT | NOT NULL DEFAULT `datetime('now')` | Fecha de alta (el código la guarda en ISO, hora local) |
+| `actualizado_en` | TEXT | NULL | Última edición o borrado (ISO, hora local) |
 | `borrado` | INTEGER | NOT NULL DEFAULT 0, CHECK (0, 1) | Borrado lógico: 1 = borrado; la API no lo muestra |
 
 ## relaciones
@@ -98,6 +98,8 @@ Registro de cambios por nodo.
 | `fecha` | TEXT | NOT NULL DEFAULT `datetime('now')` | Momento del cambio (el código la guarda en ISO, hora local: `2026-10-05T10:32:00`) |
 
 Índice `idx_historial_nodo_fecha` en `(nodo_id, fecha)` para traer rápido los últimos `HISTORIAL_MAX = 5` cambios de un nodo.
+Índices en `relaciones (destino_id)`, `historial (relacion_id)` y `nodos (fuente_id)`: sin ellos, borrar una fuente
+recorre tablas enteras por cada fila.
 
 ## Decisiones
 - **`contenido` es JSON en texto**: el `data` del front tiene claves libres que cambian según el tipo;

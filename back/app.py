@@ -10,11 +10,11 @@ from db import conectar, crear_esquema
 MODULOS_DE_RUTAS = ("rutas_nodos", "rutas_fuentes", "rutas_auth", "rutas_historial", "rutas_importar")
 
 MENSAJES = {
-    400: "Solicitud invalida",
-    401: "Hace falta iniciar sesion",
-    403: "No tenes permiso para hacer esto",
+    400: "Solicitud inválida",
+    401: "Hace falta iniciar sesión",
+    403: "No tenés permiso para hacer esto",
     404: "No encontrado",
-    405: "Metodo no permitido",
+    405: "Método no permitido",
     409: "Conflicto con los datos existentes",
     415: "Formato no soportado",
     500: "Error interno del servidor",
@@ -26,8 +26,8 @@ def _avisar_si_es_base_vieja(app, conn):
     sql = conn.execute("SELECT sql FROM sqlite_master WHERE name = 'nodos'").fetchone()[0]
     if "AUTOINCREMENT" not in sql.upper():
         app.logger.warning(
-            "La base %s es de una version anterior (nodos.id sin AUTOINCREMENT): "
-            "conviene exportar los datos, borrarla y volver a importarlos.", app.config["RUTA_DB"])
+            "La base %s es de una versión anterior (nodos.id sin AUTOINCREMENT). Para actualizarla: "
+            "Fuentes → Exportar JSON, cerrar, borrar la base y volver a importar ese archivo.", app.config["RUTA_DB"])
 
 
 def crear_app(ruta_db="base.db"):

@@ -5,16 +5,21 @@ def _foto(origen, destino, tipo):
     return {"sourceId": str(origen), "targetId": str(destino), "type": tipo}
 
 
+def insertar_relacion(conn, origen, destino, tipo, usuario_id):
+    """Sin commit: la importación guarda todas sus relaciones en una sola transacción."""
+    relacion_id = conn.execute(
+        "INSERT INTO relaciones (origen_id, destino_id, tipo) VALUES (?, ?, ?)", (origen, destino, tipo)
+    ).lastrowid
+    foto = _foto(origen, destino, tipo)
+    # una relación cambia dos nodos: se anota en el historial de cada uno
+    registrar(conn, origen, usuario_id, "relacionar", None, foto)
+    registrar(conn, destino, usuario_id, "relacionar", None, foto)
+    return relacion_id
+
+
 def relacionar(conn, origen, destino, tipo, usuario_id):
     with conn:
-        cur = conn.execute(
-            "INSERT INTO relaciones (origen_id, destino_id, tipo) VALUES (?, ?, ?)", (origen, destino, tipo)
-        )
-        foto = _foto(origen, destino, tipo)
-        # una relación cambia dos nodos: se anota en el historial de cada uno
-        registrar(conn, origen, usuario_id, "relacionar", None, foto)
-        registrar(conn, destino, usuario_id, "relacionar", None, foto)
-    return cur.lastrowid
+        return insertar_relacion(conn, origen, destino, tipo, usuario_id)
 
 
 def desrelacionar(conn, origen, destino, tipo, usuario_id):

@@ -20,7 +20,7 @@ flask --app app run                  # → http://localhost:5000
   `export SECRET_KEY=...` antes de `flask run`.
 - Si la base fue creada por una versión anterior (sin `AUTOINCREMENT` en `nodos.id`), al arrancar aparece un
   aviso en el log: conviene exportar los datos, borrar la base y volver a importarlos.
-- Verificar: `pytest back -q` (desde la raíz; 86 tests) y `python3 back/probar_a.py` (termina en `TODO OK`).
+- Verificar: `pytest back -q` (desde la raíz; 89 tests) y `python3 back/probar_a.py` (termina en `TODO OK`).
 
 ## 2. Reglas del contrato
 
@@ -116,8 +116,8 @@ entidad no existe.
 
 `GET /api/history?limit=N` (login) → `200` con los últimos cambios de **todas** las entidades, el más nuevo
 primero. `limit` es opcional: por defecto 10, entre 1 y 50. Cada cambio trae lo mismo que arriba más
-`entityId` y `entityName` (la entidad afectada, aunque después se haya borrado). Una relación aparece dos veces,
-una por cada nodo. Sin login, `401`.
+`entityId` y `entityName` (la entidad afectada, aunque después se haya borrado). Una relación aparece una sola
+vez, en su nodo de origen. Sin login, `401`.
 
 ### Fuentes — `Source` = `{id, name, type, status, lastSync, recordCount}`
 
@@ -146,6 +146,9 @@ una por cada nodo. Sin login, `401`.
   de cada entidad se valida igual que en `POST /api/entities`; si no trae `source`, queda en `"Importado"`.
 - `sourceId` / `targetId`: primero se buscan entre las referencias locales; si no están, se toman como id de
   una entidad que ya existe (`pro-3`).
+- `sources` (opcional): `[{name, type, status, lastSync}]`, con `status` `"ok"` o `"error"` y `lastSync` fecha ISO
+  o `null`. Crea esas fuentes (o actualiza las que ya existen con ese nombre) antes que las entidades; sin
+  `sources`, las fuentes nuevas quedan con tipo `"Manual"` y sin fecha.
 - `replace` (opcional, `true` o `false`): con `true` se vacían los datos antes de importar, y las relaciones
   solo pueden unir entidades del archivo.
 - Responde `201` `{"entities": n, "relationships": n, "ids": {"ana": "per-15"}}` (`ids` traduce cada referencia
@@ -156,8 +159,12 @@ una por cada nodo. Sin login, `401`.
   `docs/ejemplo-obras.json` (34 y 41; guion en `docs/guion-ejemplo-obras.md`) y
   `docs/ejemplo-obras-corregido.json` (36 y 41).
 
-`DELETE /api/data` (login) → `204`. Vacía historial, relaciones, nodos y fuentes; no toca los usuarios ni la
-lista de tipos.
+`GET /api/export` (login) → `200` con todos los datos en el formato de `POST /api/import`
+(`{replace: true, sources, entities, relationships}`): reimportarlo restaura entidades, relaciones y fuentes
+(con su tipo, estado y fecha). No incluye el historial ni conserva los ids; para una copia exacta, copiar la
+carpeta `datos/` con la app cerrada.
+
+`DELETE /api/data` (login) → `204`. Vacía historial, relaciones, nodos, fuentes y tipos; no toca los usuarios.
 
 ## 4. Conectar el front
 

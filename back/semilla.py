@@ -2,10 +2,11 @@
 import json
 import sqlite3
 import sys
-from datetime import datetime
 from pathlib import Path
 
 from werkzeug.security import generate_password_hash
+
+from db import ahora
 
 TIPOS = ["Cliente", "Producto", "Pedido"]
 
@@ -68,10 +69,6 @@ ESPERADO = {"fuentes": 3, "nodos": 14, "relaciones": 15}
 
 # Hijas primero, para no chocar con las claves foraneas
 TABLAS_A_VACIAR = ["historial", "relaciones", "nodos", "usuarios", "fuentes", "tipos_nodo"]
-
-
-def ahora():
-    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def vaciar(conn):

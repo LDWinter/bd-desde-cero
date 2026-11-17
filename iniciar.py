@@ -1,6 +1,7 @@
 """Levanta todo con un comando: el back (Flask) sirve también el front compilado (web/). La base queda en datos/base.db."""
 import os
 import secrets
+import socket
 import sys
 import threading
 import webbrowser
@@ -21,7 +22,6 @@ WEB = AQUI / "web"
 BASE = AQUI / "datos" / "base.db"
 CLAVE = BASE.parent / "clave-sesion.txt"
 
-es_nueva = not BASE.exists()
 BASE.parent.mkdir(exist_ok=True)
 # Clave de sesión propia de esta copia: la de desarrollo de app.py es pública (está en el código)
 if not CLAVE.exists():
@@ -29,12 +29,12 @@ if not CLAVE.exists():
 os.environ.setdefault("SECRET_KEY", CLAVE.read_text().strip())
 app = crear_app(str(BASE))
 
-if es_nueva:
+conn = conectar(str(BASE))
+if conn.execute("SELECT COUNT(*) FROM usuarios").fetchone()[0] == 0:
     # Solo el usuario de prueba: los datos se cargan desde Fuentes → Importar JSON
     u = semilla.USUARIO_PRUEBA
-    conn = conectar(str(BASE))
     registrar_usuario(conn, u["email"], u["nombre"], u["clave"], u["rol"])
-    conn.close()
+conn.close()
 
 
 @app.get("/")
@@ -52,6 +52,10 @@ def front(ruta=""):
 
 if __name__ == "__main__":
     url = f"http://127.0.0.1:{PUERTO}"
+    with socket.socket() as prueba:
+        if prueba.connect_ex(("127.0.0.1", PUERTO)) == 0:
+            sys.exit(f"\n  El puerto {PUERTO} ya está en uso: Knowledge System ya está abierto en {url},\n"
+                     "  o lo usa otro programa (en ese caso, elegir otro con la variable PUERTO).\n")
     print(f"\n  Knowledge System en {url}  (usuario prueba@local / clave prueba123)")
     print("  Para cerrarlo: cerrar esta ventana o Ctrl+C\n")
     if os.environ.get("SIN_NAVEGADOR") != "1":

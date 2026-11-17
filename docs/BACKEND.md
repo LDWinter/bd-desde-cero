@@ -28,7 +28,7 @@ python3 semilla.py base.db     # crea base.db con datos de ejemplo (se puede rep
 flask --app app run             # → http://localhost:5000
 ```
 
-Verificar (desde la raíz): `pytest back -q` (86 tests) y `python3 back/probar_a.py` (41 comprobaciones de punta a
+Verificar (desde la raíz): `pytest back -q` (89 tests) y `python3 back/probar_a.py` (41 comprobaciones de punta a
 punta; tiene que terminar en `TODO OK`). Usuario de la semilla: `prueba@local` / `prueba123` (rol `admin`).
 
 ## 3. Cómo está armado (capas)
@@ -134,7 +134,7 @@ en la misma transacción** (`with conn:`). Si algo falla a mitad, no queda nada 
 | `rutas_nodos.py` | `/api/entities` y `/api/relationships`. |
 | `rutas_historial.py` | `GET /api/entities/<id>/history` y `GET /api/history`. |
 | `rutas_fuentes.py` | `GET /api/sources`. |
-| `rutas_importar.py` | `POST /api/import`, `DELETE /api/data` y `DELETE /api/sources/<id>`. |
+| `rutas_importar.py` | `GET /api/export`, `POST /api/import`, `DELETE /api/data` y `DELETE /api/sources/<id>`. |
 | `semilla.py` | Carga datos de ejemplo: 3 fuentes, 14 nodos, 15 relaciones y el usuario de prueba. `python semilla.py base.db` borra y recarga. |
 | `consultas.sql` | Tres consultas de práctica sobre la semilla (JOIN, vecinos con UNION, conteo por tipo). No las usa la app. |
 | `probar_a.py` | Prueba de punta a punta sobre una base temporal: funciones y rutas. |
@@ -159,13 +159,13 @@ En la raíz del repo están los lanzadores: `Iniciar (Windows).bat`, `iniciar.sh
 - `web/` es el front ya compilado y está versionado para que alcance con Python. Si falta, `/` responde 404 con
   el aviso de cómo generarlo.
 - `paquete/armar.sh <carpeta del front>` recompila el front (`npm run build`, necesita Node), reemplaza `web/` y
-  arma `paquete/KnowledgeSystem.zip` (back sin tests, `web/`, lanzadores y `paquete/LEEME.txt`) para llevar a
+  arma `paquete/KnowledgeSystem.zip` (back sin tests, `web/`, lanzadores, `paquete/LEEME.txt` y los JSON de ejemplo) para llevar a
   otra PC sin clonar el repo. El zip no se versiona.
 
 ## 7. Pruebas
 
 ```bash
-.venv/bin/pytest back -q              # 86 passed
+.venv/bin/pytest back -q              # 89 passed
 .venv/bin/python back/probar_a.py     # 41 líneas OK y "TODO OK"
 ```
 
@@ -177,6 +177,6 @@ En la raíz del repo están los lanzadores: `Iniciar (Windows).bat`, `iniciar.sh
 | `tests/test_historial.py` | 9 | Tope de 5 por nodo, los 5 tipos de cambio y rollback. |
 | `tests/test_usuarios.py` | 4 | Alta de usuarios y verificación de clave. |
 | `tests/test_api_auth.py` | 15 | Por HTTP: sesión, fuentes, historial y validaciones de entidades y relaciones. |
-| `tests/test_api_nodos.py` | 18 | Por HTTP: entidades y relaciones (crear, editar, borrar, validaciones, sin login) e historial global. |
-| `tests/test_api_importar.py` | 14 | Por HTTP: importar, vaciar, borrar fuentes, tipos libres, ids que no se reutilizan y aviso de base vieja. |
+| `tests/test_api_nodos.py` | 19 | Por HTTP: entidades y relaciones (crear, editar, borrar, validaciones, sin login) e historial global. |
+| `tests/test_api_importar.py` | 16 | Por HTTP: exportar, importar, vaciar, borrar fuentes, tipos libres, ids que no se reutilizan y aviso de base vieja. |
 | `tests/test_vacio.py` | 1 | Que la fixture `conn` funciona. |
