@@ -86,3 +86,21 @@ def test_escribir_sin_login_da_401(cliente):
     assert cliente.delete("/api/entities/cli-1").status_code == 401
     assert cliente.post("/api/relationships", json=REL).status_code == 401
     assert cliente.delete("/api/relationships", json=REL).status_code == 401
+
+
+def test_historial_global(cliente):
+    assert cliente.get("/api/history").get_json() == []  # la semilla no deja historial
+    id_nuevo = cliente.post("/api/entities", json=NUEVA).get_json()["id"]
+    cliente.post("/api/relationships", json=REL)
+
+    cambios = cliente.get("/api/history").get_json()
+    assert [c["accion"] for c in cambios] == ["relacionar", "relacionar", "crear"]  # una relación: sus dos nodos
+    assert {c["entityId"] for c in cambios[:2]} == {"cli-1", "pro-5"}
+    assert cambios[2]["entityId"] == id_nuevo and cambios[2]["entityName"] == "Vino rosado"
+    assert set(cambios[0]) == {"accion", "usuario", "antes", "despues", "fecha", "entityId", "entityName"}
+
+    assert len(cliente.get("/api/history?limit=1").get_json()) == 1
+    assert len(cliente.get("/api/history?limit=0").get_json()) == 1
+    assert len(cliente.get("/api/history?limit=abc").get_json()) == 3
+    cliente.post("/api/auth/logout")
+    assert cliente.get("/api/history").status_code == 401

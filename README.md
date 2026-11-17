@@ -20,6 +20,6 @@ historial de cambios, y lo sirve con una API HTTP/JSON.
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r back/requirements.txt
 python3 back/semilla.py back/base.db   # base con datos de ejemplo y el usuario prueba@local / prueba123
-pytest back -q && python3 back/probar_a.py   # 68 tests y "TODO OK"
+pytest back -q && python3 back/probar_a.py   # 86 tests y "TODO OK"
 cd back && flask --app app run         # http://localhost:5000 (rutas en docs/INTEGRACION.md)
 ```

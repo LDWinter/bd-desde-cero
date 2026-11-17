@@ -20,7 +20,7 @@ flask --app app run                  # → http://localhost:5000
   `export SECRET_KEY=...` antes de `flask run`.
 - Si la base fue creada por una versión anterior (sin `AUTOINCREMENT` en `nodos.id`), al arrancar aparece un
   aviso en el log: conviene exportar los datos, borrar la base y volver a importarlos.
-- Verificar: `pytest back -q` (desde la raíz; 68 tests) y `python3 back/probar_a.py` (termina en `TODO OK`).
+- Verificar: `pytest back -q` (desde la raíz; 86 tests) y `python3 back/probar_a.py` (termina en `TODO OK`).
 
 ## 2. Reglas del contrato
 
@@ -113,6 +113,11 @@ entidad no existe.
   borrar o desrelacionar.
 - `usuario`: nombre de quien hizo el cambio (o su email si no tiene nombre).
 - Los datos cargados con `semilla.py` no tienen historial: empieza con el primer cambio hecho por la API.
+
+`GET /api/history?limit=N` (login) → `200` con los últimos cambios de **todas** las entidades, el más nuevo
+primero. `limit` es opcional: por defecto 10, entre 1 y 50. Cada cambio trae lo mismo que arriba más
+`entityId` y `entityName` (la entidad afectada, aunque después se haya borrado). Una relación aparece dos veces,
+una por cada nodo. Sin login, `401`.
 
 ### Fuentes — `Source` = `{id, name, type, status, lastSync, recordCount}`
 

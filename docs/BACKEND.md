@@ -28,7 +28,7 @@ python3 semilla.py base.db     # crea base.db con datos de ejemplo (se puede rep
 flask --app app run             # → http://localhost:5000
 ```
 
-Verificar (desde la raíz): `pytest back -q` (68 tests) y `python3 back/probar_a.py` (41 comprobaciones de punta a
+Verificar (desde la raíz): `pytest back -q` (86 tests) y `python3 back/probar_a.py` (41 comprobaciones de punta a
 punta; tiene que terminar en `TODO OK`). Usuario de la semilla: `prueba@local` / `prueba123` (rol `admin`).
 
 ## 3. Cómo está armado (capas)
@@ -132,7 +132,7 @@ en la misma transacción** (`with conn:`). Si algo falla a mitad, no queda nada 
 | `usuarios.py` | `registrar_usuario` (guarda solo el hash de la clave), `verificar_clave` y `obtener_usuario`. |
 | `rutas_auth.py` | `/api/auth/login`, `/logout`, `/me` y el decorador `requiere_login`, que deja `g.usuario_id` y `g.usuario`. |
 | `rutas_nodos.py` | `/api/entities` y `/api/relationships`. |
-| `rutas_historial.py` | `GET /api/entities/<id>/history`. |
+| `rutas_historial.py` | `GET /api/entities/<id>/history` y `GET /api/history`. |
 | `rutas_fuentes.py` | `GET /api/sources`. |
 | `rutas_importar.py` | `POST /api/import`, `DELETE /api/data` y `DELETE /api/sources/<id>`. |
 | `semilla.py` | Carga datos de ejemplo: 3 fuentes, 14 nodos, 15 relaciones y el usuario de prueba. `python semilla.py base.db` borra y recarga. |
@@ -160,7 +160,7 @@ con este back, el front compilado y los lanzadores. El zip no se versiona.
 ## 7. Pruebas
 
 ```bash
-.venv/bin/pytest back -q              # 68 passed
+.venv/bin/pytest back -q              # 86 passed
 .venv/bin/python back/probar_a.py     # 41 líneas OK y "TODO OK"
 ```
 
@@ -172,7 +172,6 @@ con este back, el front compilado y los lanzadores. El zip no se versiona.
 | `tests/test_historial.py` | 9 | Tope de 5 por nodo, los 5 tipos de cambio y rollback. |
 | `tests/test_usuarios.py` | 4 | Alta de usuarios y verificación de clave. |
 | `tests/test_api_auth.py` | 15 | Por HTTP: sesión, fuentes, historial y validaciones de entidades y relaciones. |
+| `tests/test_api_nodos.py` | 18 | Por HTTP: entidades y relaciones (crear, editar, borrar, validaciones, sin login) e historial global. |
 | `tests/test_api_importar.py` | 14 | Por HTTP: importar, vaciar, borrar fuentes, tipos libres, ids que no se reutilizan y aviso de base vieja. |
 | `tests/test_vacio.py` | 1 | Que la fixture `conn` funciona. |
-
-Las rutas de entidades y relaciones (GET, POST, PUT, DELETE) se prueban de punta a punta en `probar_a.py`.

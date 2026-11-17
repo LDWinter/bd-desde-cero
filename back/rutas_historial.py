@@ -1,12 +1,15 @@
 import json
 
-from flask import Blueprint, abort, g, jsonify
+from flask import Blueprint, abort, g, jsonify, request
 
 from formato import id_base, id_front
-from historial import HISTORIAL_MAX, historial_de
+from historial import HISTORIAL_MAX, historial_de, historial_reciente
 from nodos import obtener_nodo
+from rutas_auth import requiere_login
 
 bp = Blueprint("historial", __name__)
+
+LIMITE_MAXIMO = 50
 
 
 def _nombres_de_usuarios(conn, ids):
@@ -43,6 +46,20 @@ def _con_ids_del_front(conn, foto):
     return resultado
 
 
+def _cambios(conn, filas):
+    usuarios = _nombres_de_usuarios(conn, [f["usuario_id"] for f in filas])
+    return [
+        {
+            "accion": f["accion"],
+            "usuario": usuarios.get(f["usuario_id"]),
+            "antes": _con_ids_del_front(conn, _desde_json(f["antes"])),
+            "despues": _con_ids_del_front(conn, _desde_json(f["despues"])),
+            "fecha": f["fecha"],
+        }
+        for f in filas
+    ]
+
+
 @bp.route("/api/entities/<entity_id>/history", methods=["GET"])
 def historial_de_entidad(entity_id):
     try:
@@ -54,17 +71,15 @@ def historial_de_entidad(entity_id):
     if nodo is None or id_front(nodo["tipo"], nodo["id"]) != entity_id:
         abort(404, "La entidad no existe")
 
-    cambios = historial_de(g.conn, nodo_id)[:HISTORIAL_MAX]
-    usuarios = _nombres_de_usuarios(g.conn, [c["usuario_id"] for c in cambios])
-    return jsonify(
-        [
-            {
-                "accion": c["accion"],
-                "usuario": usuarios.get(c["usuario_id"]),
-                "antes": _con_ids_del_front(g.conn, _desde_json(c["antes"])),
-                "despues": _con_ids_del_front(g.conn, _desde_json(c["despues"])),
-                "fecha": c["fecha"],
-            }
-            for c in cambios
-        ]
-    )
+    return jsonify(_cambios(g.conn, historial_de(g.conn, nodo_id)[:HISTORIAL_MAX]))
+
+
+@bp.get("/api/history")
+@requiere_login
+def historial_global():
+    limite = min(max(request.args.get("limit", 10, type=int), 1), LIMITE_MAXIMO)
+    filas = historial_reciente(g.conn, limite)
+    return jsonify([
+        {**cambio, "entityId": id_front(f["tipo"], f["nodo_id"]), "entityName": f["titulo"]}
+        for cambio, f in zip(_cambios(g.conn, filas), filas)
+    ])

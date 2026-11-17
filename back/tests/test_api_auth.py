@@ -90,9 +90,7 @@ def test_fuente_sin_sincronizar_devuelve_null(cliente):
     assert fuente["lastSync"] is None
 
 
-def test_historial_usa_ruta_definitiva_e_ids_del_front(cliente):
-    rutas = [r for r in cliente.application.url_map.iter_rules() if r.rule.endswith("/history")]
-    assert len(rutas) == 1
+def test_historial_usa_ids_del_front(cliente):
     _login(cliente)
     relacion = {"sourceId": "cli-1", "targetId": "pro-5", "type": "compró"}
     assert cliente.post("/api/relationships", json=relacion).status_code == 201

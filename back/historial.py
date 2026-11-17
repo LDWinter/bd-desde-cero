@@ -46,3 +46,13 @@ def historial_de(conn, nodo_id):
         " ORDER BY fecha DESC, id DESC",
         (nodo_id,),
     ).fetchall()
+
+
+def historial_reciente(conn, limite):
+    """Los últimos cambios de todos los nodos, con el título y el tipo del nodo de cada uno."""
+    return conn.execute(
+        "SELECT h.usuario_id, h.accion, h.antes, h.despues, h.fecha, h.nodo_id, n.titulo, t.nombre AS tipo"
+        " FROM historial h JOIN nodos n ON n.id = h.nodo_id JOIN tipos_nodo t ON t.id = n.tipo_id"
+        " ORDER BY h.fecha DESC, h.id DESC LIMIT ?",
+        (limite,),
+    ).fetchall()
