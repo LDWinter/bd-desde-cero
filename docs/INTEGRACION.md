@@ -163,7 +163,7 @@ lista de tipos.
 
 - **Mismo origen.** En desarrollo, el front usa el proxy de Vite para `/api` (`vite.config.ts`), así la cookie de
   sesión funciona sin configurar CORS. El back no envía cabeceras CORS.
-- **Puerto.** `flask run` escucha en el 5000; el paquete (`paquete/iniciar.py`), en el 5001. El proxy tiene que
+- **Puerto.** `flask run` escucha en el 5000; `iniciar.py`, en el 5001. El proxy tiene que
   apuntar al que corresponda.
 - **Crear una entidad con conexiones.** El back no recibe las conexiones junto con la entidad: primero
   `POST /api/entities` y después un `POST /api/relationships` por cada una, con el id que devolvió el primero.

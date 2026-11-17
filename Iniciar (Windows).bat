@@ -9,7 +9,7 @@ if not exist .venv (
     pause
     exit /b 1
   )
-  .venv\Scripts\python -m pip install --quiet -r back\requirements.txt
 )
+.venv\Scripts\python -c "import flask" 2>nul || .venv\Scripts\python -m pip install --quiet -r back\requirements.txt
 .venv\Scripts\python iniciar.py
 pause

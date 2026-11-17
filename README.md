@@ -8,7 +8,9 @@ historial de cambios, y lo sirve con una API HTTP/JSON.
 | Ruta | Qué hay |
 |---|---|
 | `back/` | Código del backend: `esquema.sql`, módulos Python, `tests/`, `requirements.txt` |
-| `paquete/` | Versión para correr en cualquier PC con solo Python: `armar.sh` arma `KnowledgeSystem.zip` (este back + el front compilado) |
+| `iniciar.sh`, `Iniciar (Windows).bat` | **Levantan todo con un doble clic**: preparan Python la primera vez, crean la base y abren la app en el navegador (`iniciar.py`) |
+| `web/` | El front ya compilado, que sirve `iniciar.py` |
+| `paquete/` | `armar.sh <carpeta del front>` recompila el front en `web/` y arma `KnowledgeSystem.zip` para llevar a otra PC |
 | `docs/BACKEND.md` | Cómo está armado el back: capas, decisiones, archivos, paquete y pruebas |
 | `docs/INTEGRACION.md` | **Referencia de la API**: cada ruta con lo que recibe, lo que devuelve y sus errores |
 | `docs/modelo_relacional.md` | Las 6 tablas; diagrama en `docs/der.drawio` y `docs/der.drawio.png` |
@@ -16,6 +18,11 @@ historial de cambios, y lo sirve con una API HTTP/JSON.
 | `respaldar.sh` | Sube un zip del proyecto a Drive (necesita `rclone` configurado) |
 
 ## Arrancar
+Para usarlo: doble clic en `Iniciar (Windows).bat` (Windows) o `./iniciar.sh` (Linux / macOS; también el acceso
+directo `Knowledge System.desktop`). Hace falta Python 3 e internet la primera vez (instala Flask). Abre
+`http://127.0.0.1:5001`; usuario `prueba@local`, clave `prueba123`. Los datos quedan en `datos/`.
+
+Para desarrollar el back:
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r back/requirements.txt

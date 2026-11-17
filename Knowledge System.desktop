@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Knowledge System
+Comment=Prepara y abre Knowledge System en el navegador
+Exec=sh -c "exec \\"\\$(dirname \\"%k\\")/iniciar.sh\\""
+Terminal=true
+Icon=applications-internet

@@ -143,10 +143,10 @@ en la misma transacción** (`with conn:`). Si algo falla a mitad, no queda nada 
 Para agregar rutas: un archivo `rutas_*.py` que exponga un `Blueprint` llamado `bp`, sumado a
 `MODULOS_DE_RUTAS` en `app.py`. Para pedir login, `@requiere_login` va **debajo** de `@bp.route`.
 
-## 6. Paquete para correr en cualquier PC (`paquete/`)
+## 6. Levantar todo con un doble clic
 
-`paquete/armar.sh <carpeta del front>` compila el front (`npm run build`) y arma `paquete/KnowledgeSystem.zip`
-con este back, el front compilado y los lanzadores. El zip no se versiona.
+En la raíz del repo están los lanzadores: `Iniciar (Windows).bat`, `iniciar.sh` y el acceso directo
+`Knowledge System.desktop` (Linux). Los tres terminan en `iniciar.py`.
 
 - `iniciar.py`: una sola app Flask sirve la API y el front compilado (`web/`), en `http://127.0.0.1:5001`
   (variable `PUERTO` para cambiarlo; `SIN_NAVEGADOR=1` para que no abra el navegador).
@@ -154,8 +154,13 @@ con este back, el front compilado y los lanzadores. El zip no se versiona.
   propia en `datos/clave-sesion.txt`. Los datos se cargan desde el front (Fuentes → Importar JSON).
 - Una ruta `/api/...` que no existe responde 404 en JSON; cualquier otra ruta desconocida devuelve la página
   del front (es una aplicación de una sola página).
-- `Iniciar (Windows).bat` e `iniciar.sh` crean un entorno virtual e instalan Flask la primera vez.
-  Instrucciones para quien lo usa: `paquete/LEEME.txt`.
+- `Iniciar (Windows).bat` e `iniciar.sh` crean el entorno virtual `.venv` e instalan `back/requirements.txt`
+  si Flask no está (necesita internet esa única vez), y después llaman a `iniciar.py`.
+- `web/` es el front ya compilado y está versionado para que alcance con Python. Si falta, `/` responde 404 con
+  el aviso de cómo generarlo.
+- `paquete/armar.sh <carpeta del front>` recompila el front (`npm run build`, necesita Node), reemplaza `web/` y
+  arma `paquete/KnowledgeSystem.zip` (back sin tests, `web/`, lanzadores y `paquete/LEEME.txt`) para llevar a
+  otra PC sin clonar el repo. El zip no se versiona.
 
 ## 7. Pruebas
 

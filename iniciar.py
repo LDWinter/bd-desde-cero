@@ -1,4 +1,4 @@
-"""El back (Flask) sirve también el front compilado (web/). La base queda en datos/base.db."""
+"""Levanta todo con un comando: el back (Flask) sirve también el front compilado (web/). La base queda en datos/base.db."""
 import os
 import secrets
 import sys
@@ -45,6 +45,8 @@ def front(ruta=""):
     # Archivos del front; cualquier otra ruta (/grafo, /entidad/...) es de la app de una página
     if ruta and (WEB / ruta).is_file():
         return send_from_directory(WEB, ruta)
+    if not (WEB / "index.html").is_file():
+        abort(404, "Falta el front compilado en web/: correr paquete/armar.sh <carpeta del front>")
     return send_from_directory(WEB, "index.html")
 
 
